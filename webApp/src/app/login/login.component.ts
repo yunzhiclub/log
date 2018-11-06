@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import {
     AbstractControl,
     FormBuilder,
@@ -10,7 +9,7 @@ import {
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+    styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
     validateForm: FormGroup;
@@ -20,10 +19,9 @@ export class LoginComponent implements OnInit {
             this.validateForm.controls[i].updateValueAndValidity();
         }
     }
-
     constructor(private fb: FormBuilder) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.validateForm = this.fb.group({
             userName: [null, [Validators.required]],
             password: [null, [Validators.required]],
