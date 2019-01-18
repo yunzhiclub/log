@@ -2,12 +2,9 @@ package club.yunzhi.log.aspect;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.repository.ClientRepository;
-import org.apache.tomcat.websocket.AuthenticationException;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,28 +31,34 @@ public class ClientAuthAspect {
         this.clientRepository = clientRepository;
     }
 
+    /**
+     * 环绕切入。只有环绕切入，才能感变参数中的值
+     * @param joinPoint 切点
+     * @throws Throwable 执行异常（可能参数不一致)
+     */
     @Around("execution(* club.yunzhi.log.controller.LogController.save(..))")
     public void getClientInfo(final ProceedingJoinPoint joinPoint) throws Throwable {
-
+        logger.debug("获取token, 并验证");
         String[] tokens = httpServletRequest.getParameterValues("token");
-
         if (tokens == null) {
             throw new club.yunzhi.log.exception.AuthException("do not received auth token");
         }
 
+        logger.debug("根据token获取client");
         Client client = clientRepository.findByToken(tokens[0]);
         if (client == null) {
             throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
         }
 
+        logger.debug("注入获取的客户端信息");
         Object[] args = joinPoint.getArgs();
-
-        for (Object arg : args) {
-            if (arg instanceof Client) {
-                arg = client;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof Client) {
+                args[i] = client;
             }
         }
 
+        logger.debug("执行proceed");
         joinPoint.proceed(args);
     }
 }

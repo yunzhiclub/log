@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "LogController 日志控制")
 public class LogController {
 
+    private final LogService logService;
+
     @Autowired
-    private LogService logService;
+    public LogController(LogService logService) {
+        this.logService = logService;
+    }
 
     @PostMapping
     public void save(@RequestBody Log log, @ApiParam("此参数由asp进行注入") Client client) {
-        logService.save(log);
+        logService.save(log, client);
     }
 }

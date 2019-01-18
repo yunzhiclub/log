@@ -51,8 +51,9 @@ public class Log {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Timestamp timestamp;
 
-    @ApiModelProperty("工程")
+    @ApiModelProperty("客户端")
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Client client;
 
     public Long getId() {
