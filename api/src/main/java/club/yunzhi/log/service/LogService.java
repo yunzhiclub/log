@@ -1,6 +1,6 @@
-package com.mengyunzhi.app.log.service;
+package club.yunzhi.log.service;
 
-import com.mengyunzhi.app.log.entity.Log;
+import club.yunzhi.log.entity.Log;
 
 /**
  * @author panjie

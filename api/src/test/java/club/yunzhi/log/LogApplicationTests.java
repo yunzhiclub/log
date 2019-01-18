@@ -1,4 +1,4 @@
-package com.mengyunzhi.app.log;
+package club.yunzhi.log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

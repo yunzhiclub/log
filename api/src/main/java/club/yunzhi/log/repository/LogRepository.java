@@ -1,6 +1,6 @@
-package com.mengyunzhi.app.log.repository;
+package club.yunzhi.log.repository;
 
-import com.mengyunzhi.app.log.entity.Log;
+import club.yunzhi.log.entity.Log;
 import org.springframework.data.repository.CrudRepository;
 
 /**

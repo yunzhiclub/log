@@ -1,4 +1,4 @@
-package com.mengyunzhi.app.log.entity;
+package club.yunzhi.log.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -54,7 +53,7 @@ public class Log {
 
     @ApiModelProperty("工程")
     @ManyToOne
-    private Project project;
+    private Client client;
 
     public Long getId() {
         return id;
@@ -133,11 +132,11 @@ public class Log {
         this.levelCode = levelCode;
     }
 
-    public Project getProject() {
-        return project;
+    public Client getClient() {
+        return client;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

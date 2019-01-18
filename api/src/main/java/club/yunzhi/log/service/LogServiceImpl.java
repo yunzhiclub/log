@@ -1,7 +1,7 @@
-package com.mengyunzhi.app.log.service;
+package club.yunzhi.log.service;
 
-import com.mengyunzhi.app.log.entity.Log;
-import com.mengyunzhi.app.log.repository.LogRepository;
+import club.yunzhi.log.entity.Log;
+import club.yunzhi.log.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

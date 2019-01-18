@@ -1,4 +1,4 @@
-package com.mengyunzhi.app.log.entity;
+package club.yunzhi.log.entity;
 
 import io.swagger.annotations.ApiModel;
 
@@ -11,13 +11,13 @@ import java.sql.Time;
  * 项目
  */
 @Entity
-@ApiModel(value = "Project", description = "项目")
-public class Project {
+@ApiModel(value = "Client", description = "项目")
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 40)
     private String token;
 
     private String name;

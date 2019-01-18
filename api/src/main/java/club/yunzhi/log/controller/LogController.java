@@ -1,8 +1,10 @@
-package com.mengyunzhi.app.log.controller;
+package club.yunzhi.log.controller;
 
-import com.mengyunzhi.app.log.entity.Log;
-import com.mengyunzhi.app.log.service.LogService;
+import club.yunzhi.log.entity.Log;
+import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.service.LogService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,7 @@ public class LogController {
     private LogService logService;
 
     @PostMapping
-    public void save(@RequestBody Log log) {
+    public void save(@RequestBody Log log, @ApiParam("此参数由asp进行注入") Client client) {
         logService.save(log);
     }
 }
