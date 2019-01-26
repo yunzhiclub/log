@@ -1,9 +1,6 @@
 package club.yunzhi.log.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -19,9 +16,13 @@ public class User implements Serializable {
     private Long id;
     private String name = "";
     private final String password = "";
+
+    @Transient
     private String token = "";
 
     private String email = "";
+
+    @Transient
     private Calendar time = Calendar.getInstance();
 
 
