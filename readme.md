@@ -2,6 +2,9 @@
 
 各个子平台，定期将warning error信息上传至日志管理系统。日志管理系统，在接到错误通知后，第二个工作日将信息推送至钉钉中。
 
+# 资源
+[ng-alain cli 必看](https://ng-alain.com/cli/generate/zh)
+
 # 认证方式
 采用微信消息的认证方式，在平台中，设置APPID,SECRECT，
 

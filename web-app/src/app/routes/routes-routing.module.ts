@@ -16,7 +16,6 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { SystemComponent } from './system/system.component';
-import { ClientComponent } from './client/client.component';
 import { LogFrontComponent } from './log-front/log-front.component';
 import { LogBackgroundComponent } from './log-background/log-background.component';
 
@@ -31,7 +30,7 @@ const routes: Routes = [
             { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
             { path: 'log-background',  component: LogBackgroundComponent, data: { title: '后台日志管理', titleI18n: 'backgroundLog' }},
             { path: 'log-front', component: LogFrontComponent, data: { title: '前台日志管理', titleI18n: 'frontLog' } },
-            { path: 'client', component: ClientComponent, data: { title: '客户端设置', titleI18n: 'client' } },
+            { path: 'client', loadChildren: './client/client.module#ClientModule' },
             { path: 'system', component: SystemComponent, data: { title: '系统设置', titleI18n: 'system' } },
             // 业务子模块
             // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
