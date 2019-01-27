@@ -15,53 +15,66 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
+import { SystemComponent } from './system/system.component';
+import { ClientComponent } from './client/client.component';
+import { LogFrontComponent } from './log-front/log-front.component';
+import { LogBackgroundComponent } from './log-background/log-background.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutDefaultComponent,
-    canActivate: [SimpleGuard],
-    children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
-      { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
-      // 业务子模块
-      // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
-    ]
-  },
-  // 全屏布局
-  // {
-  //     path: 'fullscreen',
-  //     component: LayoutFullScreenComponent,
-  //     children: [
-  //     ]
-  // },
-  // passport
-  {
-    path: 'passport',
-    component: LayoutPassportComponent,
-    children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } },
-      { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
-    ]
-  },
-  // 单页不包裹Layout
-  { path: 'callback/:type', component: CallbackComponent },
-  { path: '**', redirectTo: 'exception/404' },
+    {
+        path: '',
+        component: LayoutDefaultComponent,
+        canActivate: [SimpleGuard],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
+            { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+            { path: 'log-background',  component: LogBackgroundComponent, data: { title: '后台日志管理', titleI18n: 'backgroundLog' }},
+            { path: 'log-front', component: LogFrontComponent, data: { title: '前台日志管理', titleI18n: 'frontLog' } },
+            { path: 'client', component: ClientComponent, data: { title: '客户端设置', titleI18n: 'client' } },
+            { path: 'system', component: SystemComponent, data: { title: '系统设置', titleI18n: 'system' } },
+            // 业务子模块
+            // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
+        ],
+    },
+    // 全屏布局
+    // {
+    //     path: 'fullscreen',
+    //     component: LayoutFullScreenComponent,
+    //     children: [
+    //     ]
+    // },
+    // passport
+    {
+        path: 'passport',
+        component: LayoutPassportComponent,
+        children: [
+            { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
+            { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
+            {
+                path: 'register-result',
+                component: UserRegisterResultComponent,
+                data: { title: '注册结果', titleI18n: 'pro-register-result' },
+            },
+            { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
+        ],
+    },
+    // 单页不包裹Layout
+    { path: 'callback/:type', component: CallbackComponent },
+    { path: '**', redirectTo: 'exception/404' },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(
-      routes, {
-        useHash: environment.useHash,
-        // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-        // Pls refer to https://ng-alain.com/components/reuse-tab
-        scrollPositionRestoration: 'top',
-      }
-    )],
-  exports: [RouterModule],
+    imports: [
+        RouterModule.forRoot(
+            routes, {
+                useHash: environment.useHash,
+                // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
+                // Pls refer to https://ng-alain.com/components/reuse-tab
+                scrollPositionRestoration: 'top',
+            },
+        )],
+    exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {
+}
