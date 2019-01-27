@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
+import { ClientAddComponent } from './add/add.component';
 
 @Component({
     selector: 'app-client-index',
@@ -39,10 +40,9 @@ export class ClientIndexComponent implements OnInit {
     }
 
     add() {
-        console.log('add');
-        // this.modal
-        //   .createStatic(FormEditComponent, { i: { id: 0 } })
-        //   .subscribe(() => this.st.reload());
+        this.modal
+            .createStatic(ClientAddComponent, { i: { id: 0 } })
+            .subscribe(() => this.st.reload());
     }
 
 }
