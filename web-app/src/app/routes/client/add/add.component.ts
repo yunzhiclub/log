@@ -12,13 +12,11 @@ export class ClientAddComponent implements OnInit {
     i: any;
     schema: SFSchema = {
         properties: {
-            no: { type: 'string', title: '编号' },
-            owner: { type: 'string', title: '姓名', maxLength: 15 },
-            callNo: { type: 'number', title: '调用次数' },
-            href: { type: 'string', title: '链接', format: 'uri' },
+            name: { type: 'string', title: '名称', maxLength: 15 },
+            address: { type: 'string', title: '访问地址', format: 'uri' },
             description: { type: 'string', title: '描述', maxLength: 140 },
         },
-        required: ['owner', 'callNo', 'href', 'description'],
+        required: ['name', 'address', 'description'],
     };
     ui: SFUISchema = {
         '*': {
@@ -28,7 +26,7 @@ export class ClientAddComponent implements OnInit {
         $no: {
             widget: 'text',
         },
-        $href: {
+        $address: {
             widget: 'string',
         },
         $description: {
