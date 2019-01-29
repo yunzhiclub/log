@@ -11,7 +11,6 @@ import { ClientService } from '@core/service/ClientService';
 })
 export class ClientAddComponent implements OnInit {
     record: Client = new Client();
-    i: any;
     schema: SFSchema = {
         properties: {
             name: { type: 'string', title: '名称', maxLength: 15 },
@@ -45,11 +44,7 @@ export class ClientAddComponent implements OnInit {
     ) {
     }
 
-    ngOnInit(): void {
-        console.log(this.record);
-        if (this.record.id > 0)
-            this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
-    }
+    ngOnInit(): void {}
 
     save(client: Client) {
         this.clientService.save(client)

@@ -27,7 +27,7 @@ public class ClientController {
         return this.clientService.save(client);
     }
 
-    @GetMapping
+    @GetMapping("page")
     public Page<Client> page(final Pageable pageable) {
         return this.clientService.page(pageable);
     }

@@ -3,13 +3,16 @@ import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ClientAddComponent } from './add/add.component';
+import { ClientService } from '@core/service/ClientService';
+import { Client } from '@core/entity/Client';
+import { Page } from '@core/entity/Page';
 
 @Component({
     selector: 'app-client-index',
     templateUrl: './index.component.html',
 })
 export class ClientIndexComponent implements OnInit {
-    url = `/user`;
+    private page: Page<Client>;
     searchSchema: SFSchema = {
         properties: {
             no: {
@@ -33,15 +36,20 @@ export class ClientIndexComponent implements OnInit {
         },
     ];
 
-    constructor(private http: _HttpClient, private modal: ModalHelper) {
+    constructor(private http: _HttpClient, private modal: ModalHelper, private clientService: ClientService) {
     }
 
     ngOnInit() {
+        this.clientService.page()
+            .subscribe((page: Page<Client>) => {
+                console.log(page);
+                this.page = page;
+            });
     }
 
     add() {
         this.modal
-            .createStatic(ClientAddComponent, { i: { id: 0 } })
+            .createStatic(ClientAddComponent, { i: {} })
             .subscribe(() => this.st.reload());
     }
 
