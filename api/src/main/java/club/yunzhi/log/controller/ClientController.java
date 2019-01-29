@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,7 +30,7 @@ public class ClientController {
     }
 
     @GetMapping("page")
-    public Page<Client> page(final Pageable pageable) {
+    public Page<Client> page(final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return this.clientService.page(pageable);
     }
 }
