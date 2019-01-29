@@ -12,7 +12,6 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { SystemComponent } from './system/system.component';
-import { ClientComponent } from './client/client.component';
 import { LogFrontComponent } from './log-front/log-front.component';
 import { LogBackgroundComponent } from './log-background/log-background.component';
 
@@ -34,7 +33,6 @@ const COMPONENTS_NOROUNT = [];
     declarations: [
         ...COMPONENTS,
         ...COMPONENTS_NOROUNT,
-        ClientComponent,
         LogFrontComponent,
         LogBackgroundComponent,
     ],

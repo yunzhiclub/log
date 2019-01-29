@@ -1,8 +1,12 @@
 package club.yunzhi.log.entity;
 
+import com.mengyunzhi.core.entity.YunzhiEntity;
+import com.mengyunzhi.core.service.CommonService;
 import io.swagger.annotations.ApiModel;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -12,107 +16,120 @@ import java.sql.Time;
  */
 @Entity
 @ApiModel(value = "Client", description = "项目")
-public class Client {
+public class Client implements YunzhiEntity, Serializable {
+    private static final long serialVersionUID = 8945942012064094435L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 40)
-    private String token;
+    private String token = CommonService.getRandomStringByLength(40);
 
     private String name;
 
-    private String url;
+    private String description;
+
+    private String address;
 
     private Time lastSendTime;
 
     private Time lastStartTime;
 
+    @CreationTimestamp
     private Date deployDate;
 
-    private Long infoCount;
+    private Long infoCount = 0L;
 
-    private Long warnCount;
+    private Long warnCount = 0L;
 
-    private Long errorCount;
+    private Long errorCount = 0L;
 
+    @Override
     public Long getId() {
-        return id;
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
     public String getToken() {
-        return token;
+        return this.token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public Time getLastSendTime() {
-        return lastSendTime;
+        return this.lastSendTime;
     }
 
-    public void setLastSendTime(Time lastSendTime) {
+    public void setLastSendTime(final Time lastSendTime) {
         this.lastSendTime = lastSendTime;
     }
 
     public Time getLastStartTime() {
-        return lastStartTime;
+        return this.lastStartTime;
     }
 
-    public void setLastStartTime(Time lastStartTime) {
+    public void setLastStartTime(final Time lastStartTime) {
         this.lastStartTime = lastStartTime;
     }
 
     public Date getDeployDate() {
-        return deployDate;
+        return this.deployDate;
     }
 
-    public void setDeployDate(Date deployDate) {
+    public void setDeployDate(final Date deployDate) {
         this.deployDate = deployDate;
     }
 
     public Long getInfoCount() {
-        return infoCount;
+        return this.infoCount;
     }
 
-    public void setInfoCount(Long infoCount) {
+    public void setInfoCount(final Long infoCount) {
         this.infoCount = infoCount;
     }
 
     public Long getWarnCount() {
-        return warnCount;
+        return this.warnCount;
     }
 
-    public void setWarnCount(Long warnCount) {
+    public void setWarnCount(final Long warnCount) {
         this.warnCount = warnCount;
     }
 
     public Long getErrorCount() {
-        return errorCount;
+        return this.errorCount;
     }
 
-    public void setErrorCount(Long errorCount) {
+    public void setErrorCount(final Long errorCount) {
         this.errorCount = errorCount;
     }
 }
