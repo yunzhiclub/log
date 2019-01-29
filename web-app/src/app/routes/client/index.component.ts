@@ -79,8 +79,8 @@ export class ClientIndexComponent implements OnInit {
             // 类型为分页，则重置查询参数的分页信息
             this.params.page = $change.pi - 1;
             this.params.size = $change.ps;
+            this.load();
         }
-        this.load();
     }
 
 }
