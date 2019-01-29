@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent } from '@delon/abc';
+import { STChange, STColumn, STComponent, STData, STPage } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ClientAddComponent } from './add/add.component';
 import { ClientService } from '@core/service/ClientService';
@@ -12,7 +12,11 @@ import { Page } from '@core/entity/Page';
     templateUrl: './index.component.html',
 })
 export class ClientIndexComponent implements OnInit {
-    private page = new Page<Client>();
+    private $page = new Page<Client>();             // 分页数据
+    private pageConfig: STPage = { front: false };  // 前面用的分页配置 https://ng-alain.com/components/table/zh#%E9%9D%99%E6%80%81%E6%95%B0%E6%8D%AE
+    private params = { page: 0, size: 20 };         // 查询参数
+
+    // 查询字段（尚未使用）
     searchSchema: SFSchema = {
         properties: {
             no: {
@@ -21,6 +25,8 @@ export class ClientIndexComponent implements OnInit {
             },
         },
     };
+
+    // 定义V层组件
     @ViewChild('st') st: STComponent;
     columns: STColumn[] = [
         { title: 'id', index: 'id' },
@@ -46,17 +52,35 @@ export class ClientIndexComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.clientService.page()
-            .subscribe((page: Page<Client>) => {
-                console.log(page);
-                this.page = page;
+        this.load();
+    }
+
+    // 新增数据
+    add() {
+        // 显示modal框
+        this.modal
+            .createStatic(ClientAddComponent, { i: {} })
+            .subscribe(() => {
+                this.load();
             });
     }
 
-    add() {
-        this.modal
-            .createStatic(ClientAddComponent, { i: {} })
-            .subscribe(() => this.st.reload());
+    // 加载数据
+    load() {
+        this.clientService.page(this.params)
+            .subscribe((page: Page<Client>) => {
+                this.$page = page;
+            });
+    }
+
+    // 重新加载数据
+    reload($change: STChange) {
+        if ($change.type == 'pi') {
+            // 类型为分页，则重置查询参数的分页信息
+            this.params.page = $change.pi - 1;
+            this.params.size = $change.ps;
+        }
+        this.load();
     }
 
 }

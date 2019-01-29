@@ -5,6 +5,5 @@
 </page-header>
 <nz-card>
     <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
-    <st #st [data]="page.content" [columns]="columns" page="{front: false}"></st>
+    <st #st [data]="$page.content" [columns]="columns" [page]="pageConfig" [total]="$page.totalElements" [ps]="$page.size" [pi]="$page.number + 1" (change)="reload($event)"></st>
 </nz-card>
-<pre>{{page | json}}</pre>

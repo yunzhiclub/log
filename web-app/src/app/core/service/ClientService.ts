@@ -13,8 +13,8 @@ export class ClientService {
     constructor(private http: HttpClient) {
     }
 
-    page(param?: any): Observable<Page<Client>> {
-        return this.http.get<Page<Client>>(this.baseUrl + '/page');
+    page(params?: any): Observable<Page<Client>> {
+        return this.http.get<Page<Client>>(this.baseUrl + '/page', {params: params});
     }
 
     save(client: Client): Observable<Client> {
