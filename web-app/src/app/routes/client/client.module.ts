@@ -5,21 +5,21 @@ import { ClientIndexComponent } from './index.component';
 import { ClientAddComponent } from './add/add.component';
 
 const COMPONENTS = [
-  ClientIndexComponent];
+    ClientIndexComponent];
 const COMPONENTS_NOROUNT = [
-  
-  ClientAddComponent,
+    ClientAddComponent,
 ];
 
 @NgModule({
-  imports: [
-    SharedModule,
-    ClientRoutingModule
-  ],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_NOROUNT
-  ],
-  entryComponents: COMPONENTS_NOROUNT
+    imports: [
+        SharedModule,
+        ClientRoutingModule,
+    ],
+    declarations: [
+        ...COMPONENTS,
+        ...COMPONENTS_NOROUNT,
+    ],
+    entryComponents: COMPONENTS_NOROUNT,
 })
-export class ClientModule { }
+export class ClientModule {
+}

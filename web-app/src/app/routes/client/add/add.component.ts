@@ -2,18 +2,20 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
+import { Client } from '@core/entity/Client';
+import { ClientService } from '@core/service/ClientService';
 
 @Component({
     selector: 'app-client-add',
     templateUrl: './add.component.html',
 })
 export class ClientAddComponent implements OnInit {
-    record: any = {};
+    record: Client = new Client();
     i: any;
     schema: SFSchema = {
         properties: {
             name: { type: 'string', title: '名称', maxLength: 15 },
-            address: { type: 'string', title: '访问地址', format: 'uri' },
+            address: { type: 'string', title: '访问地址', default: this.record.address, format: 'uri' },
             description: { type: 'string', title: '描述', maxLength: 140 },
         },
         required: ['name', 'address', 'description'],
@@ -37,21 +39,24 @@ export class ClientAddComponent implements OnInit {
 
     constructor(
         private modal: NzModalRef,
-        private msgSrv: NzMessageService,
+        private messageService: NzMessageService,
         public http: _HttpClient,
+        private clientService: ClientService,
     ) {
     }
 
     ngOnInit(): void {
+        console.log(this.record);
         if (this.record.id > 0)
             this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
     }
 
-    save(value: any) {
-        this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
-            this.msgSrv.success('保存成功');
-            this.modal.close(true);
-        });
+    save(client: Client) {
+        this.clientService.save(client)
+            .subscribe(() => {
+                this.messageService.success('保存成功');
+                this.modal.close(true);
+            });
     }
 
     close() {

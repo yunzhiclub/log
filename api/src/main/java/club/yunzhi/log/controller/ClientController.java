@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.*;
  * @author panjie
  */
 @RestController
-@RequestMapping("project")
-@Api(value = "ProjectController 项目")
+@RequestMapping("client")
+@Api(value = "ClientController 客户端")
 public class ClientController {
     private final ClientService clientService;
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(final ClientService clientService) {
         this.clientService = clientService;
     }
 
     @PostMapping
-    public Client save(@RequestBody Client client) {
-        return clientService.save(client);
+    public Client save(@RequestBody final Client client) {
+        return this.clientService.save(client);
     }
 
     @GetMapping
-    public Page<Client> page(Pageable pageable) {
-        return clientService.page(pageable);
+    public Page<Client> page(final Pageable pageable) {
+        return this.clientService.page(pageable);
     }
 }
