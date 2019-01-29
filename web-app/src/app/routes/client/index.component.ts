@@ -12,7 +12,7 @@ import { Page } from '@core/entity/Page';
     templateUrl: './index.component.html',
 })
 export class ClientIndexComponent implements OnInit {
-    private page: Page<Client>;
+    private page = new Page<Client>();
     searchSchema: SFSchema = {
         properties: {
             no: {
@@ -23,10 +23,16 @@ export class ClientIndexComponent implements OnInit {
     };
     @ViewChild('st') st: STComponent;
     columns: STColumn[] = [
-        { title: '编号', index: 'no' },
-        { title: '调用次数', type: 'number', index: 'callNo' },
-        { title: '头像', type: 'img', width: '50px', index: 'avatar' },
-        { title: '时间', type: 'date', index: 'updatedAt' },
+        { title: 'id', index: 'id' },
+        { title: '名称', index: 'name' },
+        { title: '访问地址', index: 'address' },
+        { title: 'token', index: 'token' },
+        { title: '上线时间', index: 'deployDate' },
+        { title: '上次交互时间', index: 'lastSendTime' },
+        { title: '最近启动时间', index: 'lastStartTime' },
+        { title: 'info数', index: 'infoCount' },
+        { title: '警告数', index: 'warnCount' },
+        { title: '错误数', index: 'warnCount' },
         {
             title: '操作',
             buttons: [

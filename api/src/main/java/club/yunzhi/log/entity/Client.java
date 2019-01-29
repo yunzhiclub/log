@@ -3,6 +3,7 @@ package club.yunzhi.log.entity;
 import com.mengyunzhi.core.entity.YunzhiEntity;
 import com.mengyunzhi.core.service.CommonService;
 import io.swagger.annotations.ApiModel;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,13 +35,14 @@ public class Client implements YunzhiEntity, Serializable {
 
     private Time lastStartTime;
 
+    @CreationTimestamp
     private Date deployDate;
 
-    private Long infoCount;
+    private Long infoCount = 0L;
 
-    private Long warnCount;
+    private Long warnCount = 0L;
 
-    private Long errorCount;
+    private Long errorCount = 0L;
 
     @Override
     public Long getId() {
