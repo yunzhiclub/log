@@ -32,29 +32,29 @@ public class ClientAuthAspect {
     }
 
     /**
-     * 环绕切入。只有环绕切入，才能感变参数中的值
+     * 环绕切入。只有环绕切入，才能改变参数中的值
      * @param joinPoint 切点
      * @throws Throwable 执行异常（可能参数不一致)
      */
-    @Around("execution(* club.yunzhi.log.controller.LogController.save(..))")
+    @Around("within(club.yunzhi.log.controller.*)")
     public void getClientInfo(final ProceedingJoinPoint joinPoint) throws Throwable {
-        logger.debug("获取token, 并验证");
-        String[] tokens = httpServletRequest.getParameterValues("token");
-        if (tokens == null) {
-            throw new club.yunzhi.log.exception.AuthException("do not received auth token");
-        }
-
-        logger.debug("根据token获取client");
-        Client client = clientRepository.findByToken(tokens[0]);
-        if (client == null) {
-            throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
-        }
-
-        logger.debug("注入获取的客户端信息");
+        logger.debug("获取是否注入了client");
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Client) {
+                logger.debug("获取token, 并验证");
+                String[] tokens = httpServletRequest.getParameterValues("token");
+                if (tokens == null) {
+                    throw new club.yunzhi.log.exception.AuthException("do not received auth token");
+                }
+
+                logger.debug("根据token获取client");
+                Client client = clientRepository.findByToken(tokens[0]);
+                if (client == null) {
+                    throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
+                }
                 args[i] = client;
+                break;
             }
         }
 
