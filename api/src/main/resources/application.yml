@@ -15,8 +15,7 @@ spring:
 
 logging:
   path: logs/
-  #  开发环境将直接生成 api/logs/instrument.log
-  file: ./logs/instrument.log
+  file: ./logs.log
   level:
     root: info
     club:
@@ -29,7 +28,7 @@ logging:
           descriptor:
             sql: info
 server:
-  port: {port:8114}
+  port: ${port:8114}
 
 ---
 # 机器人环境
