@@ -44,11 +44,10 @@ public class Log {
     private String thread;
 
     @ApiModelProperty("消息")
+    @Column(columnDefinition = "TEXT")
     private String message;
 
     @ApiModelProperty("时间戳")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Timestamp timestamp;
 
     @ApiModelProperty("客户端")

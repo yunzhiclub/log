@@ -40,15 +40,9 @@ spring:
 spring:
   profiles: dev
 
-logging:
-  level:
-    root: info
-    club:
-      yunzhi:
-        log: debug
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:update}
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -61,6 +55,18 @@ logging:
   flyway:
     enabled: true # 禁用baseline
 
+logging:
+  level:
+    root: info
+    club:
+      yunzhi:
+        log: debug
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: debug
 debug: true
 ---
 # 生产环境
