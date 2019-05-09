@@ -1,0 +1,32 @@
+<div id="login-body">
+    <div class="login-body">
+        <div class="logo"></div>
+        <div class="login-panel">
+            <img src="../../../assets/layout/images/login/image-login-mobile.jpg" alt="harmony-layout" class="mobile">
+            <div class="left-part">
+                <span class="login-panel-header">计量器具网上送检系统</span>
+                <span class="login-panel-subheader">欢迎使用, 请您登录</span>
+                <div style="margin-top:32px">
+                    <div class="ui-g-12">
+                        <label>请输入您的认证ID<br><small>单位名称、注册手机号或组织机构代码证</small></label>
+                        <input type="text" autocomplete="off" class="ui-inputtext ui-widget" [(ngModel)]="user.username" name="username" id="yd-user-login-username"  placeholder="认证ID">
+                    </div>
+                    <div class="ui-g-12">
+                        <label>请输入您的密码</label>
+                        <input type="password" autocomplete="off" class="ui-inputtext ui-widget" [(ngModel)]="user.password" name="password" id="yd-user-login-password"
+                               placeholder="密码" >
+                    </div>
+                </div>
+                <div class="ui-g-6">
+                    <button pButton type="button" class="ui-button-info"
+                            (click)="login()" label="登录">LOGIN
+                    </button>
+                </div>
+            </div>
+            <div class="right-part">
+                <img src="../../../assets/layout/images/login/image-login.png" alt="harmony-layout">
+            </div>
+        </div>
+    </div>
+
+</div>

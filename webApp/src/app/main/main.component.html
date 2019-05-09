@@ -1,0 +1,7 @@
+<swal #successSwal
+[options]="alertOption"
+(confirm)="swalConfirm($event)"
+(cancel)="swalCancel($event)"
+></swal>
+<app-login *ngIf="showLogin"></app-login>
+<app-bootstrap *ngIf="showMain"></app-bootstrap>
