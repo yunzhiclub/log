@@ -5,6 +5,7 @@ import club.yunzhi.log.repository.ClientRepository;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ClientAuthAspect {
      * @param joinPoint 切点
      * @throws Throwable 执行异常（可能参数不一致)
      */
-    @Around("within(club.yunzhi.log.controller.*)")
+    @Around("execution(* club.yunzhi.log.controller.LogController.*(..))")
     public void getClientInfo(final ProceedingJoinPoint joinPoint) throws Throwable {
         logger.debug("获取是否注入了client");
         Object[] args = joinPoint.getArgs();

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @PostMapping("account")
-    public User count(@RequestBody final User user, final HttpSession httpSession) {
+    public User count(@RequestBody User user, final HttpSession httpSession) {
         final String id = httpSession.getId();
         user.setToken(id);
         return user;

@@ -39,6 +39,13 @@ spring:
 # 开发环境
 spring:
   profiles: dev
+
+logging:
+  level:
+    root: info
+    club:
+      yunzhi:
+        log: debug
   jpa:
     hibernate:
       ddl-auto: ${ddl-auto:update}
