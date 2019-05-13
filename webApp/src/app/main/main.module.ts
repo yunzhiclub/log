@@ -38,11 +38,17 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { httpInterceptorProviders } from '../interceptor/index-interceptor';
 import { ShareModule } from '../share/share.module';
 import { MainRoutingModule } from './main-routing.module';
+import { IndexComponent } from './index/index.component';
+import { BackgroudComponent } from './backgroud/backgroud.component';
+import { ClientComponent } from './client/client.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         MainComponent,
+        IndexComponent,
+        BackgroudComponent,
+        ClientComponent,
     ],
     imports: [
         CommonModule,

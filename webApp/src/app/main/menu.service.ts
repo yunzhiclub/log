@@ -9,27 +9,27 @@ export class MenuService extends AppMenuService {
         return [
             {
                 label: '首页',
-                link: '/dashboard',
+                link: '/main/dashboard',
                 icon: 'fa fa-fw fa-home',
             },
             {
                 label: '后台日志管理',
                 icon: 'fa fa-fw fa-book',
-                routerLink: '/log-background',
+                routerLink: '/main/background',
             },
             {
                 label: '前台日志管理',
                 icon: 'pi pi-calendar-plus',
-                routerLink: '/log-front',
+                routerLink: '/main/log-front',
             },
             {
                 label: '客户端管理',
-                routerLink: '/client',
+                routerLink: '/main/client',
             },
             {
                 label: '系统设置',
                 icon: 'fa fa-fw fa-user',
-                routerLink: '/system',
+                routerLink: '/main/system',
             },
         ];
     }

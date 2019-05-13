@@ -6,6 +6,7 @@ import { AppTobarService } from '../share/app.tobar.service';
 })
 export class TobarService extends AppTobarService {
 
+
     getTobar(): any[] {
         return [
             {
@@ -19,7 +20,7 @@ export class TobarService extends AppTobarService {
                 title: '注销',
                 class: 'fa fa-fw fa-sign-out',
                 onclickFn: () => {
-                    this.departmentService.loginOut();
+                    // this.departmentService.loginOut();
                 }
             },
         ];

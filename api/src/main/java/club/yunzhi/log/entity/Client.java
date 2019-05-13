@@ -44,6 +44,13 @@ public class Client implements YunzhiEntity, Serializable {
 
     private Long errorCount = 0L;
 
+    public Client() {
+    }
+
+    public Client(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Long getId() {
         return this.id;

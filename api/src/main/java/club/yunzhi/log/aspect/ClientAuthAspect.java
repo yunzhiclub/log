@@ -1,6 +1,7 @@
 package club.yunzhi.log.aspect;
 
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.repository.ClientRepository;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author panjie
@@ -33,33 +35,23 @@ public class ClientAuthAspect {
     }
 
     /**
-     * 环绕切入。只有环绕切入，才能改变参数中的值
-     * @param joinPoint 切点
-     * @throws Throwable 执行异常（可能参数不一致)
+     * 切入batchSave,根据token获取客户端信息
      */
-    @Around("execution(* club.yunzhi.log.controller.LogController.*(..))")
-    public void getClientInfo(final ProceedingJoinPoint joinPoint) throws Throwable {
-        logger.debug("获取是否注入了client");
-        Object[] args = joinPoint.getArgs();
-        for (int i = 0; i < args.length; i++) {
-            if (args[i] instanceof Client) {
-                logger.debug("获取token, 并验证");
-                String[] tokens = httpServletRequest.getParameterValues("token");
-                if (tokens == null) {
-                    throw new club.yunzhi.log.exception.AuthException("do not received auth token");
-                }
+    @Around("execution(* club.yunzhi.log.controller.LogController.batchSave(..)) && args(logs)")
+    public void getClientInfo(final ProceedingJoinPoint joinPoint, List<Log> logs) throws Throwable {
 
-                logger.debug("根据token获取client");
-                Client client = clientRepository.findByToken(tokens[0]);
-                if (client == null) {
-                    throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
-                }
-                args[i] = client;
-                break;
-            }
+        logger.debug("获取token, 并验证");
+        String[] tokens = httpServletRequest.getParameterValues("token");
+        if (tokens == null) {
+            throw new club.yunzhi.log.exception.AuthException("do not received auth token");
         }
 
-        logger.debug("执行proceed");
-        joinPoint.proceed(args);
+        logger.debug("根据token获取client");
+        Client client = clientRepository.findByToken(tokens[0]);
+        if (client == null) {
+            throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
+        }
+        logs.forEach(log -> log.setClient(client));
+        joinPoint.proceed();
     }
 }
