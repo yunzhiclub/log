@@ -1,14 +1,17 @@
 package club.yunzhi.log.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mengyunzhi.core.entity.YunzhiEntity;
 import com.mengyunzhi.core.service.CommonService;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 /**
  * @author panjie
@@ -20,29 +23,36 @@ public class Client implements YunzhiEntity, Serializable {
     private static final long serialVersionUID = 8945942012064094435L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(base.class)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 40)
+    @JsonView(base.class)
     private String token = CommonService.getRandomStringByLength(40);
 
+    @JsonView(base.class)
     private String name;
 
+    @JsonView(base.class)
     private String description;
 
-    private String address;
+    @JsonView(base.class)
+    private String url;
 
+    @JsonView(base.class)
     private Time lastSendTime;
 
+    @JsonView(base.class)
     private Time lastStartTime;
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JsonView(todayLog.class)
+    private DayLog todayLog = new DayLog(this);
+
     @CreationTimestamp
+    @JsonView(base.class)
     private Date deployDate;
 
-    private Long infoCount = 0L;
-
-    private Long warnCount = 0L;
-
-    private Long errorCount = 0L;
 
     public Client() {
     }
@@ -84,12 +94,12 @@ public class Client implements YunzhiEntity, Serializable {
         this.description = description;
     }
 
-    public String getAddress() {
-        return this.address;
+    public String getUrl() {
+        return this.url;
     }
 
-    public void setAddress(final String address) {
-        this.address = address;
+    public void setUrl(final String url) {
+        this.url = url;
     }
 
     public Time getLastSendTime() {
@@ -116,27 +126,20 @@ public class Client implements YunzhiEntity, Serializable {
         this.deployDate = deployDate;
     }
 
-    public Long getInfoCount() {
-        return this.infoCount;
+    public DayLog getTodayLog() {
+        return todayLog;
     }
 
-    public void setInfoCount(final Long infoCount) {
-        this.infoCount = infoCount;
+    public void setTodayLog(DayLog todayLog) {
+        this.todayLog = todayLog;
     }
 
-    public Long getWarnCount() {
-        return this.warnCount;
+    public interface base {
     }
 
-    public void setWarnCount(final Long warnCount) {
-        this.warnCount = warnCount;
+
+    public interface dayLog {
     }
 
-    public Long getErrorCount() {
-        return this.errorCount;
-    }
-
-    public void setErrorCount(final Long errorCount) {
-        this.errorCount = errorCount;
-    }
+    public interface todayLog extends DayLog.base{}
 }

@@ -3,6 +3,7 @@ package club.yunzhi.log.service;
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
+import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.LogRepository;
 import com.mengyunzhi.core.service.CommonService;
 import com.mengyunzhi.core.service.YunzhiService;
@@ -25,6 +26,7 @@ import java.util.List;
 public class LogServiceImpl implements LogService {
     private final
     LogRepository logRepository;
+    @Autowired ClientService clientService;
 
     private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
@@ -84,6 +86,9 @@ public class LogServiceImpl implements LogService {
         logger.debug("过滤数据");
         this.filter(logs);
         logRepository.saveAll(logs);
+
+        logger.debug("添加附加数据");
+        clientService.update(logs);
     }
 
     private void filter(List<Log> logs) {

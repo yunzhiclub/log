@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.mengyunzhi.app</groupId>
     <artifactId>log</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>log</name>
     <description>log for spring boot application</description>
 

@@ -2,11 +2,11 @@
     <thead>
         <tr>
             <th>编号</th>
+            <th>名称</th>
             <th>token</th>
             <th>线上地址</th>
             <th>最后交互时间</th>
             <th>最近启动时间</th>
-            <th>项目上线时间</th>
             <th>info数</th>
             <th>warning数</th>
             <th>error数</th>
@@ -16,11 +16,11 @@
     <tbody>
         <tr *ngFor="let client of clientsPage.content">
             <td>{{client.id}}</td>
+            <td>{{client.name}}</td>
             <td>{{client.token}}</td>
-            <td>{{client.address}}</td>
+            <td><a href="{{client.url}}" target="_blank">打开</a></td>
             <td>{{client.lastSendTime}}</td>
             <td>{{client.lastStartTime}}</td>
-            <td>{{client.deployDate}}</td>
             <td>{{client.infoCount}}</td>
             <td>{{client.warnCount}}</td>
             <td>{{client.errorCount}}</td>
