@@ -1,0 +1,30 @@
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>客户端</th>
+        <th>等级</th>
+        <th>上下文</th>
+        <th>线程号</th>
+        <th>发出对象</th>
+        <th>内容</th>
+        <th>时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let log of logPage.content; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{log.client.name}}</td>
+        <td>{{log.level}}</td>
+        <td>{{log.context}}</td>
+        <td>{{log.thread}}</td>
+        <td>{{log.logger}}</td>
+        <td>{{log.message}}</td>
+        <td>{{log.timestamp}}</td>
+    </tr>
+    </tbody>
+</table>
+<p-paginator *ngIf="params?.page >= 0" [rows]="params?.size"
+             [totalRecords]="logPage?.totalElements"
+             (onPageChange)="paginate($event)"></p-paginator>
+

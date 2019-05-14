@@ -12,10 +12,14 @@ spring:
   # 禁用SpringSecurity的Session存储
   security:
     sessions: never
+  data:
+    rest:
+      default-page-size: 20
+      max-page-size: 100
 
 logging:
   path: logs/
-  file: ./logs.log
+  file: logs/logs.log
   level:
     root: info
     club:
@@ -34,6 +38,10 @@ server:
 # 机器人环境
 spring:
   profiles: travis
+
+---
+spring:
+  profiles: test
 
 ---
 # 开发环境
