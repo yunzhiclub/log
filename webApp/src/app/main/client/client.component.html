@@ -7,9 +7,9 @@
             <th>线上地址</th>
             <th>最后交互时间</th>
             <th>最近启动时间</th>
-            <th>info数</th>
-            <th>warning数</th>
-            <th>error数</th>
+            <th>今日info数</th>
+            <th>今日warning数</th>
+            <th>今日error数</th>
             <th>状态</th>
         </tr>
     </thead>
@@ -21,9 +21,9 @@
             <td><a href="{{client.url}}" target="_blank">打开</a></td>
             <td>{{client.lastSendTime}}</td>
             <td>{{client.lastStartTime}}</td>
-            <td>{{client.infoCount}}</td>
-            <td>{{client.warnCount}}</td>
-            <td>{{client.errorCount}}</td>
+            <td>{{client.todayLog.infoCount}}</td>
+            <td>{{client.todayLog.warnCount}}</td>
+            <td>{{client.todayLog.errorCount}}</td>
             <td></td>
         </tr>
     </tbody>

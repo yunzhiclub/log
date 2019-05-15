@@ -2,6 +2,7 @@ package club.yunzhi.log.entity;
 
 import club.yunzhi.log.enums.LogLevelEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mengyunzhi.core.entity.YunzhiEntity;
 import com.mengyunzhi.core.exception.ValidationException;
 import io.swagger.annotations.ApiModel;
@@ -24,34 +25,43 @@ public class Log implements YunzhiEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(base.class)
     private Long id;
 
     @ApiModelProperty("等级")
     @Transient
+    @JsonView(base.class)
     private String level;
 
     @ApiModelProperty("等级代码:trace 0; debug 1; info 2; warn 3; error 4")
+    @JsonView(base.class)
     private Byte levelCode;
 
     @ApiModelProperty("输出信息的类")
+    @JsonView(base.class)
     private String logger;
 
     @ApiModelProperty("上下文")
+    @JsonView(base.class)
     private String context;
 
     @ApiModelProperty("线程")
+    @JsonView(base.class)
     private String thread;
 
     @ApiModelProperty("消息")
+    @JsonView(base.class)
     @Column(columnDefinition = "TEXT")
     private String message;
 
     @ApiModelProperty("时间戳")
+    @JsonView(base.class)
     private Timestamp timestamp;
 
     @ApiModelProperty("客户端")
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonView(client.class)
     private Client client;
 
     @Override
@@ -64,19 +74,21 @@ public class Log implements YunzhiEntity {
     }
 
     public String getLevel() {
-        if (this.level == null) {
-            if (this.levelCode.equals(LogLevelEnum.DEBUG.getValue())) {
-                this.levelCode = LogLevelEnum.DEBUG.getValue();
-            } else if (this.levelCode.equals(LogLevelEnum.TRACE.getValue())) {
-                this.levelCode = LogLevelEnum.TRACE.getValue();
-            } else if (this.levelCode.equals(LogLevelEnum.INFO.getValue())) {
-                this.levelCode = LogLevelEnum.INFO.getValue();
-            } else if (this.levelCode.equals(LogLevelEnum.WARN.getValue())) {
-                this.levelCode = LogLevelEnum.WARN.getValue();
-            } else if (this.levelCode.equals(LogLevelEnum.ERROR.getValue())) {
-                this.levelCode = LogLevelEnum.ERROR.getValue();
-            } else {
-                throw new ValidationException("非法的日志等级" + String.valueOf(this.levelCode));
+        if (this.level == null || this.level.isEmpty()) {
+            if (this.levelCode != null) {
+                if (this.levelCode.equals(LogLevelEnum.DEBUG.getValue())) {
+                    this.level = LogLevelEnum.DEBUG.getDescription();
+                } else if (this.levelCode.equals(LogLevelEnum.TRACE.getValue())) {
+                    this.level = LogLevelEnum.TRACE.getDescription();
+                } else if (this.levelCode.equals(LogLevelEnum.INFO.getValue())) {
+                    this.level = LogLevelEnum.INFO.getDescription();
+                } else if (this.levelCode.equals(LogLevelEnum.WARN.getValue())) {
+                    this.level = LogLevelEnum.WARN.getDescription();
+                } else if (this.levelCode.equals(LogLevelEnum.ERROR.getValue())) {
+                    this.level = LogLevelEnum.ERROR.getDescription();
+                } else {
+                    throw new ValidationException("非法的日志等级" + String.valueOf(this.levelCode));
+                }
             }
         }
 
@@ -157,4 +169,7 @@ public class Log implements YunzhiEntity {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public interface base {}
+    public interface client extends Client.base {}
 }

@@ -4,6 +4,8 @@ import club.yunzhi.log.config.WebConfig;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.service.LogService;
+import club.yunzhi.log.utils.PageImpl;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class LogController {
     /**
      * 批量保存
      *
-     * @param logs   日志
+     * @param logs 日志
      */
     @PostMapping("batchSave")
     public void batchSave(@RequestBody List<Log> logs) {
@@ -43,8 +45,12 @@ public class LogController {
     }
 
     @GetMapping("page")
+    @JsonView(page.class)
     public Page<Log> page(@PathVariable(required = false) Long clientId,
                           @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
-        return logService.page(clientId, pageable);
+        return new PageImpl(logService.page(clientId, pageable));
+    }
+
+    private interface page extends PageImpl.base, Log.base, Log.client {
     }
 }
