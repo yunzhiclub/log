@@ -137,9 +137,5 @@ public class Client implements YunzhiEntity, Serializable {
     public interface base {
     }
 
-
-    public interface dayLog {
-    }
-
     public interface todayLog extends DayLog.base{}
 }
