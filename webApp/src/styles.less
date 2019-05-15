@@ -1,4 +1,89 @@
 /* You can add global styles to this file, and also import other style files */
-// -------- 引入官方提供的 less 样式入口文件 -----------
-@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
-@import "./assets/less/index.less";
+.form-group {
+    margin-top: 20px;
+}
+
+.form-group input {
+    margin-top:5px;
+}
+
+// 徽标样式，在模板中实在是找不到徽标的样式了，将bootstrap的源码中label有关的几个背景色粘进来了
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.label-default {
+    background-color: #999;
+}
+.label-default[href]:hover,
+.label-default[href]:focus {
+    background-color: #808080;
+}
+
+.label-primary {
+    background-color: #428bca;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #3071a9;
+}
+
+.label-success {
+    background-color: #5cb85c;
+}
+.label-success[href]:hover,
+.label-success[href]:focus {
+    background-color: #449d44;
+}
+
+.label-info {
+    background-color: #5bc0de;
+}
+.label-info[href]:hover,
+.label-info[href]:focus {
+    background-color: #31b0d5;
+}
+
+.label-warning {
+    background-color: #f0ad4e;
+}
+.label-warning[href]:hover,
+.label-warning[href]:focus {
+    background-color: #ec971f;
+}
+
+.label-danger {
+    background-color: #d9534f;
+}
+.label-danger[href]:hover,
+.label-danger[href]:focus {
+    background-color: #c9302c;
+}
+// 表格td内容自动换行与居中
+p-table.word-break tr td {
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+}
+
+.swal2-actions button {
+    padding: 0.429em 0.857em;
+    display: block;
+    line-height: normal;
+    font-size: 14px;
+    margin: 0 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 0.4em;
+}
+

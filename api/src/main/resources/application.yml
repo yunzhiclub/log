@@ -1,0 +1,103 @@
+spring:
+  profiles:
+    #  开发过程中，请将 travis 修改为 dev
+    active: ${active:dev}
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+  session:
+    store-type: JDBC
+
+  # 禁用SpringSecurity的Session存储
+  security:
+    sessions: never
+  data:
+    rest:
+      default-page-size: 20
+      max-page-size: 100
+
+logging:
+  path: logs/
+  file: logs/logs.log
+  level:
+    root: info
+    club:
+      yunzhi:
+        log: info
+    org:
+      hibernate:
+        SQL: info
+        type:
+          descriptor:
+            sql: info
+server:
+  port: ${port:8114}
+
+---
+# 机器人环境
+spring:
+  profiles: travis
+
+---
+spring:
+  profiles: test
+
+---
+# 开发环境
+spring:
+  profiles: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    #    数据库名称关系到数据库迁移
+    url: jdbc:mysql://${datasource.url:127.0.0.1}:${datasource.port:3307}/${datasource.dbname:log}?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ${datasource.username:root}
+    password: ${datasource.password:}
+    separator: //
+  flyway:
+    enabled: true # 禁用baseline
+
+logging:
+  level:
+    root: info
+    club:
+      yunzhi:
+        log: debug
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: debug
+debug: true
+---
+# 生产环境
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: ${ddl-auto:update}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  datasource:
+    #    数据库名称关系到数据库迁移
+    url: jdbc:mysql://${datasource.url:127.0.0.1}:${datasource.port:3306}/${datasource.dbname:log}?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ${datasource.username:root}
+    password: ${datasource.password:}
+    separator: //
+  flyway:
+    enabled: true # 禁用baseline
+
+---
+# 调试环境
+spring:
+  profiles: debug
+debug: true

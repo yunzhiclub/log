@@ -1,0 +1,32 @@
+<table class="layui-table">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>token</th>
+            <th>线上地址</th>
+            <th>最后交互时间</th>
+            <th>最近启动时间</th>
+            <th>今日info数</th>
+            <th>今日warning数</th>
+            <th>今日error数</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let client of clientsPage.content">
+            <td>{{client.id}}</td>
+            <td>{{client.name}}</td>
+            <td>{{client.token}}</td>
+            <td><a href="{{client.url}}" target="_blank">打开</a></td>
+            <td>{{client.lastSendTime}}</td>
+            <td>{{client.lastStartTime}}</td>
+            <td>{{client.todayLog.infoCount}}</td>
+            <td>{{client.todayLog.warnCount}}</td>
+            <td>{{client.todayLog.errorCount}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<div class="layui-table-page"><div id="layui-table-page1"><div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-2"><a href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0"><i class="layui-icon"></i></a><span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span class="layui-laypage-spr">…</span><a href="javascript:;" class="layui-laypage-last" title="尾页" data-page="100">100</a><a href="javascript:;" class="layui-laypage-next" data-page="2"><i class="layui-icon"></i></a><span class="layui-laypage-skip">到第<input type="text" min="1" value="1" class="layui-input">页<button type="button" class="layui-laypage-btn">确定</button></span><span class="layui-laypage-count">共 1000 条</span><span class="layui-laypage-limits"><select lay-ignore=""><option value="10" selected="">10 条/页</option><option value="20">20 条/页</option><option value="30">30 条/页</option><option value="40">40 条/页</option><option value="50">50 条/页</option><option value="60">60 条/页</option><option value="70">70 条/页</option><option value="80">80 条/页</option><option value="90">90 条/页</option></select></span></div></div></div>
+
