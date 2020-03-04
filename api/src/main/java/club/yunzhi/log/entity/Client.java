@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Entity
 @ApiModel(value = "Client", description = "项目")
-public class Client implements YunzhiEntity, Serializable {
+public class Client implements YunzhiEntity<Long>, Serializable {
     private static final long serialVersionUID = 8945942012064094435L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +64,11 @@ public class Client implements YunzhiEntity, Serializable {
     @Override
     public Long getId() {
         return this.id;
+    }
+
+    @Override
+    public Boolean getDeleted() {
+        return false;
     }
 
     public void setId(final Long id) {

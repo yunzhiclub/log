@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 @Entity
 @ApiModel(value = "Log", description = "日志")
-public class Log implements YunzhiEntity {
+public class Log implements YunzhiEntity<Long> {
     private final static Logger logger1 = LoggerFactory.getLogger(Log.class);
 
     @Id
@@ -66,6 +66,11 @@ public class Log implements YunzhiEntity {
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public Boolean getDeleted() {
+        return false;
     }
 
     public void setId(Long id) {
