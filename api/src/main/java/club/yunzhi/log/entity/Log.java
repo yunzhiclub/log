@@ -1,10 +1,9 @@
 package club.yunzhi.log.entity;
 
 import club.yunzhi.log.enums.LogLevelEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import club.yunzhi.log.exception.ValidationException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mengyunzhi.core.entity.YunzhiEntity;
-import com.mengyunzhi.core.exception.ValidationException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.slf4j.Logger;

@@ -3,7 +3,6 @@ package club.yunzhi.log.service;
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
-import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.LogRepository;
 import com.mengyunzhi.core.service.CommonService;
 import com.mengyunzhi.core.service.YunzhiService;
@@ -57,11 +56,12 @@ public class LogServiceImpl implements LogService {
             "org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver",
     };
 
-    private YunzhiService<Log> yunzhiService = new YunzhiServiceImpl<>();
+    private YunzhiService<Log> yunzhiService;
 
     @Autowired
     public LogServiceImpl(LogRepository logRepository) {
         this.logRepository = logRepository;
+        this.yunzhiService = new YunzhiServiceImpl();
     }
 
     /**

@@ -28,31 +28,6 @@ public class LogControllerTest {
     private
     MockMvc mockMvc;
 
-
-    @Test
-    public void save() throws Exception {
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/log")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content("{}"))
-                .andExpect(MockMvcResultMatchers.status().is(401));
-
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/log")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content("{}")
-                        .param("token", "123456"))
-                .andExpect(MockMvcResultMatchers.status().is(401));
-
-        Client client = clientService.getOneSavedClient();
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/log")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content("{}")
-                        .param("token", client.getToken()))
-                .andExpect(MockMvcResultMatchers.status().is(200));
-    }
-
     @Test
     public void saveAll() throws Exception {
         Client client = clientService.getOneSavedClient();

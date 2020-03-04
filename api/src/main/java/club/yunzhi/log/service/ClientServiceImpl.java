@@ -4,7 +4,6 @@ import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
-import com.mengyunzhi.core.exception.ValidationException;
 import com.mengyunzhi.core.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -46,10 +44,12 @@ public class ClientServiceImpl implements ClientService {
         return client;
     }
 
+    @Override
     public Page<Client> page(Pageable pageable) {
         return clientRepository.findAll(pageable);
     }
 
+    @Override
     public Client save(Client client) {
         return clientRepository.save(client);
     }
