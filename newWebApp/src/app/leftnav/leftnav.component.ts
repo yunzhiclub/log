@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+
 
 @Component({
   selector: 'app-leftnav',
@@ -13,7 +13,7 @@ export class LeftnavComponent implements OnInit {
   /*菜单项*/
   menus = new Array<{ url: string; name: string }>();
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
   }
 
   ngOnInit() {
