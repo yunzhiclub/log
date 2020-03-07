@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LeftnavComponent } from './leftnav/leftnav.component';
+import { RouterModule } from '@angular/router';
+import {LeftnavComponent} from './leftnav/leftnav.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { LeftnavComponent } from './leftnav/leftnav.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
