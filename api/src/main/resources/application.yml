@@ -1,7 +1,7 @@
 spring:
   profiles:
     #  开发过程中，请将 travis 修改为 dev
-    active: ${active:dev}
+    active: ${active:travis}
 
   jpa:
     hibernate:
