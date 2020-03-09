@@ -7,11 +7,13 @@ import { RouterModule } from '@angular/router';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { HeadnavComponent } from './headnav/headnav.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LeftnavComponent,
     HeadnavComponent
+
   ],
   imports: [
     BrowserModule,
