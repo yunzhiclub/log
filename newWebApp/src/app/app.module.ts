@@ -6,14 +6,14 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { HeadnavComponent } from './headnav/headnav.component';
-import { UserComponent } from './user/user.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LeftnavComponent,
-    HeadnavComponent,
-    UserComponent
+    HeadnavComponent
+
   ],
   imports: [
     BrowserModule,
