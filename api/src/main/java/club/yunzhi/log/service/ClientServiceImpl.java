@@ -21,7 +21,7 @@ import java.util.List;
  * @author panjie
  */
 @Service
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService<Client> {
     private final
     ClientRepository clientRepository;
 
@@ -99,6 +99,16 @@ public class ClientServiceImpl implements ClientService {
         if (log.getMessage().startsWith("Started ResourceApplication in")) {
             return new Time(log.getTimestamp().getTime());
         }
+        return null;
+    }
+
+    @Override
+    public Client getOneUnsavedEntity() {
+        return null;
+    }
+
+    @Override
+    public Client getOneSavedEntity() {
         return null;
     }
 }

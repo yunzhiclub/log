@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author panjie
  */
-public interface LogService {
+public interface LogService<T> extends YunzhiService<T>{
     Log save(Log log, Client client);
     void save(List<Log> logs);
 

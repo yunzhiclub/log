@@ -11,7 +11,7 @@ import java.util.List;
  * @author panjie
  * 客户端
  */
-public interface ClientService {
+public interface ClientService<T> extends YunzhiService<T>{
     Client getOneSavedClient();
     Client getOneUnsavedClient();
     Page<Client> page(Pageable pageable);

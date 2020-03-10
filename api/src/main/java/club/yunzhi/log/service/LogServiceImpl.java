@@ -22,7 +22,7 @@ import java.util.List;
  * @author panjie
  */
 @Service
-public class LogServiceImpl implements LogService {
+public class LogServiceImpl implements LogService<Log> {
     private final
     LogRepository logRepository;
     @Autowired ClientService clientService;
@@ -119,5 +119,15 @@ public class LogServiceImpl implements LogService {
         }
 
         return yunzhiService.page(logRepository, log, pageable);
+    }
+
+    @Override
+    public Log getOneUnsavedEntity() {
+        return null;
+    }
+
+    @Override
+    public Log getOneSavedEntity() {
+        return null;
     }
 }

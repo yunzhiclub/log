@@ -11,7 +11,16 @@ export class Log {
     timestamp: number;
     client: Client;
 
-    constructor(log: {id: number, level: string, levelCode: number, logger: string, context: string, thread: string, message: string, timestamp: number, client: Client}) {
+    constructor(log: {
+      id: number,
+      level: string,
+      levelCode: number,
+      logger: string,
+      context: string,
+      thread: string,
+      message: string,
+      timestamp: number,
+      client: Client}) {
         this.id = log.id ? log.id : null;
         this.level = log.level ? log.level : null;
         this.levelCode = log.levelCode ? log.levelCode : null;
