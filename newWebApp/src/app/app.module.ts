@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { HeadnavComponent } from './headnav/headnav.component';
 import { LoginComponent } from './login/login.component';
-
+import { httpInterceptorProviders } from './interceptor/index-interceptor';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,9 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     RouterModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

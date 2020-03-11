@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./index.component.sass']
 })
 export class IndexComponent implements OnInit {
-
   constructor() { }
-
   ngOnInit() {
+
   }
 
 }
