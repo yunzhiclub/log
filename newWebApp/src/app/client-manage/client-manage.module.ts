@@ -4,6 +4,8 @@ import {ClientManageRoutingModule} from './client-manage-routing.module';
 import { IndexComponent } from './index/index.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
+import {HttpClientModule} from '@angular/common/http';
+import {httpInterceptorProviders} from '../interceptor/index-interceptor';
 
 
 
@@ -11,7 +13,11 @@ import { EditComponent } from './edit/edit.component';
   declarations: [IndexComponent, AddComponent, EditComponent],
   imports: [
     CommonModule,
-    ClientManageRoutingModule
-  ]
+    ClientManageRoutingModule,
+    HttpClientModule
+  ],
+  providers: [
+    httpInterceptorProviders,
+  ],
 })
 export class ClientManageModule { }
