@@ -13,8 +13,7 @@ import {httpInterceptorProviders} from '../interceptor/index-interceptor';
   declarations: [IndexComponent, AddComponent, EditComponent],
   imports: [
     CommonModule,
-    ClientManageRoutingModule,
-    HttpClientModule
+    ClientManageRoutingModule
   ],
   providers: [
     httpInterceptorProviders,

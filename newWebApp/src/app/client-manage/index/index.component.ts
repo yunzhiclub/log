@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-index',
@@ -7,10 +6,9 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./index.component.sass']
 })
 export class IndexComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor() { }
   ngOnInit() {
-    this.http.get('/log/page')
-      .subscribe((data) => {console.log(data)}, (data) => {console.log(data)});
+
   }
 
 }
