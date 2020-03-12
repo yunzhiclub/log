@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'background',
-    loadChildren: () => import('./background/background.module').then((mod => mod.BackgroundModule))
+    loadChildren: () => import('./background/background.module').then(mod => mod.BackgroundModule)
   }
 ];
 
