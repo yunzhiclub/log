@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,6 @@ export class UserService {
    */
   login(username: string, password: string): Observable<boolean> {
     const url = '/user/login';
-    return this.httpClient.post<boolean>(url,{username, password});
+    return this.httpClient.post<boolean>(url, {username, password});
   }
 }
