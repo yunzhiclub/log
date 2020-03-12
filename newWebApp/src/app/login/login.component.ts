@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {UserService} from '../service/user.service';
+
 
 @Component({
   selector: 'app-login',
@@ -6,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
+  formGroup: FormGroup;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private userService: UserService) {
   }
 
+  ngOnInit() {
+    this.formGroup = new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl('')
+    });
+  }
+
+  onSubmit() {
+    const username = this.formGroup.get('username').value;
+    const password = this.formGroup.get('password').value;
+    this.userService.login(username, password).subscribe(result => {
+      console.log(result);
+    });
+  }
 }
