@@ -50,7 +50,7 @@ describe('LoginComponent', () => {
     FormTest.clickButton(fixture, 'button');
     expect(component.onSubmit).toHaveBeenCalledWith();
   });
-  fit('onSubmit', () => {
+  it('onSubmit', () => {
     // 获取teacherService实例，并为其login方法设置替身
     const teacherService = TestBed.get(UserService) as UserService;
     spyOn(teacherService, 'login').and.returnValue(of(true));
