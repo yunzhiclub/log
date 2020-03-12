@@ -6,8 +6,10 @@ import { RouterModule } from '@angular/router';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { HeadnavComponent } from './headnav/headnav.component';
 import { LoginComponent } from './login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 
+
+import { httpInterceptorProviders } from './interceptor/index-interceptor';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     RouterModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
