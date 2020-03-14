@@ -11,35 +11,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <th scope="row">1</th>
-    <td>测试开发</td>
-    <td>INFO</td>
-    <td>default</td>
-    <td>http-nio-8101-exec-1</td>
-    <td>com.mengyunzhi.measurement.controller.UserController</td>
-    <td>登录用户192.168.1.1</td>
-    <td>2020-03-06T13:06:28.000+0000</td>
-  </tr>
-  <tr>
-    <th scope="row">1</th>
-    <td>测试开发</td>
-    <td>INFO</td>
-    <td>default</td>
-    <td>http-nio-8101-exec-1</td>
-    <td>com.mengyunzhi.measurement.controller.UserController</td>
-    <td>登录用户192.168.1.1</td>
-    <td>2020-03-06T13:06:28.000+0000</td>
-  </tr>
-  <tr>
-    <th scope="row">1</th>
-    <td>测试开发</td>
-    <td>INFO</td>
-    <td>default</td>
-    <td>http-nio-8101-exec-1</td>
-    <td>com.mengyunzhi.measurement.controller.UserController</td>
-    <td>登录用户192.168.1.1</td>
-    <td>2020-03-06T13:06:28.000+0000</td>
+  <tr *ngFor="let log of logPage.content; let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{log.client.name}}</td>
+    <td>{{log.level}}</td>
+    <td>{{log.context}}</td>
+    <td>{{log.thread}}</td>
+    <td>{{log.logger}}</td>
+    <td>{{log.message}}</td>
+    <td>{{log.timestamp}}</td>
   </tr>
 
 </table>
@@ -57,3 +37,4 @@
     </li>
   </ul>
 </nav>
+

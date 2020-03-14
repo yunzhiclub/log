@@ -7,9 +7,8 @@ import { LeftnavComponent } from './leftnav/leftnav.component';
 import { HeadnavComponent } from './headnav/headnav.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
-
-
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,8 @@ import { httpInterceptorProviders } from './interceptor/index-interceptor';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     httpInterceptorProviders,
