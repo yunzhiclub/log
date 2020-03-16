@@ -2,6 +2,11 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
 
+
+
+/**
+ * @author jincheng
+ */
 public interface UserService {
     /**
      * 用户登录
