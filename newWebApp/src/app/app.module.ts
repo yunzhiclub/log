@@ -10,7 +10,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
-import {HttpClientModule} from '@angular/common/http';
+
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
