@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Page} from '../../norm/entity/Page';
 import {Log} from '../../norm/entity/Log';
 import {LogService} from '../../service/log.service';
-
-
 
 @Component({
   selector: 'app-index',
