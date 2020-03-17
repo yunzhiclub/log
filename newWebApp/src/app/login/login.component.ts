@@ -3,6 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {UserService} from '../service/user.service';
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,7 +12,7 @@ import {UserService} from '../service/user.service';
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, ) {
   }
 
   ngOnInit() {
@@ -25,7 +26,11 @@ export class LoginComponent implements OnInit {
     const username = this.formGroup.get('username').value;
     const password = this.formGroup.get('password').value;
     this.userService.login(username, password).subscribe(result => {
-      console.log(result);
+      if (result) {
+        this.userService.setIsLogin(true);
+      } else {
+        console.log('用户名密码错误');
+      }
     });
   }
 }

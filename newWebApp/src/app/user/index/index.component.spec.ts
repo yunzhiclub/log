@@ -8,7 +8,7 @@ import {User} from '../../norm/entity/User';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 
-fdescribe('IndexComponent', () => {
+describe('IndexComponent', () => {
   let component: IndexComponent;
   let fixture: ComponentFixture<IndexComponent>;
   let httpTestingController: HttpTestingController;
