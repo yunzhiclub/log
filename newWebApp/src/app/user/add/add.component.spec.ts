@@ -29,6 +29,20 @@ describe('AddComponent', () => {
   });
 
   /**
+   * 断言发起了相关请求
+   * 断言在请求的中接收到了对应的值
+   */
+  const savePostTest = (): void => {
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne('http://localhost:8080/User');
+    expect(req.request.method).toEqual('POST');
+    const student: User = req.request.body.valueOf();
+    expect(student.name).toEqual('testname');
+    expect(student.username).toEqual('testusername');
+    expect(student.email).toEqual('testemail');
+  };
+
+  /**
    * 1. 向表单中输入值
    * 2. 点击保存按钮
    * 3. 断言输入的值传入到了C层
@@ -47,19 +61,5 @@ describe('AddComponent', () => {
 
     savePostTest();
   });
-
-  /**
-   * 断言发起了相关请求
-   * 断言在请求的中接收到了对应的值
-   */
-  const savePostTest = (): void => {
-    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne('http://localhost:8080/User');
-    expect(req.request.method).toEqual('POST');
-    const student: User = req.request.body.valueOf();
-    expect(student.name).toEqual('testname');
-    expect(student.username).toEqual('testusername');
-    expect(student.email).toEqual('testemail');
-  };
 
 });

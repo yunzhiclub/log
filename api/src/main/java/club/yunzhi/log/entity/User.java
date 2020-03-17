@@ -15,6 +15,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name = "";
+    private String username = "";
     private final String password = "";
 
     @Transient
@@ -48,6 +49,14 @@ public class User implements Serializable {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
     }
 
     public String getEmail() {
