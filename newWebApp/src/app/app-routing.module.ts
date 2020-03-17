@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'background',
     loadChildren: () => import('./background/background.module').then(mod => mod.BackgroundModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   }
 ];
 
