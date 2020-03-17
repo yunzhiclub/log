@@ -16,7 +16,7 @@ public class User implements Serializable {
     private Long id;
     private String name = "";
     private String username = "";
-    private final String password = "";
+    private  String password = "yunzhi";
 
     @Transient
     private String token = "";
@@ -77,6 +77,10 @@ public class User implements Serializable {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
     public static long getSerialVersionUID() {
