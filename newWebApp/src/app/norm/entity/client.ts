@@ -1,4 +1,4 @@
-import {DayLog} from './DayLog';
+import {DayLog} from './day-log';
 
 export class Client {
     id: number;
