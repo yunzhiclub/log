@@ -12,7 +12,7 @@ import {IndexComponent} from './index/index.component';
   declarations: [IndexComponent],
   imports: [
     CommonModule,
-    BackgroundRoutingMoudle
+    BackgroundRoutingMoudle,
   ]
 })
 export class BackgroundModule {}
