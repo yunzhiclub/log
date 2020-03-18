@@ -11,7 +11,7 @@ export class Log {
     timestamp: number;
     client: Client;
 
-    constructor(log: {
+    constructor(log: { // 增加构造函数，刘宇轩
       id: number,
       level: string,
       levelCode: number,
@@ -29,6 +29,6 @@ export class Log {
         this.thread = log.thread ? log.thread : null;
         this.message = log.message ? log.message : null;
         this.timestamp = log.timestamp ? log.timestamp : null;
-        this.client = log.client ? log.client : new Client();
+        this.client = log.client ? log.client : new Client(null);
     }
 }

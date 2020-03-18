@@ -11,5 +11,11 @@ export class Page<T> {
     size: number;
     sort: Sort;
     totalElements: number;
-    totalpages: number;
+    totalPages: number;
+    constructor(content: Array<T>, number0: number, size: number, totalPages: number) { // 增加构造函数，刘宇轩
+      this.content = content;
+      this.number = number0;
+      this.size = size;
+      this.totalPages = totalPages;
+    }
 }

@@ -5,7 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {User} from '../norm/entity/User';
 import {of} from 'rxjs';
 
-fdescribe('UserService', () => {
+describe('UserService', () => {
   let service: UserService;
   beforeEach(() => TestBed.configureTestingModule({
     imports: [

@@ -4,6 +4,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {Log} from '../norm/entity/Log';
 import {HttpRequest} from '@angular/common/http';
 import {Page} from '../norm/entity/Page';
+import {Client} from '../norm/entity/client';
 
 describe('LogService', () => {
   let service: LogService;
@@ -19,7 +20,10 @@ describe('LogService', () => {
   /* 分页测试 */
   it('page分页测试', () => {
     /* 模拟返回数据 */
-    const mockResult = new Page<Log>();
+    const mockResult = new Page<Log>(new Array<Log>(
+      new Log({ id: 1, level: 'DEBUG', levelCode: 1, logger: 'logger', context: 'context',
+        thread: 'thread', message: 'message', timestamp: 1, client: new Client('client')})
+    ), 1, 2, 3);
 
     /* 进行订阅，发送数据后将called置true */
     let called = false;
@@ -28,7 +32,10 @@ describe('LogService', () => {
     const size = 3;
     service.page({clientId, page, size}).subscribe((success: Page<Log> ) => {
       called = true;
-      expect(success).toEqual(new Page<Log>());
+      expect(success).toEqual(new Page<Log>(new Array<Log>(
+        new Log({ id: 1, level: 'DEBUG', levelCode: 1, logger: 'logger', context: 'context',
+          thread: 'thread', message: 'message', timestamp: 1, client: new Client('client')})
+      ), 1, 2, 3));
     });
 
     /* 断言发起了http请求，方法为get；请求参数值符合预期 */
