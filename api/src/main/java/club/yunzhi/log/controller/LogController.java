@@ -3,11 +3,14 @@ package club.yunzhi.log.controller;
 import club.yunzhi.log.config.WebConfig;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.LogService;
 import club.yunzhi.log.utils.PageImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +29,7 @@ import java.util.List;
 @RequestMapping("log")
 @Api(value = "LogController 日志控制")
 public class LogController {
-
+    private final static Logger logger = LoggerFactory.getLogger(LogController.class);
     private final LogService logService;        // 日志服务
 
     @Autowired
@@ -48,6 +51,7 @@ public class LogController {
     @JsonView(page.class)
     public Page<Log> page(@PathVariable(required = false) Long clientId,
                           @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
+        logger.info("调用TeacherController的getAll方法");
         return new PageImpl(logService.page(clientId, pageable));
     }
 
