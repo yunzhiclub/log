@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Log} from '../norm/entity/Log';
-import {Page} from '../norm/entity/Page';
+import {Log} from '../norm/entity/log';
+import {Page} from '../norm/entity/page';
 
 /*后台日志管理-M层
   刘宇轩

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Page} from '../../norm/entity/Page';
-import {Log} from '../../norm/entity/Log';
+import {Page} from '../../norm/entity/page';
+import {Log} from '../../norm/entity/log';
 import {LogService} from '../../service/log.service';
 
 @Component({

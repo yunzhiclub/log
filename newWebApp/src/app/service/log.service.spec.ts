@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { LogService } from './log.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {Log} from '../norm/entity/Log';
+import {Log} from '../norm/entity/log';
 import {HttpRequest} from '@angular/common/http';
-import {Page} from '../norm/entity/Page';
+import {Page} from '../norm/entity/page';
 import {Client} from '../norm/entity/client';
 
 describe('LogService', () => {

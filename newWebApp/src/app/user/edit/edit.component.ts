@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {User} from '../../norm/entity/User';
+import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
 import {ActivatedRoute} from '@angular/router';
 

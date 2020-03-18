@@ -6,7 +6,7 @@ import SpyObj = jasmine.SpyObj;
 import {of} from 'rxjs';
 import {UserService} from '../../service/user.service';
 import {By} from '@angular/platform-browser';
-import {User} from '../../norm/entity/User';
+import {User} from '../../norm/entity/user';
 import {ActivatedRouteStub} from './activated-route-stub';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';

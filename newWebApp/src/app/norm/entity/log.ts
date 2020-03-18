@@ -11,7 +11,7 @@ export class Log {
     timestamp: number;
     client: Client;
 
-    constructor(log: { // 增加构造函数，刘宇轩
+    constructor(log: {
       id: number,
       level: string,
       levelCode: number,

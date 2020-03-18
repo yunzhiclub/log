@@ -3,8 +3,8 @@
  * 刘宇轩
  */
 import {Observable, of} from 'rxjs';
-import {Log} from '../norm/entity/Log';
-import {Page} from '../norm/entity/Page';
+import {Log} from '../norm/entity/log';
+import {Page} from '../norm/entity/page';
 import {Client} from '../norm/entity/client';
 
 export class LogStubService {

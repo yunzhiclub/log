@@ -36,7 +36,7 @@ describe('HeadnavComponent', () => {
   });
   it('点击注销按钮', () => {
     spyOn(component, 'onLogout');
-    FormTest.clickButton(fixture, 'button');
+    FormTest.clickButton(fixture, 'li button');
     expect(component.onLogout).toHaveBeenCalled();
   });
   it('onLogout', () => {
