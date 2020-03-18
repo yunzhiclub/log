@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableAsync
-@ServletComponentScan// 启用异步
+@EnableAsync  // 启用异步
+@ServletComponentScan
 @EnableScheduling		// 启用定时任务
 public class LogApplication {
 
