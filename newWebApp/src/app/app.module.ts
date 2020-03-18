@@ -8,7 +8,9 @@ import { HeadnavComponent } from './headnav/headnav.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
+
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
