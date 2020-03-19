@@ -3,10 +3,7 @@ package club.yunzhi.log.controller;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -23,4 +20,12 @@ public class UserController {
        {
         return this.userService.login(user.getUsername(), user.getPassword());
        }
+    @GetMapping("logout")
+    public void login() {
+        this.userService.logout();
+    }
+    @GetMapping("me")
+    public User me(){
+        return this.userService.me();
+    }
 }

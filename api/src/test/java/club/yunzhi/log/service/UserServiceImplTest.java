@@ -9,15 +9,19 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class UserServiceImplTest {
 
     private UserServiceImpl userService;
     private UserRepository userRepository;
+    private HttpServletRequest httpServletRequest;
 
     @Before
     public void before(){
         this.userRepository = Mockito.mock(UserRepository.class);
-        UserServiceImpl userService = new UserServiceImpl(this.userRepository);
+        this.httpServletRequest = Mockito.mock(HttpServletRequest.class);
+        UserServiceImpl userService = new UserServiceImpl(this.userRepository,this.httpServletRequest);
         this.userService = Mockito.spy(userService);
     }
     @Test
