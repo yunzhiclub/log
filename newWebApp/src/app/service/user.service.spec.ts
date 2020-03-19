@@ -42,7 +42,22 @@ describe('UserService', () => {
     req.flush('true');
     expect(result).toBeTruthy();
   });
+  it('me', () => {
+    // 调用测试方法
+    let result;
+    service.me().subscribe((user) => {
+      result = user;
+    });
+    // 断言发起了特定的http请求
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne('/user/me');
+    expect(req.request.method).toEqual('GET');
 
+    // 模拟返回数据，请断言在订阅的方法中成功的接收到了数据
+    const  mockReturnUser = new User({id: null, username: null, name: null, email: null});
+    req.flush(mockReturnUser);
+    expect(result).toBe(mockReturnUser);
+  });
   it('save', () => {
     const user: User = new User(
       {
