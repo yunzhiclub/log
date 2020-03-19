@@ -12,4 +12,7 @@ export class UserStubService {
   me(): Observable<User> {
     return  of(new User({id: 1, username: 'username', name: 'name', email: 'email' }));
   }
+  logout(): Observable<void> {
+    return of(null);
+  }
 }

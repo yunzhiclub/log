@@ -5,6 +5,7 @@ import {FormTest} from '../testing/FormTest';
 import {TestModule} from '../test/test.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserService} from '../service/user.service';
+import {of} from 'rxjs';
 
 
 describe('HeadnavComponent', () => {
@@ -43,7 +44,10 @@ describe('HeadnavComponent', () => {
     const service = TestBed.get(UserService) as UserService;
     console.log(service);
     spyOn(service, 'setIsLogin');
+    spyOn(service, 'logout').and.returnValue(of(null));
+
     component.onLogout();
+    expect(service.logout).toHaveBeenCalled();
     expect(service.setIsLogin).toHaveBeenCalledWith(false);
   });
 });

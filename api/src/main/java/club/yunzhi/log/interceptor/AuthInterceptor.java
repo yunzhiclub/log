@@ -45,7 +45,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             System.out.println("请求地址方法匹配到登录地址，不拦截");
             return true;
         }
-
+        //客户端请求，放行
+        if ("/log/batchSave".equals(url) && "POST".equals(method)) {
+            System.out.println("请求地址方法匹配到客户端请求，不拦截");
+            return true;
+        }
         // auth-token是否绑定了用户
         String authToken = request.getHeader(TokenFilter.TOKEN_KEY);
         if (this.userService.isLogin(authToken)) {
