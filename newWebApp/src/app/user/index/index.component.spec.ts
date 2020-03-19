@@ -4,7 +4,7 @@ import { IndexComponent } from './index.component';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {User} from '../../norm/entity/User';
+import {User} from '../../norm/entity/user';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserStubService} from '../../service/user-stub.service';

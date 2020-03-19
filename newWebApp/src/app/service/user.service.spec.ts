@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { UserService } from './user.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {User} from '../norm/entity/User';
+
 import {of} from 'rxjs';
 import {HttpRequest} from '@angular/common/http';
+import {User} from '../norm/entity/user';
 
 describe('UserService', () => {
   let service: UserService;

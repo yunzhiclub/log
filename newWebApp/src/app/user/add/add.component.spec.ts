@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddComponent } from './add.component';
 import {FormTest} from '../../testing/FormTest';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {User} from '../../norm/entity/User';
+import {User} from '../../norm/entity/user';
 import {ReactiveFormsModule} from '@angular/forms';
 
 describe('AddComponent', () => {
