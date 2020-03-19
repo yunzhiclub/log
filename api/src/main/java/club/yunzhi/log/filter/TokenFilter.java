@@ -1,5 +1,6 @@
 package club.yunzhi.log.filter;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,17 +15,25 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.UUID;
 
+/**
+ * 令牌过滤器
+ * 继承HttpFilter以过滤http请求与响应
+ * @author panjie
+ */
 @WebFilter
 public class TokenFilter extends HttpFilter {
     private final static Logger logger = LoggerFactory.getLogger(TokenFilter.class);
-    private String TOKEN_KEY = "auth-token";
+    public static String TOKEN_KEY = "auth-token";
     /** 存储已分发过的令牌 */
     private HashSet<String> tokens = new HashSet<>();
+
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 获取 header中的token
-        String token = request.getHeader(this.TOKEN_KEY);
+        String token = request.getHeader(TOKEN_KEY);
         logger.info("获取到的token为" + token);
+
+        // 有效性判断
         if (!this.validateToken(token)) {
             // 如果无效则分发送的token
             token = this.makeToken();
@@ -32,15 +41,19 @@ public class TokenFilter extends HttpFilter {
 
             // 设置header中的auth-token
             request = new HttpServletRequestTokenWrapper(request, token);
-
-            // 在确立响应信息前，设置响应的header值
-            response.setHeader(TOKEN_KEY, token);
-            // 转发数据。spring开始调用控制器中的特定方法
-            chain.doFilter(request, response);
-
-            logger.info("在控制器被调用以后执行");
         }
+
+        logger.info("在控制器被调用以前执行");
+
+        // 在确立响应信息前，设置响应的header值
+        response.setHeader(TOKEN_KEY, token);
+
+        // 转发数据。spring开始调用控制器中的特定方法
+        chain.doFilter(request, response);
+
+        logger.info("在控制器被调用以后执行");
     }
+
     /**
      * 生成token
      * 将生成的token存入已分发的tokens中
@@ -51,6 +64,7 @@ public class TokenFilter extends HttpFilter {
         this.tokens.add(token);
         return token;
     }
+
     /**
      * 验证token的有效性
      * @param token token
@@ -63,11 +77,11 @@ public class TokenFilter extends HttpFilter {
 
         return this.tokens.contains(token);
     }
+
     /**
      * 带有请求token的Http请求
      */
     class HttpServletRequestTokenWrapper extends HttpServletRequestWrapper {
-        HttpServletRequestWrapper httpServletRequestWrapper;
         String token;
         private HttpServletRequestTokenWrapper(HttpServletRequest request) {
             super(request);

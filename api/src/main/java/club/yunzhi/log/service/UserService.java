@@ -23,5 +23,16 @@ public interface UserService {
      * @return 有效 true
      */
     boolean validatePassword(User user, String password);
+    /**
+     * 用户注销
+     * 系统可以根据HttpServletRequest获取到header中的令牌令牌
+     * 所以注销方法不需要传入任何参数
+     */
+    void logout();
+    /**
+     * 我是谁
+     * @return 当前登录用户。用户未登录则返回null
+     */
+     User me();
 }
 
