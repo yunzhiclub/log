@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EditComponent } from './edit/edit.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
+import {UserRoutingModule} from './user-routing.module';
 
 
 
@@ -16,7 +17,8 @@ import {RouterModule} from '@angular/router';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    UserRoutingModule
   ]
 })
 export class UserModule { }

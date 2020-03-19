@@ -34,7 +34,7 @@ describe('AddComponent', () => {
    */
   const savePostTest = (): void => {
     const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne('http://localhost:8080/User');
+    const req = httpTestingController.expectOne('/User');
     expect(req.request.method).toEqual('POST');
     const student: User = req.request.body.valueOf();
     expect(student.name).toEqual('testname');
