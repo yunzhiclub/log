@@ -34,5 +34,11 @@ public interface UserService {
      * @return 当前登录用户。用户未登录则返回null
      */
      User me();
+    /**
+     * 判断用户是否登录
+     * @param authToken 认证令牌
+     * @return
+     */
+    boolean isLogin(String authToken);
 }
 
