@@ -21,10 +21,10 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let user of users; index as index">
+  <tr *ngFor="let user of pageUser.content; index as index">
     <td>{{index + 1}}</td>
     <td>{{user.name}}</td>
-    <td>{{user.usrname}}</td>
+    <td>{{user.username}}</td>
     <td>{{user.email}}</td>
 
     <td>修改密码</td>
@@ -35,26 +35,28 @@
   </tr>
   </tbody>
 </table>
-<div class="row">
+<div *ngIf="pageUser" class="row">
   <div class="col-4" id="pageInfo">
-    第1/10页 每页10条
+    第{{params.page + 1}}/{{pageUser.totalPages}}页 每页{{params.size}}条
+
   </div>
   <div class="col-8">
     <nav>
       <ul class="pagination">
-        <li class="page-item" >
+        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(0)">
           <span class="page-link">首页</span>
         </li>
-        <li class="page-item" >
+        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(params.page - 1)">
           <span class="page-link">上一页</span>
         </li>
-        <li>
-          <a class="page-link" href="#">1</a>
+        <li class="page-item" [ngClass]="{'active': params.page === page}" *ngFor="let page of pages" (click)="onPage(page)">
+          <span class="page-link" *ngIf="page !== params.page">{{page + 1}}</span>
+          <span class="page-link" *ngIf="page === params.page">{{page + 1}}<span class="sr-only">(current)</span></span>
         </li>
-        <li class="page-item" >
+        <li class="page-item" [ngClass]="{'disabled': params.page === pageUser.totalPages - 1}" (click)="onPage(params.page + 1)">
           <span class="page-link">下一页</span>
         </li>
-        <li class="page-item">
+        <li class="page-item" [ngClass]="{'disabled': params.page === pageUser.totalPages - 1}" (click)="onPage(pageUser.totalPages - 1)">
           <span class="page-link">尾页</span>
         </li>
 

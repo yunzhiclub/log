@@ -2,8 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { UserService } from './user.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {User} from '../norm/entity/user';
 import {of} from 'rxjs';
+import {HttpRequest} from '@angular/common/http';
+import {User} from '../norm/entity/user';
 
 describe('UserService', () => {
   let service: UserService;
@@ -59,7 +60,7 @@ describe('UserService', () => {
     });
 
     const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne('http://localhost:8080/User');
+    const req = httpTestingController.expectOne('/user');
     expect(req.request.method).toEqual('POST');
 
     const userBody: User = req.request.body.valueOf();
@@ -83,7 +84,7 @@ describe('UserService', () => {
 
     // 断言发起了http请求
     const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne(`http://localhost:8080/User/${id}`);
+    const req = httpTestingController.expectOne(`/user/${id}`);
 
     // 断言请求的参数及方法符合预期
     expect(req.request.method).toEqual('GET');
@@ -108,7 +109,7 @@ describe('UserService', () => {
 
     // 断言发起了http请求
     const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne(`http://localhost:8080/User/${user.id}`);
+    const req = httpTestingController.expectOne(`/user/${user.id}`);
 
     // 断言请求的参数及方法符合预期
     expect(req.request.method).toEqual('PUT');
@@ -133,7 +134,7 @@ describe('UserService', () => {
 
     // 断言发起了http请求
     const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne(`http://localhost:8080/User/${id}`);
+    const req = httpTestingController.expectOne(`/user/${id}`);
 
     // 请求的方法为delete
     expect(req.request.method).toEqual('DELETE');
@@ -143,5 +144,55 @@ describe('UserService', () => {
     req.flush(of());
     expect(called).toBeTruthy();
   });
+
+  /* 分页测试 */
+  it('page', () => {
+    /* 模拟返回数据 */
+    const mockResult = {
+      totalPages: 10,
+      content: new Array(new User({}), new User({}))
+    };
+
+    /* 进行订阅，发送数据后将called置true */
+    let called = false;
+    service.page({}).subscribe((success: { totalPages: number, content: Array<User> }) => {
+      called = true;
+      expect(success.totalPages).toEqual(10);
+      expect(success.content.length).toBe(2);
+    });
+
+    /* 断言发起了http请求，方法为get；请求参数值符合预期 */
+    const req = TestBed.get(HttpTestingController).expectOne((request: HttpRequest<any>) => {
+      return request.url === '/user';
+    });
+    expect(req.request.method).toEqual('GET');
+    // expect(req.request.params.get('name')).toEqual('');
+    // expect(req.request.params.get('username')).toEqual('');
+    // expect(req.request.params.get('email')).toEqual('');
+    expect(req.request.params.get('page')).toEqual('0');
+    expect(req.request.params.get('size')).toEqual('10');
+
+    req.flush(mockResult);
+    expect(called).toBe(true);
+  });
+
+
+  /* 分页参数测试 */
+  it('page params test', () => {
+    service.page({name: 'name', username: 'username', email: 'email', page: 2, size: 20}).subscribe();
+    /* 断言发起了http请求，方法为get；请求参数值符合预期 */
+    const req = TestBed.get(HttpTestingController).expectOne(
+      request => request.url === '/user'
+    );
+    expect(req.request.method).toEqual('GET');
+    // expect(req.request.params.get('name')).toEqual('name');
+    // expect(req.request.params.get('username')).toEqual('username');
+    // expect(req.request.params.get('email')).toEqual('email');
+    expect(req.request.params.get('page')).toEqual('2');
+    expect(req.request.params.get('size')).toEqual('20');
+
+    req.flush({});
+  });
+
 
 });

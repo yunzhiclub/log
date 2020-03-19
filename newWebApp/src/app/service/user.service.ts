@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
+
 import {User} from '../norm/entity/user';
 
 @Injectable({
@@ -41,7 +42,7 @@ export class UserService {
   }
 
   save(user: User) {
-    const url = 'http://localhost:8080/User';
+    const url = '/user';
     return this.httpClient.post<User>(url, user);
   }
 
@@ -50,7 +51,7 @@ export class UserService {
    * @param id 用户ID
    */
   getById(id: number): Observable<User> {
-    const url = `http://localhost:8080/User/${id}`;
+    const url = `/user/${id}`;
     return this.httpClient.get<User>(url);
   }
 
@@ -60,7 +61,7 @@ export class UserService {
    * @param user 用户
    */
   update(id: number, user: User): Observable<User> {
-    const url = `http://localhost:8080/User/${id}`;
+    const url = `/user/${id}`;
     return this.httpClient.put<User>(url, user);
   }
 
@@ -69,9 +70,32 @@ export class UserService {
    * @param id 用户id
    */
   deleteById(id: number): Observable<void> {
-    const url = `http://localhost:8080/User/${id}`;
+    const url = `/user/${id}`;
     return this.httpClient.delete<void>(url);
   }
+
+
+  page(params: { username?: string, name?: string, email?: string, page?: number, size?: number }):
+    Observable<{ totalPages: number, content: Array<User> }> {
+    const url = '/user';
+
+    /* 设置默认值 */
+    if (params.page === undefined) {
+      params.page = 0;
+    }
+    if (params.size === undefined) {
+      params.size = 10;
+    }
+
+    /* 初始化查询参数 */
+    const queryParams = new HttpParams()
+      .set('page', params.page.toString())
+      .set('size', params.size.toString());
+    console.log(queryParams);
+
+    return this.httpClient.get<{ totalPages: number, content: Array<User> }>(url, {params: queryParams});
+  }
+
   /**
    * 字符串转换为boolean
    * @param value 字符串
@@ -89,4 +113,5 @@ export class UserService {
 convertBooleanToString(value: boolean) {
   return value ? '1' : '0';
 }
+
 }
