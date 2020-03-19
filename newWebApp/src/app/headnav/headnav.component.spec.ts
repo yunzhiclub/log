@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeadnavComponent } from './headnav.component';
+import {FormTest} from '../testing/FormTest';
+import {TestModule} from '../test/test.module';
+import {RouterTestingModule} from '@angular/router/testing';
+import {UserService} from '../service/user.service';
+
 
 describe('HeadnavComponent', () => {
   let component: HeadnavComponent;
@@ -8,7 +13,10 @@ describe('HeadnavComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeadnavComponent ]
+      declarations: [ HeadnavComponent ],
+      imports: [RouterTestingModule,
+        TestModule
+  ],
     })
     .compileComponents();
   }));
@@ -21,5 +29,21 @@ describe('HeadnavComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('测试依赖注入', () => {
+    const service = TestBed.get(UserService);
+    console.log(service);
+  });
+  it('点击注销按钮', () => {
+    spyOn(component, 'onLogout');
+    FormTest.clickButton(fixture, 'li button');
+    expect(component.onLogout).toHaveBeenCalled();
+  });
+  it('onLogout', () => {
+    const service = TestBed.get(UserService) as UserService;
+    console.log(service);
+    spyOn(service, 'setIsLogin');
+    component.onLogout();
+    expect(service.setIsLogin).toHaveBeenCalledWith(false);
   });
 });

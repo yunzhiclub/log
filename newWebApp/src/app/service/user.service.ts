@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
+
 import {User} from '../norm/entity/user';
 
 @Injectable({
@@ -8,12 +9,19 @@ import {User} from '../norm/entity/user';
 })
 export class UserService {
   /** 数据源 */
-  private isLogin = new BehaviorSubject<boolean>(false);
+  private isLogin: BehaviorSubject<boolean>;
 
   /** 数据源对应的订阅服务 */
-  public isLogin$ = this.isLogin.asObservable();
+  public isLogin$: Observable<boolean>;
 
-  constructor(private httpClient: HttpClient) { }
+  private isLoginCacheKey = 'isLogin';
+
+  constructor(private httpClient: HttpClient) {
+    const isLogin: string = window.sessionStorage.getItem(this.isLoginCacheKey);
+    this.isLogin = new BehaviorSubject(this.convertStringToBoolean(isLogin));
+    this.isLogin$ = this.isLogin.asObservable();
+
+  }
   /**
    * 用户登录
    * @param username 用户名
@@ -29,6 +37,7 @@ export class UserService {
    * @param isLogin 登录状态
    */
   setIsLogin(isLogin: boolean) {
+    window.sessionStorage.setItem(this.isLoginCacheKey, this.convertBooleanToString(isLogin));
     this.isLogin.next(isLogin);
   }
 
@@ -65,6 +74,7 @@ export class UserService {
     return this.httpClient.delete<void>(url);
   }
 
+
   page(params: { username?: string, name?: string, email?: string, page?: number, size?: number }):
     Observable<{ totalPages: number, content: Array<User> }> {
     const url = '/user';
@@ -85,4 +95,23 @@ export class UserService {
 
     return this.httpClient.get<{ totalPages: number, content: Array<User> }>(url, {params: queryParams});
   }
+
+  /**
+   * 字符串转换为boolean
+   * @param value 字符串
+   * @return 1 true; 其它 false
+   */
+  convertStringToBoolean(value: string) {
+  return value === '1';
+  }
+
+/**
+ * boolean转string
+ * @param value boolean
+ * @return '1' true; '0' false;
+ */
+convertBooleanToString(value: boolean) {
+  return value ? '1' : '0';
+}
+
 }

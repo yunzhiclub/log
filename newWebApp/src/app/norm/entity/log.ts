@@ -29,6 +29,6 @@ export class Log {
         this.thread = log.thread ? log.thread : null;
         this.message = log.message ? log.message : null;
         this.timestamp = log.timestamp ? log.timestamp : null;
-        this.client = log.client ? log.client : new Client();
+        this.client = log.client ? log.client : new Client(null);
     }
 }
