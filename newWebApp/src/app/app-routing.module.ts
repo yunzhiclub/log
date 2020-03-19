@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LoginComponent} from './login/login.component';
+import {PersonalCenterComponent} from './personal-center/personal-center.component';
 
 
 
@@ -21,6 +22,10 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
+  {
+    path: 'personalCenter',
+    component: PersonalCenterComponent
+  }
 ];
 
 @NgModule({

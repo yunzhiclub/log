@@ -10,6 +10,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
 
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { PersonalCenterComponent } from './personal-center/personal-center.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     AppComponent,
     LeftnavComponent,
     HeadnavComponent,
-    LoginComponent
+    LoginComponent,
+    PersonalCenterComponent
 
   ],
   imports: [
