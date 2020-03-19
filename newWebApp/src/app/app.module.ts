@@ -9,8 +9,9 @@ import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
 
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { PersonalCenterComponent } from './personal-center/personal-center.component';
+import {AuthTokenInterceptor} from './core/auth-token-interceptor';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { PersonalCenterComponent } from './personal-center/personal-center.compo
   ],
   providers: [
     httpInterceptorProviders,
+    {provide: HTTP_INTERCEPTORS , useClass: AuthTokenInterceptor , multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -78,4 +78,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = this.userRepository.findById(userId);
         return userOptional.get();
     }
+    @Override
+    public boolean isLogin(String authToken) {
+        // 获取authToken映射的teacherId
+        Long userId = this.authTokenUserIdHashMap.get(authToken);
+        return userId != null;
+    }
 }

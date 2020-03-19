@@ -41,6 +41,13 @@ export class UserService {
     this.isLogin.next(isLogin);
   }
   /**
+   * 注销
+   */
+  logout(): Observable<void> {
+    const url = '/user/logout';
+    return this.httpClient.get<void>(url);
+  }
+  /**
    * 获取当前登录的用户
    */
   me(): Observable<User> {
