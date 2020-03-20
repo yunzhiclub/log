@@ -23,11 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @Transactional
 public class LogControllerTest {
-    @Autowired private ClientService clientService;
     @Autowired
-    private
-    MockMvc mockMvc;
-
+    private ClientService clientService;
+    @Autowired
+    private MockMvc mockMvc;
     @Test
     public void saveAll() throws Exception {
         Client client = clientService.getOneSavedClient();

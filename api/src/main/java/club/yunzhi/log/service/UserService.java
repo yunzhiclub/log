@@ -38,6 +38,7 @@ public interface UserService {
      */
      User me();
 
+
     /**
      * 保存
      *
@@ -76,6 +77,14 @@ public interface UserService {
      */
     void deleteById(Long id);
 
+
+
+    /**
+     * 判断用户是否登录
+     * @param authToken 认证令牌
+     * @return
+     */
+    boolean isLogin(String authToken);
 
 }
 

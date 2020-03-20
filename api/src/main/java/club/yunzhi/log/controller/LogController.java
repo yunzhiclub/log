@@ -1,6 +1,6 @@
 package club.yunzhi.log.controller;
 
-import club.yunzhi.log.config.WebConfig;
+//import club.yunzhi.log.config.WebConfig;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.filter.TokenFilter;

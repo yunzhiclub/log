@@ -22,9 +22,9 @@ public class UserController {
 
     @PostMapping("login")
     public boolean login(@RequestBody User user)
-       {
-        return this.userService.login(user.getUsername(), user.getPassword());
-       }
+   {
+    return this.userService.login(user.getUsername(), user.getPassword());
+   }
     @GetMapping("logout")
     public void login() {
         this.userService.logout();

@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         return userOptional.get();
     }
 
+
     @Override
     public User save(User user) {
         return this.userRepository.save(user);
@@ -122,5 +123,13 @@ public class UserServiceImpl implements UserService {
         oldUser.setName(newUser.getName());
         oldUser.setEmail(newUser.getEmail());
         return this.userRepository.save(oldUser);
+    }
+
+    @Override
+    public boolean isLogin(String authToken) {
+        // 获取authToken映射的teacherId
+        Long userId = this.authTokenUserIdHashMap.get(authToken);
+        return userId != null;
+
     }
 }
