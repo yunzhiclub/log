@@ -6,9 +6,13 @@ import club.yunzhi.log.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -78,10 +82,54 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = this.userRepository.findById(userId);
         return userOptional.get();
     }
+
+
+    @Override
+    public User save(User user) {
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
+    }
+
+    @Override
+    public User findById(@NotNull Long id) {
+        Assert.notNull(id, "id不能为null");
+        return this.userRepository.findById(id).get();
+    }
+
+    @Override
+    public User update(Long id, User user) {
+        User oldStudent = this.userRepository.findById(id).get();
+        return this.updateFields(user,oldStudent);
+    }
+
+    @Override
+    public void deleteById(@NotNull Long id) {
+        Assert.notNull(id, "传入的ID不能为NULL");
+        this.userRepository.deleteById(id);
+    }
+
+    /**
+     * 更新学生
+     * @param newUser 新用户信息
+     * @param oldUser 老用户信息
+     * @return 更新后的用户信息
+     */
+    public User updateFields(User newUser, User oldUser) {
+        oldUser.setUsername(newUser.getUsername());
+        oldUser.setName(newUser.getName());
+        oldUser.setEmail(newUser.getEmail());
+        return this.userRepository.save(oldUser);
+    }
+
     @Override
     public boolean isLogin(String authToken) {
         // 获取authToken映射的teacherId
         Long userId = this.authTokenUserIdHashMap.get(authToken);
         return userId != null;
+
     }
 }
