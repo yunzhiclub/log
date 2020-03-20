@@ -46,8 +46,12 @@ export class IndexComponent implements OnInit {
    * @param page 要请求的页码
    */
   onPage(page: number) {
-    this.params.page = page;
-    this.load();
+    if (page === -1 || page === this.logPage.totalPages) {
+      return;
+    } else {
+      this.params.page = page;
+      this.load();
+    }
   }
 
   /**

@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IndexComponent } from './index.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {LogStubService} from '../../service/log-stub.service';
-import {Log} from '../../norm/entity/log';
 import {By} from '@angular/platform-browser';
 import {LogService} from '../../service/log.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Page} from '../../norm/entity/page';
-import {Log} from '../../norm/entity/log';
-import {LogService} from '../../service/log.service';
+import {Client} from '../../norm/entity/client';
+import {ClientService} from '../../service/client.service';
 
 @Component({
   selector: 'app-index',
@@ -17,12 +17,12 @@ export class IndexComponent implements OnInit {
     size: 2
   };
   /* 分页数据 */
-  logPage = {
+  clientPage = {
     totalPages: 0,
-    content: new Page<Log>(null, 0 , 0, 0)
+    content: new Page<Client>(null, 0 , 0, 0)
   };
 
-  constructor(private logService: LogService) {
+  constructor(private clientService: ClientService) {
   }
 
   ngOnInit() {
@@ -30,13 +30,11 @@ export class IndexComponent implements OnInit {
   }
 
   load() {
-    this.logService.page(this.params).subscribe(
-      (logPage: Page<Log>) => {
-        this.logPage.content = logPage;
-        this.logPage.totalPages = logPage.totalPages;
-        this.pages = this.makePagesByTotalPages(this.params.page, logPage.totalPages);
-        console.log(logPage);
-        console.log(logPage.totalPages);
+    this.clientService.page(this.params).subscribe(
+      (clientPage: Page<Client>) => {
+        this.clientPage.content = clientPage;
+        this.clientPage.totalPages = clientPage.totalPages;
+        this.pages = this.makePagesByTotalPages(this.params.page, clientPage.totalPages);
       }
     );
   }
@@ -46,8 +44,13 @@ export class IndexComponent implements OnInit {
    * @param page 要请求的页码
    */
   onPage(page: number) {
-    this.params.page = page;
-    this.load();
+    if (page === -1 || page === this.clientPage.totalPages) {
+      return;
+    } else {
+      this.params.page = page;
+      this.load();
+    }
+
   }
 
   /**
