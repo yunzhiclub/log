@@ -2,6 +2,12 @@ spring:
   profiles:
     #  开发过程中，请将 travis 修改为 dev
     active: ${active:dev}
+    #定时任务
+time:
+  #特定时间
+  cron: 50 05 13 ? * *
+  #间隔秒数
+  interval: 5
 
   jpa:
     hibernate:
