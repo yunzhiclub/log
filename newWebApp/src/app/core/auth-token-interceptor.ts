@@ -1,11 +1,21 @@
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse
+} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {CacheService} from '../service/cache.service';
+import {UserService} from '../service/user.service';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
+
+  constructor(private userService: UserService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('拦截到请求信息。请求地址：' + req.url + '; 请求方法：' + req.method);
     const reqClone = req.clone({
@@ -20,6 +30,10 @@ export class AuthTokenInterceptor implements HttpInterceptor {
       }
 
       return httpEvent;
+    }), tap(() => {}, (event: HttpErrorResponse) => {
+      if (event.status === 401) {
+        this.userService.setIsLogin(false);
+      }
     }));
   }
 }
