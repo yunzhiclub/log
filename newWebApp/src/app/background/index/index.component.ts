@@ -35,7 +35,8 @@ export class IndexComponent implements OnInit {
         this.logPage.content = logPage;
         this.logPage.totalPages = logPage.totalPages;
         this.pages = this.makePagesByTotalPages(this.params.page, logPage.totalPages);
-        // console.log(logPage.totalPages);
+        console.log(logPage);
+        console.log(logPage.totalPages);
       }
     );
   }
