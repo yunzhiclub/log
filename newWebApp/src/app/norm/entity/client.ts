@@ -9,7 +9,7 @@ export class Client {
     lastStartTime: Date;    // 最近一次系统启动时间
     todayLog: DayLog;      // 当日 日志
   // 构造函数——刘宇轩
-  constructor(param?: { id?: number; name: string; token?: string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog;}) {
+  constructor(param?: { id?: number; name: string; token?: string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog; }) {
 
     if (!param) {
       return;

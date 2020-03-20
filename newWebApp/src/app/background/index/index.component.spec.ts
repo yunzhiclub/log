@@ -59,7 +59,7 @@ describe('BackgroundIndexComponent', () => {
     expect(table.rows.length).toBe(3);
     expect(table.rows.item(row).cells.length).toBe(8);
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('1');
-    expect(table.rows.item(row).cells.item(col++).innerText).toBe('client');
+    expect(table.rows.item(row).cells.item(col++).innerText).toBe('');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('DEBUG');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('context');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('thread');
