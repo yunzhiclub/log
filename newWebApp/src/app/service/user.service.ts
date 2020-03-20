@@ -40,7 +40,20 @@ export class UserService {
     window.sessionStorage.setItem(this.isLoginCacheKey, this.convertBooleanToString(isLogin));
     this.isLogin.next(isLogin);
   }
-
+  /**
+   * 注销
+   */
+  logout(): Observable<void> {
+    const url = '/user/logout';
+    return this.httpClient.get<void>(url);
+  }
+  /**
+   * 获取当前登录的用户
+   */
+  me(): Observable<User> {
+    const url = '/user/me';
+    return this.httpClient.get<User>(url);
+  }
   save(user: User) {
     const url = '/user';
     return this.httpClient.post<User>(url, user);

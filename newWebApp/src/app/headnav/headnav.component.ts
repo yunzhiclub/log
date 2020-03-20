@@ -16,6 +16,9 @@ export class HeadnavComponent implements OnInit {
   }
 
   onLogout() {
-    this.userService.setIsLogin(false);
+    this.userService.logout()
+      .subscribe(() => {
+        this.userService.setIsLogin(false);
+      });
   }
 }
