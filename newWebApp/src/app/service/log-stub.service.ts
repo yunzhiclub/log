@@ -28,7 +28,7 @@ export class LogStubService {
         thread: 'thread', message: 'message', timestamp: 1, client: new Client()}),
       new Log({ id: 2, level: 'DEBUG', levelCode: 1, logger: 'logger', context: 'context',
         thread: 'thread', message: 'message', timestamp: 1, client: new Client()})
-    ), 1, 2, 3);
+    ), 1, 2, 5);
     return of(mockResult);
   }
 }
