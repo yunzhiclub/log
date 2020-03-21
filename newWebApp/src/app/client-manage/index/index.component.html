@@ -1,32 +1,35 @@
 <table class="table">
   <thead>
   <tr>
-    <th scope="col">编号</th>
-    <th scope="col">客户端</th>
-    <th scope="col">等级</th>
-    <th scope="col">上下文</th>
-    <th scope="col">线程号</th>
-    <th scope="col">发出对象</th>
-    <th scope="col">内容</th>
+    <th>编号</th>
+    <th>名称</th>
+    <th>token</th>
+    <th>线上地址</th>
+    <th>最后交互时间</th>
+    <th>最近启动时间</th>
+    <th>今日info数</th>
+    <th>今日warning数</th>
+    <th>今日error数</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let log of logPage.content.content; let i = index">
+  <tr *ngFor="let client of clientPage.content.content; let i = index">
     <td>{{i + 1}}</td>
-    <td>{{log.client.name}}</td>
-    <td>{{log.level}}</td>
-    <td>{{log.context}}</td>
-    <td>{{log.thread}}</td>
-    <td>{{log.logger}}</td>
-    <td>{{log.message}}</td>
-    <td>{{log.timestamp}}</td>
+    <td>{{client.name}}</td>
+    <td>{{client.token}}</td>
+    <td>{{client.url}}</td>
+    <td>{{client.lastSendTime}}</td>
+    <td>{{client.lastStartTime}}</td>
+    <td>{{client.todayLog.infoCount}}</td>
+    <td>{{client.todayLog.warnCount}}</td>
+    <td>{{client.todayLog.errorCount}}</td>
   </tr>
 
 </table>
 
-<div *ngIf="logPage" class="row">
+<div *ngIf="clientPage" class="row">
   <div class="col-4" id="pageInfo">
-    第{{params.page}}/{{logPage.totalPages}}页 每页{{params.size}}条
+    第{{params.page}}/{{clientPage.totalPages}}页 每页{{params.size}}条
   </div>
   <div class="col-8">
     <nav>
@@ -41,10 +44,10 @@
           <a class="page-link" *ngIf="page !== params.page">{{page + 1}}</a>
           <span class="page-link" *ngIf="page === params.page">{{page + 1}}<span class="sr-only">(current)</span></span>
         </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === logPage.totalPages - 1}" (click)="onPage(params.page + 1)">
+        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(params.page + 1)">
           <span class="page-link">下一页</span>
         </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === logPage.totalPages - 1}" (click)="onPage(logPage.totalPages - 1)">
+        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(clientPage.totalPages - 1)">
           <span class="page-link">尾页</span>
         </li>
       </ul>
