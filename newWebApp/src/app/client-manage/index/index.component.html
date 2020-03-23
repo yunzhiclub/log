@@ -1,85 +1,56 @@
-<div class="btn-toolbar justify-content-end">
-  <a type="button" class="btn btn-outline-primary" routerLink="./add">增加客户端</a>
-</div>
-
 <table class="table">
   <thead>
   <tr>
-    <th scope="col">编号</th>
-    <th scope="col">名称</th>
-    <th scope="col">token</th>
-    <th scope="col">线上地址</th>
-    <th scope="col">最后交互时间</th>
-    <th scope="col">最近启动时间</th>
-    <th scope="col">今日info数</th>
-    <th scope="col">今日warning数</th>
-    <th scope="col">今日error数</th>
-    <th scope="col">状态</th>
-    <th scope="col">操作</th>
+    <th>编号</th>
+    <th>名称</th>
+    <th>token</th>
+    <th>线上地址</th>
+    <th>最后交互时间</th>
+    <th>最近启动时间</th>
+    <th>今日info数</th>
+    <th>今日warning数</th>
+    <th>今日error数</th>
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <th scope="row">1</th>
-    <td>廊坊平台</td>
-    <td>nfkOb5QqatLw3v0skmmUCHBuqjWRfsdX21DzSZA0</td>
-    <td>19:11:44</td>
-    <td>07:44:07</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>
-      <a routerLink="./edit/1">编辑</a>&nbsp;&nbsp;
-      <a href="#">删除</a>
-    </td>
+  <tr *ngFor="let client of clientPage.content.content; let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{client.name}}</td>
+    <td>{{client.token}}</td>
+    <td>{{client.url}}</td>
+    <td>{{client.lastSendTime}}</td>
+    <td>{{client.lastStartTime}}</td>
+    <td>{{client.todayLog.infoCount}}</td>
+    <td>{{client.todayLog.warnCount}}</td>
+    <td>{{client.todayLog.errorCount}}</td>
   </tr>
-  <tr>
-    <th scope="row">2</th>
-    <td>廊坊平台</td>
-    <td>nfkOb5QqatLw3v0skmmUCHBuqjWRfsdX21DzSZA0</td>
-    <td>19:11:44</td>
-    <td>07:44:07</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>
-      <a routerLink="./edit/2">编辑</a>&nbsp;&nbsp;
-      <a href="#">删除</a>
-    </td>
-  </tr>
-  <tr>
-    <th scope="row">3</th>
-    <td>廊坊平台</td>
-    <td>nfkOb5QqatLw3v0skmmUCHBuqjWRfsdX21DzSZA0</td>
-    <td>19:11:44</td>
-    <td>07:44:07</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>0</td>
-    <td>
-      <a routerLink="./edit/3">编辑</a>&nbsp;&nbsp;
-      <a href="#">删除</a>
-    </td>
-  </tr>
-  </tbody>
+
 </table>
 
-<nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-end">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
+<div *ngIf="clientPage" class="row">
+  <div class="col-4" id="pageInfo">
+    第{{params.page}}/{{clientPage.totalPages}}页 每页{{params.size}}条
+  </div>
+  <div class="col-8">
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(0)">
+          <span class="page-link">首页</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(params.page - 1)">
+          <span class="page-link">上一页</span>
+        </li>
+        <li class="page-item" [ngClass]="{'active': params.page === page}" *ngFor="let page of pages" (click)="onPage(page)">
+          <a class="page-link" *ngIf="page !== params.page">{{page + 1}}</a>
+          <span class="page-link" *ngIf="page === params.page">{{page + 1}}<span class="sr-only">(current)</span></span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(params.page + 1)">
+          <span class="page-link">下一页</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(clientPage.totalPages - 1)">
+          <span class="page-link">尾页</span>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

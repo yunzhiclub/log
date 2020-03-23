@@ -25,10 +25,10 @@ export class LogStubService {
     this.pageParamsCache = params;
     const mockResult = new Page<Log>(new Array<Log>(
       new Log({ id: 1, level: 'DEBUG', levelCode: 1, logger: 'logger', context: 'context',
-        thread: 'thread', message: 'message', timestamp: 1, client: new Client('client')}),
+        thread: 'thread', message: 'message', timestamp: 1, client: new Client()}),
       new Log({ id: 2, level: 'DEBUG', levelCode: 1, logger: 'logger', context: 'context',
-        thread: 'thread', message: 'message', timestamp: 1, client: new Client('client')})
-    ), 1, 2, 3);
+        thread: 'thread', message: 'message', timestamp: 1, client: new Client()})
+    ), 1, 2, 5);
     return of(mockResult);
   }
 }
