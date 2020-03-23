@@ -4,11 +4,10 @@ spring:
     active: ${active:dev}
     #定时任务
 time:
-  #特定时间
-  cron: 50 05 13 ? * *
-  #间隔秒数
+  #特定时间推送
+  pushcron: 0 0 8 ? * *
+  #按秒执行
   interval: 5
-
   jpa:
     hibernate:
       ddl-auto: create
