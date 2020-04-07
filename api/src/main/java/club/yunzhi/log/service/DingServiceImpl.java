@@ -105,4 +105,12 @@ public class DingServiceImpl implements DingService {
         }
 
     }
+
+    public void setWebHook (String newWebHook) {
+        this.Webhook = newWebHook;
+    }
+
+    public void setSecret (String newSecret) {
+        this.secret = newSecret;
+    }
 }
