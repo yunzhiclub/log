@@ -20,8 +20,7 @@ import {AuthTokenInterceptor} from './core/auth-token-interceptor';
     LeftnavComponent,
     HeadnavComponent,
     LoginComponent,
-    PersonalCenterComponent
-
+    PersonalCenterComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +31,7 @@ import {AuthTokenInterceptor} from './core/auth-token-interceptor';
   ],
   providers: [
     httpInterceptorProviders,
-    {provide: HTTP_INTERCEPTORS , useClass: AuthTokenInterceptor , multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
