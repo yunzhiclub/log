@@ -21,6 +21,7 @@ export class LeftnavComponent implements OnInit {
     this.menus.push({url: 'client', name: '客户端管理'});
     this.menus.push({url: 'background', name: '后台日志管理'});
     this.menus.push({url: 'user', name: '用户管理'});
+    this.menus.push({url: 'setting', name: '系统设置'});
   }
 
 }
