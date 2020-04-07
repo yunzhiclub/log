@@ -43,15 +43,11 @@ public class TokenFilter extends HttpFilter {
             request = new HttpServletRequestTokenWrapper(request, token);
         }
 
-        logger.info("在控制器被调用以前执行");
-
         // 在确立响应信息前，设置响应的header值
         response.setHeader(TOKEN_KEY, token);
 
         // 转发数据。spring开始调用控制器中的特定方法
         chain.doFilter(request, response);
-
-        logger.info("在控制器被调用以后执行");
     }
 
     /**
