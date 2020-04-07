@@ -5,7 +5,7 @@ spring:
     #定时任务
 time:
   #特定时间
-  cron: 50 05 13 ? * *
+  cron: 0 0 8 ? * *
   #间隔秒数
   interval: 5
 
