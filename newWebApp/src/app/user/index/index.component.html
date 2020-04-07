@@ -31,8 +31,10 @@
 
     <td>修改密码</td>
     <td>
-      <a class="btn btn-sm btn-info" routerLink="./edit/{{user.id}}"><span class="oi oi-pencil"></span>编辑</a>
-      <a class="btn btn-sm btn-danger" (click)="onDelete(user)"><span class="oi oi-trash"></span>删除</a>
+      <button class="btn btn-primary btn-sm mr-2" routerLink="./edit/{{user.id}}"><i class="fas fa-edit"></i>
+                编辑</button>
+      <button class="btn btn-danger btn-sm mr-2" (click)="onDelete(user)"> <i class="fas fa-trash-alt"></i>
+        删除</button>
     </td>
   </tr>
   </tbody>
