@@ -25,7 +25,7 @@ public interface DayLogRepository extends JpaRepository<DayLog , Long> {
      * 根据月份删除所有记录
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Modifying
     @Query(value = "delete from day_log where  `day` <= curdate() - interval 3 month",nativeQuery = true)
     void deleteDayLogOfThreeMonth();

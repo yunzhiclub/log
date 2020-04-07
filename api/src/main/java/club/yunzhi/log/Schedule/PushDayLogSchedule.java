@@ -17,9 +17,10 @@ public class PushDayLogSchedule {
     Date currentTime = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = formatter.format(currentTime);
-
+    DingServiceImpl dingService = new DingServiceImpl();
     @Scheduled(cron = "${time.cron}")
     public void pushDayLogSchedule(){
+        dingService.dingRequest("执行定时推送任务" + dateString);
         System.out.println("执行定时推送任务" + dateString);
     }
 }
