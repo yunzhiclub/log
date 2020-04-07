@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -15,7 +15,8 @@ export class EditComponent implements OnInit {
   user: User = new User();
 
   constructor(private userService: UserService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((param: { id: number }) => {
@@ -40,6 +41,7 @@ export class EditComponent implements OnInit {
   update(user: User) {
     this.userService.update(user.id, user)
       .subscribe((result) => {
+        this.router.navigateByUrl('/user');
         this.user = result;
         // this.linkToIndex.nativeElement.click();
       });

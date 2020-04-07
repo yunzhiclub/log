@@ -56,7 +56,14 @@ export class IndexComponent implements OnInit {
    * @param klass 班级
    */
   onDelete(user: User): void {
-    this.userService.deleteById(user.id);
+    this.userService.deleteById(user.id)
+      .subscribe(() => {
+        this.pageUser.content.forEach((inUser, key) => {
+          if (user === inUser) {
+            this.pageUser.content.splice(key, 1);
+          }
+        });
+      });
   }
 
   /**

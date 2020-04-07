@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class AddComponent implements OnInit {
 
   user: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private router: Router) { }
 
   ngOnInit() {
     this.user = new User();
@@ -28,6 +30,7 @@ export class AddComponent implements OnInit {
   onSubmit(): void {
     this.user = this.formGroup.value;
     this.userService.save(this.user).subscribe((user: User) => {
+      this.router.navigateByUrl('/user');
       console.log(user);
       // this.geToIndex();
     });
