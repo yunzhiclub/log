@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import {HeadnavComponent} from './headnav/headnav.component';
 import {TestModule} from './test/test.module';
+import {RouterModule} from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
