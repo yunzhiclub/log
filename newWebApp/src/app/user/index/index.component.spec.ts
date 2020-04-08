@@ -61,13 +61,12 @@ describe('IndexComponent', () => {
     const row = 1;
     let col = 0;
     expect(table.rows.length).toBe(3);
-    expect(table.rows.item(row).cells.length).toBe(6);
+    expect(table.rows.item(row).cells.length).toBe(5);
 
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('1');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testUser');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testusername');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testemail');
-    expect(table.rows.item(row).cells.item(col++).innerText).toBe('修改密码');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('编辑删除');
   });
 
