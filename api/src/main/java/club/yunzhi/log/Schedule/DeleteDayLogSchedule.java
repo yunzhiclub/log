@@ -12,6 +12,7 @@ import java.util.Date;
 
 /**
  * 定时删除三个月前的日志信息
+ *
  * @author jincheng
  */
 @Component
@@ -22,19 +23,20 @@ public class DeleteDayLogSchedule {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = formatter.format(currentTime);
     DingServiceImpl dingService = new DingServiceImpl();
-    public DeleteDayLogSchedule(DayLogService dayLogService, LogRepository logRepository, LogService logService) {
+
+    public DeleteDayLogSchedule(LogService logService) {
         this.logService = logService;
     }
 
     @Scheduled(cron = "${time.cron}")
-    public void deleteLogSchedule(){
-        if (logService.getLogOfThreeMonth().isEmpty()){
+    public void deleteLogSchedule() {
+        if (logService.getLogOfThreeMonth().isEmpty()) {
             this.message = "今日没有要删除的日志信息";
-        }else {
+        } else {
             logService.deleteLogOfThreeMonth();
-                this.message = "今日要删除的日志信息删除完成";
+            this.message = "今日要删除的日志信息删除完成";
         }
-        dingService.dingRequest("执行定时删除任务" + dateString + message);
-        System.out.println("执行定时删除任务" + dateString + message);
+        dingService.dingRequest("执行定时删除任务" + "\n" + dateString + "\n" + message);
+        System.out.println("执行定时删除任务" + "\n" + dateString + "\n" + message);
     }
 }
