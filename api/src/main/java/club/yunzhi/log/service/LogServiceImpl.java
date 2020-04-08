@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.LogRepository;
@@ -119,5 +120,14 @@ public class LogServiceImpl implements LogService {
         }
 
         return yunzhiService.page(logRepository, log, pageable);
+    }
+    @Override
+    public List<Log> getLogOfThreeMonth(){
+        return logRepository.getLogOfThreeMonth();
+    }
+
+    @Override
+    public void deleteLogOfThreeMonth() {
+        logRepository.deleteLogOfThreeMonth();
     }
 }
