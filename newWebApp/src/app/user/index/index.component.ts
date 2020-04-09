@@ -14,7 +14,7 @@ export class IndexComponent implements OnInit {
   /*查询参数*/
   params = {
     page: 0,
-    size: 5,
+    size: 10,
     username: new FormControl(),
     email: new FormControl()
   };
