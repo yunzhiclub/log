@@ -1,6 +1,7 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.UserService;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,13 +40,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
-<<<<<<< HEAD
 import static club.yunzhi.log.filter.TokenFilter.TOKEN_KEY;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-=======
->>>>>>> master
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -104,7 +102,6 @@ public class UserControllerTest {
                         .param("size", "2"))
                 .andExpect(status().isOk());
 
-<<<<<<< HEAD
         logger.info("不传page报错");
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
@@ -118,8 +115,7 @@ public class UserControllerTest {
                         .header(TokenFilter.TOKEN_KEY, "key")
                         .param("page", "1"))
                 .andExpect(status().is(400));
-=======
->>>>>>> master
+
     }
 
     @Test
@@ -197,14 +193,9 @@ public class UserControllerTest {
         // 按接口规范，向url以规定的参数发起get请求。
         // 断言请求返回了正常的状态码
         String url = "/user/" + id.toString();
-<<<<<<< HEAD
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(url)
-                .header(TokenFilter.TOKEN_KEY, "key"))
-                .andExpect(status().isOk())
-=======
+
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(url))
                 .andExpect(MockMvcResultMatchers.status().isOk())
->>>>>>> master
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").value(user.getUsername()))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(user.getName()))
@@ -274,23 +265,15 @@ public class UserControllerTest {
 
         // 向指定的地址发起请求，并断言返回状态码204
         String url = "/user/" + id.toString();
-<<<<<<< HEAD
-        this.mockMvc.perform(MockMvcRequestBuilders.delete(url)
-                .header(TokenFilter.TOKEN_KEY, "key"))
-                .andExpect(status().is(204))
-=======
+
         this.mockMvc.perform(MockMvcRequestBuilders.delete(url))
-                .andExpect(MockMvcResultMatchers.status().is(204))
->>>>>>> master
-        ;
+                .andExpect(MockMvcResultMatchers.status().is(204));
 
         // 断言调用方法符合预期
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
         Mockito.verify(this.userService).deleteById(longArgumentCaptor.capture());
         Assert.assertEquals(longArgumentCaptor.getValue(), id);
     }
-
-<<<<<<< HEAD
     /**
      * 重置密码测试
      * 1.新建一个学生
@@ -304,12 +287,12 @@ public class UserControllerTest {
         Long id = new Random().nextLong();
         JSONObject JsonObject = new JSONObject();
         JsonObject.put("id", id.toString());
-        MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put( "/user/resetPassword/{id}",id)
+        MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/user/resetPassword/{id}", id)
                 .contentType("application/json;charset=UTF-8")
                 .content(String.valueOf(JsonObject));
         this.mockMvc.perform(putRequest)
                 .andExpect(status().isOk());
-=======
+    }
     @Test
     public void findAll() throws Exception {
         logger.info("初始化模拟返回数据");
@@ -359,8 +342,6 @@ public class UserControllerTest {
             Assertions.assertThat(userHashMap.get("username").toString().length()).isEqualTo(4);
             Assertions.assertThat(userHashMap.get("email").toString().length()).isEqualTo(6);
         }
-
->>>>>>> master
     }
 
 }
