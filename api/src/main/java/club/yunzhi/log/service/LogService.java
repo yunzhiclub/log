@@ -18,4 +18,15 @@ public interface LogService {
      * 分页数据
      */
     Page<Log> page(Long clientId, Pageable pageable);
+
+    /**
+     * 查询三个月前的日志信息
+     * @return
+     */
+    List<Log> getLogOfThreeMonth();
+
+    /**
+     * 删除三个月前的日志信息
+     */
+    void deleteLogOfThreeMonth();
 }

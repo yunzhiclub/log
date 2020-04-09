@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 
+import club.yunzhi.log.entity.Ding;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -11,32 +12,31 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.util.Base64;
-
+@Service
 public class DingServiceImpl implements DingService {
+
     //请求地址以及access_token
-    String Webhook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
+    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
     //密钥
-    String secret = "SEC0ff9722aed33970e9c58cc4a636e3fac22dc1f4fa0fcff2975a88a072cf309b6";
-
-    @Autowired
-
+    private static String secret = "SEC0ff9722aed33970e9c58cc4a636e3fac22dc1f4fa0fcff2975a88a072cf309b6";
 
     @Override
     public String encode() throws Exception {
         //获取时间戳
         Long timestamp = System.currentTimeMillis();
         //把时间戳和密钥拼接成字符串，中间加入一个换行符
-        String stringToSign = timestamp + "\n" + this.secret;
+        String stringToSign = timestamp + "\n" + secret;
         //声明一个Mac对象，用来操作字符串
         Mac mac = Mac.getInstance("HmacSHA256");
         //初始化，设置Mac对象操作的字符串是UTF-8类型，加密方式是SHA256
-        mac.init(new SecretKeySpec(this.secret.getBytes("UTF-8"), "HmacSHA256"));
+        mac.init(new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256"));
         //把字符串转化成字节形式
         byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
         //新建一个Base64编码对象
@@ -58,7 +58,7 @@ public class DingServiceImpl implements DingService {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         String url = null;
         try {
-            url = this.Webhook + this.encode();
+            url = webHook + this.encode();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,4 +105,16 @@ public class DingServiceImpl implements DingService {
         }
 
     }
+
+    @Override
+    public void setDing (Ding ding) {
+        webHook = ding.webHook ;
+        secret = ding.secret;
+    }
+
+    @Override
+    public Ding getDing () {
+        return new Ding(webHook, secret);
+    }
+
 }

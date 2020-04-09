@@ -1,8 +1,8 @@
+<br>
+<br>
 <form (ngSubmit)="onQuery()">
   <label>用户名：<input name="name" [formControl]="params.username" type="text"/></label>
   <label>邮箱： <input name="email" [formControl]="params.email" type="text"/></label>
-  <button type="submit">查询</button>
-</form>
 
 <div class="row">
   <div class="col text-right">
@@ -26,8 +26,6 @@
     <td>{{user.name}}</td>
     <td>{{user.username}}</td>
     <td>{{user.email}}</td>
-
-    <td>修改密码</td>
     <td>
       <button class="btn btn-primary btn-sm mr-2" routerLink="./edit/{{user.id}}"><i class="fas fa-edit"></i>
                 编辑</button>

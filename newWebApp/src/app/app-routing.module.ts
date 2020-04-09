@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./background/background.module').then(mod => mod.BackgroundModule)
   },
   {
+    path: 'setting',
+    loadChildren: () => import('./setting/setting.module').then(mod => mod.SettingModule)
+  },
+  {
     path: 'login',
     component: LoginComponent
   },
