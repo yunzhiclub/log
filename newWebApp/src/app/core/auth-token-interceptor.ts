@@ -17,7 +17,6 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
   constructor(private userService: UserService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('拦截到请求信息。请求地址：' + req.url + '; 请求方法：' + req.method);
     const reqClone = req.clone({
       setHeaders: {'auth-token': CacheService.getAuthToken()}
     });
@@ -25,7 +24,6 @@ export class AuthTokenInterceptor implements HttpInterceptor {
       if (httpEvent instanceof HttpResponse) {
         const httpResponse = httpEvent as HttpResponse<any>;
         const authToken = httpResponse.headers.get('auth-token');
-        console.log('获取到的authToken为' + authToken);
         CacheService.setAuthToken(authToken);
       }
 

@@ -1,6 +1,7 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.UserService;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -24,10 +25,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -37,6 +40,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
+import static club.yunzhi.log.filter.TokenFilter.TOKEN_KEY;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -73,7 +79,7 @@ public class UserControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonObject.toJSONString()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("true"));
 
         // 断言获取的参数与传入值相同
@@ -94,7 +100,21 @@ public class UserControllerTest {
                 MockMvcRequestBuilders.get(url)
                         .param("page", "1")
                         .param("size", "2"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
+
+        logger.info("不传page报错");
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .header(TokenFilter.TOKEN_KEY, "key")
+                        .param("size", "2"))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+
+        logger.info("不传size报错");
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .header(TokenFilter.TOKEN_KEY, "key")
+                        .param("page", "1"))
+                .andExpect(status().is(400));
 
     }
 
@@ -129,7 +149,7 @@ public class UserControllerTest {
                 MockMvcRequestBuilders.post(url)
                         .content(userJsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-        ).andExpect(MockMvcResultMatchers.status().is(201))
+        ).andExpect(status().is(201))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
@@ -173,6 +193,7 @@ public class UserControllerTest {
         // 按接口规范，向url以规定的参数发起get请求。
         // 断言请求返回了正常的状态码
         String url = "/user/" + id.toString();
+
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(url))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(id))
@@ -215,7 +236,7 @@ public class UserControllerTest {
                 .perform(MockMvcRequestBuilders.put(url)
                         .content(userJsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").exists())
@@ -244,16 +265,34 @@ public class UserControllerTest {
 
         // 向指定的地址发起请求，并断言返回状态码204
         String url = "/user/" + id.toString();
+
         this.mockMvc.perform(MockMvcRequestBuilders.delete(url))
-                .andExpect(MockMvcResultMatchers.status().is(204))
-        ;
+                .andExpect(MockMvcResultMatchers.status().is(204));
 
         // 断言调用方法符合预期
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
         Mockito.verify(this.userService).deleteById(longArgumentCaptor.capture());
         Assert.assertEquals(longArgumentCaptor.getValue(), id);
     }
-
+    /**
+     * 重置密码测试
+     * 1.新建一个学生
+     * 2.拼接请求的json串
+     * 3.模拟请求并断言返回了201
+     * 断言密码重置成功
+     * @throws Exception
+     */
+    @Test
+    public void resetPassword() throws Exception {
+        Long id = new Random().nextLong();
+        JSONObject JsonObject = new JSONObject();
+        JsonObject.put("id", id.toString());
+        MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/user/resetPassword/{id}", id)
+                .contentType("application/json;charset=UTF-8")
+                .content(String.valueOf(JsonObject));
+        this.mockMvc.perform(putRequest)
+                .andExpect(status().isOk());
+    }
     @Test
     public void findAll() throws Exception {
         logger.info("初始化模拟返回数据");
@@ -303,7 +342,6 @@ public class UserControllerTest {
             Assertions.assertThat(userHashMap.get("username").toString().length()).isEqualTo(4);
             Assertions.assertThat(userHashMap.get("email").toString().length()).isEqualTo(6);
         }
-
     }
 
 }

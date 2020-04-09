@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {AppComponent} from '../../app.component';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -28,7 +30,9 @@ export class IndexComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private appComponent: AppComponent,
+    private router: Router) { }
 
     loadData() {
       const queryParams = {
@@ -73,5 +77,17 @@ export class IndexComponent implements OnInit {
   onPageSelected(page: number) {
     this.params.page = page;
     this.loadData();
+  }
+
+  resetPassword(id: number) {
+    this.userService.resetPassword(id)
+      .subscribe(() => {
+        this.appComponent.success(() => {
+          this.router.navigateByUrl('/user');
+        }, '密码重置成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `密码重置失败:${res.error.message}`);
+      });
   }
 }

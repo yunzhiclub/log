@@ -63,4 +63,9 @@ public class UserController {
     public void deleteById(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
+
+    @PutMapping("resetPassword/{id}")
+    public void resetPassword(@PathVariable Long id){
+        userService.resetPassword(id);
+    }
 }

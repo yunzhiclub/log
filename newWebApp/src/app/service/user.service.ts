@@ -129,5 +129,13 @@ export class UserService {
 convertBooleanToString(value: boolean) {
   return value ? '1' : '0';
 }
-
+  /**
+   * 重置密码
+   * @param id  用户id
+   * @param user  用户
+   */
+  public resetPassword(id: number): Observable<void> {
+    const url = `/user/resetPassword/${id}`;
+    return this.httpClient.put<void>(url, id);
+  }
 }

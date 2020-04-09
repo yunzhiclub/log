@@ -3,6 +3,7 @@ package club.yunzhi.log.service;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.repository.UserRepository;
+import com.mengyunzhi.core.exception.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class UserServiceImpl implements UserService {
     /** auth-token与teacherId的映射 */
     private HashMap<String, Long> authTokenUserIdHashMap = new HashMap<>();
     private final HttpServletRequest request;
+    private String initialPassword = "yunzhi";
+
 
 
     @Autowired
@@ -137,5 +140,17 @@ public class UserServiceImpl implements UserService {
         Long userId = this.authTokenUserIdHashMap.get(authToken);
         return userId != null;
 
+    }
+
+    @Override
+    public void resetPassword(Long id){
+        logger.debug("获取学生对应的用户信息");
+        Optional <User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent())
+        {
+            throw new ObjectNotFoundException("未找到相关用户");
+        }
+        userOptional.get().setPassword(this.initialPassword);
+        userRepository.save(userOptional.get());
     }
 }

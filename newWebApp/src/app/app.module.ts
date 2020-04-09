@@ -12,6 +12,7 @@ import { httpInterceptorProviders } from './interceptor/index-interceptor';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { PersonalCenterComponent } from './personal-center/personal-center.component';
 import {AuthTokenInterceptor} from './core/auth-token-interceptor';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {AuthTokenInterceptor} from './core/auth-token-interceptor';
     AppRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [
     httpInterceptorProviders,
