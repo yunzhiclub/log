@@ -34,64 +34,8 @@ export class IndexComponent implements OnInit {
       (clientPage: Page<Client>) => {
         this.clientPage.content = clientPage;
         this.clientPage.totalPages = clientPage.totalPages;
-        this.pages = this.makePagesByTotalPages(this.params.page, clientPage.totalPages);
       }
     );
-  }
-
-  /**
-   * 点击分页按钮
-   * @param page 要请求的页码
-   */
-  onPage(page: number) {
-    if (page === -1 || page === this.clientPage.totalPages) {
-      return;
-    } else {
-      this.params.page = page;
-      this.load();
-    }
-
-  }
-
-  /**
-   * 生成页码
-   * @param begin 开始页码
-   * @param end 结束页码
-   */
-  makePages(begin: number, end: number): Array<number> {
-    const result = new Array<number>();
-    for (; begin <= end; begin++) {
-      result.push(begin);
-    }
-    return result;
-  }
-  /**
-   * 生成分页数据
-   * @param currentPage 当前页
-   * @param totalPages 总页数
-   */
-  makePagesByTotalPages(currentPage: number, totalPages: number): Array<number> {
-    if (totalPages > 0) {
-      /* 总页数小于5 */
-      if (totalPages <= 5) {
-        return this.makePages(0, totalPages - 1);
-      }
-
-      /* 首2页 */
-      if (currentPage < 2) {
-        return this.makePages(0, 4);
-      }
-
-      /* 尾2页 */
-      if (currentPage > totalPages - 3) {
-        return this.makePages(totalPages - 5, totalPages - 1);
-      }
-
-      /* 总页数大于5，且为中间页码*/
-      return this.makePages(currentPage - 2, currentPage + 2);
-    }
-
-    return new Array();
   }
 
   /**
@@ -103,5 +47,10 @@ export class IndexComponent implements OnInit {
       .subscribe((data) => {
         this.load();
       });
+  }
+
+  onPageSelected(page: number) {
+    this.params.page = page;
+    this.load();
   }
 }
