@@ -1,10 +1,8 @@
 <br>
 <br>
-<form>
-  <label>姓名：<input type="text" /></label>
-  <label>邮箱：<input type="text" /></label>
-  <button type="submit">查询</button>
-</form>
+<form (ngSubmit)="onQuery()">
+  <label>用户名：<input name="name" [formControl]="params.username" type="text"/></label>
+  <label>邮箱： <input name="email" [formControl]="params.email" type="text"/></label>
 
 <div class="row">
   <div class="col text-right">
