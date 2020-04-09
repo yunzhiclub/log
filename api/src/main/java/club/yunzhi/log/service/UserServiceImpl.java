@@ -95,6 +95,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAll(String username, String email, Pageable pageable) {
+        Assert.notNull(pageable, "Pageable不能为null");
+        return this.userRepository.findAll(username, email, pageable);
+    }
+
+    @Override
     public User findById(@NotNull Long id) {
         Assert.notNull(id, "id不能为null");
         return this.userRepository.findById(id).get();
