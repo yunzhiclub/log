@@ -86,5 +86,10 @@ public interface UserService {
      */
     boolean isLogin(String authToken);
 
+    /**
+     * 重置密码
+     * @param id
+     */
+    void resetPassword(Long id);
 }
 

@@ -1,19 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IndexComponent } from './index.component';
-import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {User} from '../../norm/entity/user';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserStubService} from '../../service/user-stub.service';
 import {UserService} from '../../service/user.service';
-import {FormTest} from '../../testing/FormTest';
-import {AppModule} from '../../app.module';
 import {CoreModule} from '../../core/core.module';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
-describe('IndexComponent', () => {
+describe('user -> IndexComponent', () => {
   let component: IndexComponent;
   let fixture: ComponentFixture<IndexComponent>;
   let httpTestingController: HttpTestingController;
@@ -21,7 +18,7 @@ describe('IndexComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IndexComponent ],
-      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, CoreModule],
+      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, CoreModule, AppTestingModule],
       providers: [
         {provide: UserService, useClass: UserStubService}
       ]
@@ -67,7 +64,7 @@ describe('IndexComponent', () => {
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testUser');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testusername');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testemail');
-    expect(table.rows.item(row).cells.item(col++).innerText).toBe('编辑删除');
+    expect(table.rows.item(row).cells.item(col++).innerText).toBe('编辑删除重置密码');
   });
 
 });
