@@ -55,6 +55,15 @@ public interface UserService {
      */
     Page<User> findAll(Pageable pageable);
 
+    /**
+     * 查询分页信息
+     * @param username 用户名
+     * @param email 邮件
+     * @param pageable 分页条件
+     * @return 分页数据
+     */
+    Page<User> findAll(String username, String email, Pageable pageable);
+
 
     /**
      * 查找用户
