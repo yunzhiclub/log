@@ -181,9 +181,8 @@ describe('UserService', () => {
       return request.url === '/user';
     });
     expect(req.request.method).toEqual('GET');
-    // expect(req.request.params.get('name')).toEqual('');
-    // expect(req.request.params.get('username')).toEqual('');
-    // expect(req.request.params.get('email')).toEqual('');
+    expect(req.request.params.get('username')).toEqual('');
+    expect(req.request.params.get('email')).toEqual('');
     expect(req.request.params.get('page')).toEqual('0');
     expect(req.request.params.get('size')).toEqual('10');
 
@@ -194,15 +193,14 @@ describe('UserService', () => {
 
   /* 分页参数测试 */
   it('page params test', () => {
-    service.page({name: 'name', username: 'username', email: 'email', page: 2, size: 20}).subscribe();
+    service.page({ username: 'username', email: 'email', page: 2, size: 20}).subscribe();
     /* 断言发起了http请求，方法为get；请求参数值符合预期 */
     const req = TestBed.get(HttpTestingController).expectOne(
       request => request.url === '/user'
     );
     expect(req.request.method).toEqual('GET');
-    // expect(req.request.params.get('name')).toEqual('name');
-    // expect(req.request.params.get('username')).toEqual('username');
-    // expect(req.request.params.get('email')).toEqual('email');
+    expect(req.request.params.get('username')).toEqual('username');
+    expect(req.request.params.get('email')).toEqual('email');
     expect(req.request.params.get('page')).toEqual('2');
     expect(req.request.params.get('size')).toEqual('20');
 

@@ -5,6 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {Page} from '../norm/entity/page';
 import {Client} from '../norm/entity/client';
 import {HttpRequest} from '@angular/common/http';
+import {of} from 'rxjs';
 
 describe('ClientService', () => {
   let service: ClientService;
@@ -63,4 +64,102 @@ describe('ClientService', () => {
 
     req.flush({});
   });
+
+  it('save', () => {
+    const client: Client = new Client(
+      {
+        name: 'testname'
+      });
+
+    let called = false;
+
+    service.save(client).subscribe((returnClient: Client) => {
+      called = true;
+      expect(returnClient.id).toBe(-1);
+    });
+
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne('/client');
+    expect(req.request.method).toEqual('POST');
+
+    const clientBody: Client = req.request.body.valueOf();
+    expect(clientBody.name).toEqual(client.name);
+
+    req.flush(new Client({id: -1, name: 'test'}));
+
+    expect(called).toBe(true);
+  });
+
+  it('getById', () => {
+    // 调用方法并订阅
+    const id = Math.floor(Math.random() * 100);
+    let resultClient;
+    service.getById(id)
+      .subscribe((client) => {
+        resultClient = client;
+      });
+
+    // 断言发起了http请求
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne(`/client/${id}`);
+
+    // 断言请求的参数及方法符合预期
+    expect(req.request.method).toEqual('GET');
+
+    // 模拟返回数据
+    const mockClient = new Client();
+    req.flush(mockClient);
+
+    // 断言接收数据
+    expect(resultClient).toBe(mockClient);
+  });
+
+  it('update', () => {
+    // 调用方法并订阅
+    const client = new Client();
+    client.id = Math.floor(Math.random() * 100);
+    let resultClient;
+    service.update(client.id, client)
+      .subscribe(result => {
+        resultClient = result;
+      });
+
+    // 断言发起了http请求
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne(`/client/${client.id}`);
+
+    // 断言请求的参数及方法符合预期
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toBe(client);
+
+    // 模拟返回数据
+    const mockClient = new Client();
+    req.flush(mockClient);
+
+    // 断言接收数据
+    expect(resultClient).toBe(mockClient);
+  });
+
+  it('deleteById', () => {
+    // 模拟数据及替身的准备
+    // 调用方法
+    const id = Math.floor(Math.random() * 100);
+    let called = false;
+    service.deleteById(id).subscribe(() => {
+      called = true;
+    });
+
+    // 断言发起了http请求
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne(`/client/${id}`);
+
+    // 请求的方法为delete
+    expect(req.request.method).toEqual('DELETE');
+
+    // 返回值为可被观察者，该观察者携带的内容为`void`
+    expect(called).toBeFalsy();
+    req.flush(of());
+    expect(called).toBeTruthy();
+  });
+
 });

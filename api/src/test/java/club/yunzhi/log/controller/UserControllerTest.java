@@ -1,11 +1,11 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.User;
-import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.UserService;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import net.bytebuddy.utility.RandomString;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -20,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,13 +33,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Random;
 
+<<<<<<< HEAD
 import static club.yunzhi.log.filter.TokenFilter.TOKEN_KEY;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+=======
+>>>>>>> master
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -50,15 +58,7 @@ public class UserControllerTest {
     private UserService userService;
 
     @Before
-    public void loginUser() throws Exception {
-//        // 先设置一个用户
-//        User user = new User();
-//
-//        String username = RandomString.make(6);
-//        String password = RandomString.make(6);
-//        user.setUsername(username);
-//        user.setPassword(password);
-
+    public void loginUser() {
         Mockito.when(this.userService.isLogin(Mockito.any())).thenReturn(true);
     }
 
@@ -100,11 +100,11 @@ public class UserControllerTest {
         logger.info("只传入page size，不报错");
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .header(TokenFilter.TOKEN_KEY, "key")
                         .param("page", "1")
                         .param("size", "2"))
                 .andExpect(status().isOk());
 
+<<<<<<< HEAD
         logger.info("不传page报错");
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
@@ -118,6 +118,8 @@ public class UserControllerTest {
                         .header(TokenFilter.TOKEN_KEY, "key")
                         .param("page", "1"))
                 .andExpect(status().is(400));
+=======
+>>>>>>> master
     }
 
     @Test
@@ -149,7 +151,6 @@ public class UserControllerTest {
         logger.info("发起请求");
         MvcResult mvcResult = this.mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .header(TokenFilter.TOKEN_KEY, "key")
                         .content(userJsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(status().is(201))
@@ -196,9 +197,14 @@ public class UserControllerTest {
         // 按接口规范，向url以规定的参数发起get请求。
         // 断言请求返回了正常的状态码
         String url = "/user/" + id.toString();
+<<<<<<< HEAD
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .header(TokenFilter.TOKEN_KEY, "key"))
                 .andExpect(status().isOk())
+=======
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+>>>>>>> master
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").value(user.getUsername()))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value(user.getName()))
@@ -237,7 +243,6 @@ public class UserControllerTest {
         String url = "/user/" + id.toString();
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put(url)
-                        .header(TokenFilter.TOKEN_KEY, "key")
                         .content(userJsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
@@ -269,9 +274,14 @@ public class UserControllerTest {
 
         // 向指定的地址发起请求，并断言返回状态码204
         String url = "/user/" + id.toString();
+<<<<<<< HEAD
         this.mockMvc.perform(MockMvcRequestBuilders.delete(url)
                 .header(TokenFilter.TOKEN_KEY, "key"))
                 .andExpect(status().is(204))
+=======
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpect(MockMvcResultMatchers.status().is(204))
+>>>>>>> master
         ;
 
         // 断言调用方法符合预期
@@ -280,6 +290,7 @@ public class UserControllerTest {
         Assert.assertEquals(longArgumentCaptor.getValue(), id);
     }
 
+<<<<<<< HEAD
     /**
      * 重置密码测试
      * 1.新建一个学生
@@ -298,6 +309,58 @@ public class UserControllerTest {
                 .content(String.valueOf(JsonObject));
         this.mockMvc.perform(putRequest)
                 .andExpect(status().isOk());
+=======
+    @Test
+    public void findAll() throws Exception {
+        logger.info("初始化模拟返回数据");
+        List<User> users = new ArrayList<>();
+        for (long i = 0; i < 2; i++) {
+            User user = new User();
+            user.setId(-i - 1);
+            user.setUsername(RandomString.make(4));
+            user.setEmail(RandomString.make(6));
+            users.add(user);
+        }
+
+        logger.info("初始化分页信息及设置模拟返回数据");
+        Page<User> mockOutUserPage = new PageImpl<User>(
+                users,
+                PageRequest.of(1, 2),
+                4
+        );
+
+        Mockito.when(this.userService
+                .findAll(Mockito.anyString(),
+                        Mockito.anyString(),
+                        Mockito.any(Pageable.class)))
+                .thenReturn(mockOutUserPage);
+
+        logger.info("以'每页2条，请求第1页'为参数发起请求，断言返回状态码为200，并接收响应数据");
+        String url = "/user";
+        MvcResult mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .param("username", "testUsername")
+                        .param("email", "testEmail")
+                        .param("page", "1")
+                        .param("size", "2"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("totalPages").value(2))  // 总页数2
+                .andExpect(MockMvcResultMatchers.jsonPath("content.size()").value(2))  // 返回了两个作业
+                .andReturn();
+
+        LinkedHashMap returnJson = JsonPath.parse(mvcResult.getResponse().getContentAsString()).json();
+        JSONArray content = (JSONArray) returnJson.get("content");
+
+        logger.info("测试返回的作业");
+        for (int i = 0; i < 2; i++) {
+            LinkedHashMap userHashMap = (LinkedHashMap) content.get(i); // 获取第一个作业
+            Assert.assertEquals(userHashMap.get("id"), -i-1);
+            Assertions.assertThat(userHashMap.get("username").toString().length()).isEqualTo(4);
+            Assertions.assertThat(userHashMap.get("email").toString().length()).isEqualTo(6);
+        }
+
+>>>>>>> master
     }
 
 }

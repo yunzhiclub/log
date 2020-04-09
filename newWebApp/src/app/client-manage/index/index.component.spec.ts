@@ -7,8 +7,10 @@ import {ClientService} from '../../service/client.service';
 import {ClientStubService} from '../../service/client-stub.service';
 import {By} from '@angular/platform-browser';
 import {FormTest} from '../../testing/FormTest';
+import {RouterTestingModule} from '@angular/router/testing';
+import {CoreModule} from '../../core/core.module';
 
-describe('IndexComponent', () => {
+describe('Client->Index', () => {
   let component: IndexComponent;
   let fixture: ComponentFixture<IndexComponent>;
 
@@ -19,6 +21,8 @@ describe('IndexComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
+        RouterTestingModule,
+        CoreModule
       ],
       providers: [
         {provide: ClientService, useClass: ClientStubService}
@@ -56,7 +60,7 @@ describe('IndexComponent', () => {
     const row = 1;
     let col = 0;
     expect(table.rows.length).toBe(3);
-    expect(table.rows.item(row).cells.length).toBe(9);
+    expect(table.rows.item(row).cells.length).toBe(10);
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('1');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('NAME');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('TOKEN');

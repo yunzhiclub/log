@@ -4,11 +4,9 @@ import club.yunzhi.log.entity.User;
 import club.yunzhi.log.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 /**
@@ -35,9 +33,13 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<User> getAll(@RequestParam int page,
-                             @RequestParam int size) {
-        return this.userService.findAll(PageRequest.of(page, size));
+    public Page<User> getAll(@RequestParam(required = false) String username,
+                             @RequestParam(required = false) String email,
+                             Pageable pageable) {
+        return this.userService.findAll(
+                username,
+                email,
+                pageable);
     }
 
     @GetMapping("{id}")

@@ -16,9 +16,8 @@ export class IndexComponent implements OnInit {
   params = {
     page: 0,
     size: 5,
-    name: '',
-    username: '',
-    email: ''
+    username: new FormControl(),
+    email: new FormControl()
   };
   /*分页数据*/
   pageUser = {
@@ -38,9 +37,8 @@ export class IndexComponent implements OnInit {
       const queryParams = {
         page: this.params.page,
         size: this.params.size,
-        name: this.params.name,
-        username: this.params.username,
-        email: this.params.email
+        username: this.params.username.value,
+        email: this.params.email.value
       };
 
       this.userService.page(queryParams)
@@ -71,16 +69,9 @@ export class IndexComponent implements OnInit {
   /**
    * 用户点击查询按钮后触发
    */
-  // onQuery(): void {
-  //   console.log('执行onQuery');
-  //   this.httpClient.get(this.url, {params: this.params})
-  //     .subscribe(data => {
-  //       console.log('成功执行请求', data);
-  //       this.users = data;
-  //     }, () => {
-  //       console.log(`请求${this.url}发生错误`);
-  //     });
-  // }
+  onQuery(): void {
+    this.loadData();
+  }
 
   onPageSelected(page: number) {
     this.params.page = page;

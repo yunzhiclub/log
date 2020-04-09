@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IndexComponent } from './index.component';
 import {By} from '@angular/platform-browser';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserStubService} from '../../service/user-stub.service';
 import {UserService} from '../../service/user.service';
@@ -18,7 +18,7 @@ describe('user -> IndexComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IndexComponent ],
-      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, CoreModule, AppTestingModule],
+      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, CoreModule, AppTestingModule, ReactiveFormsModule],
       providers: [
         {provide: UserService, useClass: UserStubService}
       ]

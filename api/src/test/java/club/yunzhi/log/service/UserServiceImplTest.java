@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -270,8 +269,29 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void resetPassword() {
+    public void findAllSpecs() {
+        /* 参数初始化 */
+        String name = "hello";
+        String email = "testemail";
+        Long itemId = 1L;
+        Pageable pageable = PageRequest.of(0, 2);
+        List<User> works = Arrays.asList();
+        Page<User> mockStudentPage = new PageImpl<>(works, pageable, 100L);
 
+        /* 设置模拟返回值 */
+        Mockito.when(this.userRepository
+                .findAll(Mockito.eq(name),
+                        Mockito.eq(email),
+                        Mockito.eq(pageable)))
+                .thenReturn(mockStudentPage);
+
+        /* 调用测试方法，获取返回值并断言与预期相同 */
+        Page<User> returnStudentPage = this.userService.findAll( name, email, pageable);
+        Assert.assertEquals(returnStudentPage, mockStudentPage);
+
+    }
+    @Test
+    public void resetPassword() {
         Long id = new  Random().nextLong();
         User resultUser = new User();
         resultUser.setId(id);

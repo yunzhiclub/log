@@ -14,7 +14,7 @@ export class IndexComponent implements OnInit {
   /* 查询参数 */
   params = {
     page: 0,
-    size: 2
+    size: 10
   };
   /* 分页数据 */
   clientPage = {
@@ -92,5 +92,16 @@ export class IndexComponent implements OnInit {
     }
 
     return new Array();
+  }
+
+  /**
+   * 删除班级
+   * @param klass 班级
+   */
+  onDelete(client: Client): void {
+    this.clientService.deleteById(client.id)
+      .subscribe((data) => {
+        this.load();
+      });
   }
 }
