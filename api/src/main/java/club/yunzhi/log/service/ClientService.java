@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author panjie
@@ -15,7 +16,33 @@ public interface ClientService {
     Client getOneSavedClient();
     Client getOneUnsavedClient();
     Page<Client> page(Pageable pageable);
+
+    /**
+     * 新增客户端
+     * @param client
+     * @return
+     */
     Client save(Client client);
 
     void update(List<Log> logs);
+
+    /**
+     * 更新一个客户端
+     * @param id
+     * @param client
+     */
+    Client update(Long id, Client client);
+
+    /**
+     * 根据ID获取客户端
+     * @param id
+     * @return
+     */
+    Client findById(Long id);
+
+    /**
+     * 删除一个客户端
+     * @param id
+     */
+    void deleteById(Long id);
 }

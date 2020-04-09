@@ -10,6 +10,7 @@ import club.yunzhi.log.utils.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("client")
 @Api(value = "ClientController 客户端")
 public class ClientController {
-    private final ClientService clientService;
+
+    @Autowired  private ClientService clientService;
 
     @Autowired
     public ClientController(final ClientService clientService) {
@@ -37,5 +39,39 @@ public class ClientController {
         return new PageImpl(this.clientService.page(pageable));
     }
 
-    private interface page extends Client.base, Client.todayLog, PageImpl.base{}
+    /**
+     * 根据ID获取客户端
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}")
+    @JsonView(get.class)
+    public Client getById(@PathVariable Long id) {
+        return clientService.findById(id);
+    }
+
+    /**
+     * 更新客户端
+     * @param id
+     * @param client
+     * @return
+     */
+    @PutMapping("{id}")
+    @JsonView(update.class)
+    public Client updateById(@PathVariable Long id, @RequestBody Client client) {
+        return clientService.update(id, client);
+    }
+
+    /**
+     * 删除客户端
+     * @param id
+     */
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable Long id) {
+        clientService.deleteById(id);
+    }
+
+    private interface page extends Client.base, Client.todayLog, PageImpl.base{};
+    private interface get extends Client.base, Client.todayLog, PageImpl.base{}
+    private interface update extends Client.base, Client.todayLog, PageImpl.base{}
 }
