@@ -3,6 +3,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AppComponent} from '../../app.component';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class EditComponent implements OnInit {
 
   constructor(private userService: UserService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private appComponent: AppComponent) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((param: { id: number }) => {
@@ -41,9 +44,14 @@ export class EditComponent implements OnInit {
   update(user: User) {
     this.userService.update(user.id, user)
       .subscribe((result) => {
+        this.appComponent.success(() => {
         this.router.navigateByUrl('/user');
         this.user = result;
         // this.linkToIndex.nativeElement.click();
+        }, '用户信息更新成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `用户信息更新失败:${res.error.message}`);
       });
   }
 

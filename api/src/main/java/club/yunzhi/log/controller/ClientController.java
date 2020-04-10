@@ -31,6 +31,7 @@ public class ClientController {
     @PostMapping
     public void save(@RequestBody final Client client) {
         this.clientService.save(client);
+
     }
 
     @GetMapping("page")

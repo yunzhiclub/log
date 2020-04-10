@@ -3,6 +3,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Client} from '../../norm/entity/client';
 import {ClientService} from '../../service/client.service';
 import {Router} from '@angular/router';
+import {AppComponent} from '../../app.component';
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 @Component({
@@ -16,7 +18,9 @@ export class AddComponent implements OnInit {
   client: Client;
 
   constructor(private clientService: ClientService,
-              private router: Router) { }
+              private router: Router,
+              private appComponent: AppComponent) {
+  }
 
   ngOnInit() {
     this.client = new Client();
@@ -30,13 +34,13 @@ export class AddComponent implements OnInit {
   onSubmit(): void {
     this.client = this.formGroup.value;
     this.clientService.save(this.client)
-      .subscribe(
-        (client) => {
+      .subscribe(() => {
+        this.appComponent.success(() => {
           this.router.navigateByUrl('/client');
-          console.log(client); },
-        (data) => {
-          this.router.navigateByUrl('/client');
-          console.log(data); });
-
+        }, '日志新增成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `日志新增失败:${res.error.message}`);
+      });
   }
 }

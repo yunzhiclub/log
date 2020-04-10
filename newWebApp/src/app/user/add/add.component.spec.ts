@@ -7,6 +7,7 @@ import {User} from '../../norm/entity/user';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 describe('AddComponent', () => {
   let component: AddComponent;
@@ -18,7 +19,8 @@ describe('AddComponent', () => {
       declarations: [ AddComponent ],
       imports: [ReactiveFormsModule,
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AppTestingModule
         ]
     })
     .compileComponents();

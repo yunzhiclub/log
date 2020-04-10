@@ -11,6 +11,7 @@ import {ActivatedRouteStub} from './activated-route-stub';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 
 describe('EditComponent', () => {
@@ -23,7 +24,8 @@ describe('EditComponent', () => {
       declarations: [ EditComponent ],
       imports: [ReactiveFormsModule,
       HttpClientTestingModule,
-        RouterTestingModule],
+        RouterTestingModule,
+        AppTestingModule],
       providers: [
         {provide: ActivatedRoute, useClass: ActivatedRouteStub},
         {provide: UserService, useValue: studentServiceSpy}

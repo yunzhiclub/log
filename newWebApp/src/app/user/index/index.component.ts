@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
@@ -32,38 +32,44 @@ export class IndexComponent implements OnInit {
     private userService: UserService,
     private httpClient: HttpClient,
     private appComponent: AppComponent,
-    private router: Router) { }
+    private router: Router) {
+  }
 
-    loadData() {
-      const queryParams = {
-        page: this.params.page,
-        size: this.params.size,
-        username: this.params.username.value,
-        email: this.params.email.value
-      };
+  loadData() {
+    const queryParams = {
+      page: this.params.page,
+      size: this.params.size,
+      username: this.params.username.value,
+      email: this.params.email.value
+    };
 
-      this.userService.page(queryParams)
-        .subscribe((response: { totalPages: number, content: Array<User> }) => {
-          this.pageUser = response;
-        });
-    }
+    this.userService.page(queryParams)
+      .subscribe((response: { totalPages: number, content: Array<User> }) => {
+        this.pageUser = response;
+      });
+  }
 
   ngOnInit() {
     this.loadData();
   }
 
   /**
-   * 删除班级
-   * @param klass 班级
+   * 删除用户
+   * @param User 用户
    */
   onDelete(user: User): void {
     this.userService.deleteById(user.id)
       .subscribe(() => {
-        this.pageUser.content.forEach((inUser, key) => {
-          if (user === inUser) {
-            this.pageUser.content.splice(key, 1);
-          }
-        });
+        this.appComponent.success(() => {
+          this.pageUser.content.forEach((inUser, key) => {
+            if (user === inUser) {
+              this.pageUser.content.splice(key, 1);
+            }
+          });
+        }, '用户删除成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `用户删除失败:${res.error.message}`);
       });
   }
 
