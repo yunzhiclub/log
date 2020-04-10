@@ -29,8 +29,9 @@ public class ClientController {
     }
 
     @PostMapping
-    public Client save(@RequestBody final Client client) {
-        return this.clientService.save(client);
+    public void save(@RequestBody final Client client) {
+        this.clientService.save(client);
+
     }
 
     @GetMapping("page")

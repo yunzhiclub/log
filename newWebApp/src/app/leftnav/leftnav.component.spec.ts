@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeftnavComponent } from './leftnav.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CommonModule} from '@angular/common';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('LeftnavComponent', () => {
   let component: LeftnavComponent;
@@ -11,7 +12,7 @@ describe('LeftnavComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LeftnavComponent ],
-      imports: [CommonModule, RouterTestingModule]
+      imports: [CommonModule, RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));

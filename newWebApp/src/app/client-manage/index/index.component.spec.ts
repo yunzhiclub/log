@@ -9,6 +9,7 @@ import {By} from '@angular/platform-browser';
 import {FormTest} from '../../testing/FormTest';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CoreModule} from '../../core/core.module';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 describe('Client->Index', () => {
   let component: IndexComponent;
@@ -22,7 +23,8 @@ describe('Client->Index', () => {
         ReactiveFormsModule,
         FormsModule,
         RouterTestingModule,
-        CoreModule
+        CoreModule,
+        AppTestingModule
       ],
       providers: [
         {provide: ClientService, useClass: ClientStubService}

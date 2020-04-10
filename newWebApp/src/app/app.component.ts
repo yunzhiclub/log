@@ -6,7 +6,7 @@ import {first} from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
 
@@ -32,8 +32,6 @@ export class AppComponent implements OnInit {
     /**
      * 更新提示框信息
      */
-    console.log(SwalComponent);
-    console.log(this.alert);
     this.alert.update({
       titleText: title,
       text: description,
