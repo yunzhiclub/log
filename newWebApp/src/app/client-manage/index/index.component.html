@@ -42,4 +42,4 @@
   </tr>
 
 </table>
-<app-page *ngIf="clientPage.totalPages != 0" [setTotalPages]="clientPage.totalPages" [setPage]="params.page" [setSize]="params.size" (selected)="onPageSelected($event)"></app-page>
+<app-page *ngIf="clientPage.totalPages != 0" [setTotalPages]="clientPage.totalPages" [setPage]="params.page" (selected)="onPageSelected($event)"></app-page>
