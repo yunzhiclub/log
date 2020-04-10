@@ -32,8 +32,6 @@ export class AppComponent implements OnInit {
     /**
      * 更新提示框信息
      */
-    console.log(SwalComponent);
-    console.log(this.alert);
     this.alert.update({
       titleText: title,
       text: description,

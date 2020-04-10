@@ -3,6 +3,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../norm/entity/user';
 import {UserService} from '../../service/user.service';
 import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AppComponent} from '../../app.component';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class AddComponent implements OnInit {
   user: User;
 
   constructor(private userService: UserService,
-              private router: Router) { }
+              private router: Router,
+              private appComponent: AppComponent) { }
 
   ngOnInit() {
     this.user = new User();
@@ -29,11 +32,13 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     this.user = this.formGroup.value;
-    this.userService.save(this.user).subscribe((user: User) => {
-      this.router.navigateByUrl('/user');
-      console.log(user);
-      // this.geToIndex();
+    this.userService.save(this.user).subscribe(() => {
+      this.appComponent.success(() => {
+        this.router.navigateByUrl('/user');
+      }, '用户新增成功');
+    }, (res: HttpErrorResponse) => {
+      this.appComponent.error(() => {
+      }, `用户新增失败:${res.error.message}`);
     });
-
   }
 }

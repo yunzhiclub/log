@@ -29,6 +29,7 @@ public class ClientController {
     }
 
     @PostMapping
+    @JsonView(save.class)
     public Client save(@RequestBody final Client client) {
         return this.clientService.save(client);
     }
@@ -74,4 +75,5 @@ public class ClientController {
     private interface page extends Client.base, Client.todayLog, PageImpl.base{};
     private interface get extends Client.base, Client.todayLog, PageImpl.base{}
     private interface update extends Client.base, Client.todayLog, PageImpl.base{}
+    private interface save extends Client.base, Client.todayLog, PageImpl.base{}
 }
