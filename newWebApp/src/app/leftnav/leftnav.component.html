@@ -1,4 +1,10 @@
-<nav class="nav flex-column">
-  <a class="nav-link" *ngFor="let menu of menus" routerLinkActive="active"  routerLink="{{menu.url}}">{{menu.name}}</a>
-  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-</nav>
+<ul class="menu">
+  <li *ngFor="let menu of menus" class="border-bottom">
+    <a href="javascript:void(0);" (click)="navigate(menu)">
+      <div class="inner" [style.background-color]="getBackgroundColor(menu)" [style.color]="getTextColor(menu)">
+        <i [className]="'icon ' + menu.icon"></i>
+        <span>{{ menu.name }}</span>
+      </div>
+    </a>
+  </li>
+</ul>
