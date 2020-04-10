@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-page',
@@ -8,28 +9,35 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class PageComponent implements OnInit {
 
   constructor() { }
+
+  /*查询参数*/
+  params = new Array<number>();
+
   /* 分页数据 */
   pages: Array<number>;
 
-
-  @Output() selected = new EventEmitter<number>();
+  @Output() selected = new EventEmitter<Array<number>>();
 
   @Input() set setTotalPages(totalPages: number) {
     this.totalPages = totalPages;
     this.pages = this.makePagesByTotalPages(this.page, totalPages);
+    this.params.push(0);
+    this.params.push(this.size);
+    this.selected.emit(this.params);
   }
   @Input() set setPage(page: number) {
     this.page = page;
     this.pages = this.makePagesByTotalPages(page, this.totalPages);
   }
-  @Input() set setSize(size: number) {
-    this.size = size;
-    this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
-  }
-
+  // @Input() set setSize(size: number) {
+  //   this.size = size;
+  //   this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
+  // }
   page: number;
   totalPages: number;
-  size: number;
+  /*在此设置每页大小*/
+  size = 10;
+
 
   ngOnInit() {
     this.loadData();
@@ -46,8 +54,9 @@ export class PageComponent implements OnInit {
     if (page < 0 || page >= this.totalPages) {
       return ;
     }
-    // this.page = page;
-    this.selected.emit(page);
+    this.params.push(page);
+    this.params.push(this.size);
+    this.selected.emit(this.params);
     this.loadData();
   }
 

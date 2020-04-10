@@ -80,8 +80,9 @@ export class IndexComponent implements OnInit {
     this.loadData();
   }
 
-  onPageSelected(page: number) {
-    this.params.page = page;
+  onPageSelected(pages: Array<number>) {
+    this.params.size = pages.pop();
+    this.params.page = pages.pop();
     this.loadData();
   }
 
@@ -96,4 +97,5 @@ export class IndexComponent implements OnInit {
         }, `密码重置失败:${res.error.message}`);
       });
   }
+
 }

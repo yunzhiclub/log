@@ -61,8 +61,9 @@ export class IndexComponent implements OnInit {
   }, '即将删除日志');
   }
 
-  onPageSelected(page: number) {
-    this.params.page = page;
+  onPageSelected(pages: Array<number>) {
+    this.params.size = pages.pop();
+    this.params.page = pages.pop();
     this.load();
   }
 }
