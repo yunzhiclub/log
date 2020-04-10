@@ -66,6 +66,6 @@ describe('BackgroundIndexComponent', () => {
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('thread');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('logger');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('message');
-    expect(table.rows.item(row).cells.item(col++).innerText).toBe('1');
+    expect(table.rows.item(row).cells.item(col++).innerText).toBe('1970-01-01 08:00:00');
   });
 });

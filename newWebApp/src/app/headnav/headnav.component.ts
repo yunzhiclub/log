@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../service/user.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-headnav',
@@ -8,11 +9,10 @@ import {UserService} from '../service/user.service';
 })
 export class HeadnavComponent implements OnInit {
   title: string;
-  // userService: UserService;
   constructor(private  userService: UserService) { }
 
   ngOnInit() {
-    this.title = '日志管理系统';
+    this.title = environment.title;
   }
 
   onLogout() {
