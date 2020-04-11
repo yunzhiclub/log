@@ -4,6 +4,7 @@ import {Client} from '../../norm/entity/client';
 import {ClientService} from '../../service/client.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppComponent} from '../../app.component';
+import {PageComponent} from '../../core/page/page.component';
 
 @Component({
   selector: 'app-index',
@@ -16,7 +17,7 @@ export class IndexComponent implements OnInit {
   /* 查询参数 */
   params = {
     page: 0,
-    size: 10
+    size: PageComponent.size1,
   };
   /* 分页数据 */
   clientPage = {
@@ -61,9 +62,8 @@ export class IndexComponent implements OnInit {
   }, '即将删除日志');
   }
 
-  onPageSelected(pages: Array<number>) {
-    this.params.size = pages.pop();
-    this.params.page = pages.pop();
+  onPageSelected(page: number) {
+    this.params.page = page;
     this.load();
   }
 }

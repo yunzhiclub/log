@@ -5,6 +5,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
 import {FormControl} from '@angular/forms';
+import {PageComponent} from '../../core/page/page.component';
 
 @Component({
   selector: 'app-index',
@@ -16,7 +17,7 @@ export class IndexComponent implements OnInit {
   /*查询参数*/
   params = {
     page: 0,
-    size: 10,
+    size: PageComponent.size1,
     username: new FormControl(),
     email: new FormControl()
   };
@@ -80,9 +81,8 @@ export class IndexComponent implements OnInit {
     this.loadData();
   }
 
-  onPageSelected(pages: Array<number>) {
-    this.params.size = pages.pop();
-    this.params.page = pages.pop();
+  onPageSelected(page: number) {
+    this.params.page = page;
     this.loadData();
   }
 
