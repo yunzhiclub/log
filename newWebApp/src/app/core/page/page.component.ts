@@ -10,34 +10,27 @@ export class PageComponent implements OnInit {
 
   constructor() { }
 
-  /*查询参数*/
-  params = new Array<number>();
-
-  /* 分页数据 */
-  pages: Array<number>;
-
-  @Output() selected = new EventEmitter<Array<number>>();
-
   @Input() set setTotalPages(totalPages: number) {
     this.totalPages = totalPages;
     this.pages = this.makePagesByTotalPages(this.page, totalPages);
-    this.params.push(0);
-    this.params.push(this.size);
-    this.selected.emit(this.params);
   }
   @Input() set setPage(page: number) {
     this.page = page;
     this.pages = this.makePagesByTotalPages(page, this.totalPages);
   }
-  // @Input() set setSize(size: number) {
-  //   this.size = size;
-  //   this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
-  // }
+  @Input() set setSize(size: number) {
+    this.size = size;
+    this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
+  }
+
+  /* 分页数据 */
+  pages: Array<number>;
+
+  @Output() selected = new EventEmitter<number>();
+
   page: number;
   totalPages: number;
-  /*在此设置每页大小*/
-  size = 10;
-
+  size: number;
 
   ngOnInit() {
     this.loadData();
@@ -54,9 +47,8 @@ export class PageComponent implements OnInit {
     if (page < 0 || page >= this.totalPages) {
       return ;
     }
-    this.params.push(page);
-    this.params.push(this.size);
-    this.selected.emit(this.params);
+
+    this.selected.emit(page);
     this.loadData();
   }
 
