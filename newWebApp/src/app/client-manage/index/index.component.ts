@@ -4,7 +4,7 @@ import {Client} from '../../norm/entity/client';
 import {ClientService} from '../../service/client.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppComponent} from '../../app.component';
-import {PageComponent} from '../../core/page/page.component';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-index',
@@ -17,7 +17,7 @@ export class IndexComponent implements OnInit {
   /* 查询参数 */
   params = {
     page: 0,
-    size: PageComponent.size1,
+    size: MenuService.size,
   };
   /* 分页数据 */
   clientPage = {

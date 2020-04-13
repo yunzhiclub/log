@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Page} from '../../norm/entity/page';
 import {Log} from '../../norm/entity/log';
 import {LogService} from '../../service/log.service';
-import {PageComponent} from '../../core/page/page.component';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-index',
@@ -15,7 +15,7 @@ export class IndexComponent implements OnInit {
   /* 查询参数 */
   params = {
     page: 0,
-    size: PageComponent.size1,
+    size: MenuService.size,
   };
   /* 分页数据 */
   logPage = {

@@ -22,8 +22,6 @@ export class PageComponent implements OnInit {
     this.size = size;
     this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
   }
-  /*在此设置每页大小*/
-  public static size1 = 10;
 
   /* 分页数据 */
   pages: Array<number>;

@@ -6,6 +6,13 @@ import {Menu} from '../norm/entity/menu';
   providedIn: 'root'
 })
 export class MenuService {
+
+  constructor() {
+  }
+
+  /*在此设置每页大小*/
+  public static size = 10;
+
   private menusSubject = new BehaviorSubject<Array<Menu>>([
     new Menu({name: '首页', url: ''}),
     new Menu({name: '客户端管理', url: 'client'}),
@@ -15,9 +22,6 @@ export class MenuService {
     new Menu({name: '个人中心', url: 'personalCenter'})
 
   ]);
-
-  constructor() {
-  }
 
   getAll(): Observable<Array<Menu>> {
     return this.menusSubject.asObservable();
