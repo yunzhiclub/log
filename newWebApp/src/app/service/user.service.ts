@@ -8,6 +8,9 @@ import {User} from '../norm/entity/user';
   providedIn: 'root'
 })
 export class UserService {
+  /*用户管理当前页*/
+  public static userNowPage = 0;
+
   /** 数据源 */
   private isLogin: BehaviorSubject<boolean>;
 

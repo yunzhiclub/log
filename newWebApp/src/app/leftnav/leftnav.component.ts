@@ -6,6 +6,8 @@ import {Menu} from '../norm/entity/menu';
 import {MenuService} from '../service/menu.service';
 import {UserService} from '../service/user.service';
 import {isDefined} from '../utils';
+import {LogService} from '../service/log.service';
+import {ClientService} from '../service/client.service';
 
 
 @Component({
@@ -39,6 +41,15 @@ export class LeftnavComponent implements OnInit, OnDestroy {
   }
 
   navigate(menu: Menu): void {
+    if (menu.url === 'user') {
+       UserService.userNowPage = 0;
+    }
+    if (menu.url === 'background') {
+      LogService.logNowPage = 0;
+    }
+    if (menu.url === 'client') {
+      ClientService.clientNowPage = 0;
+    }
     this.router.navigateByUrl(menu.url);
   }
 

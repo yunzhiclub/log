@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CacheService {
+
   private static authToken: string = sessionStorage.getItem('authToken');
   constructor() { }
   static setAuthToken(token: string) {

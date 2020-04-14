@@ -13,6 +13,8 @@ import {Page} from '../norm/entity/page';
 })
 export class LogService {
 
+  public static logNowPage = 0;
+
   constructor(private httpClient: HttpClient) { }
   page(params: {clientId?: number, page: number, size: number}): Observable<Page<Log>> {
     const Params = {
