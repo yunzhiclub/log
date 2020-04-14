@@ -92,7 +92,7 @@ export class UserService {
   }
 
 
-  page(params: { username?: string, email?: string, page?: number, size?: number }):
+  page(params: { username?: string, page?: number, size?: number }):
     Observable<{ totalPages: number, content: Array<User> }> {
     const url = '/user';
 
@@ -107,7 +107,6 @@ export class UserService {
     /* 初始化查询参数 */
     const queryParams = new HttpParams()
       .set('username', params.username ? params.username : '')
-      .set('email', params.email ? params.email : '')
       .set('page', params.page.toString())
       .set('size', params.size.toString());
     console.log(queryParams);

@@ -32,7 +32,7 @@ describe('PersonalCenterComponent', () => {
   it('ngOnInit', () => {
     const userService = TestBed.get(UserService) as UserService;
     console.log(userService);
-    const mockReturnUser = new User({id: null, username: null, name: null, email: null});
+    const mockReturnUser = new User({id: null, username: null, name: null});
     spyOn(userService, 'me').and.returnValue(of(mockReturnUser));
 
     component.ngOnInit();
