@@ -16,7 +16,7 @@ export class IndexComponent implements OnInit {
   pages: Array<number>;
   /* 查询参数 */
   params = {
-    page: 0,
+    page: ClientService.clientNowPage,
     size: MenuService.size,
   };
   /* 分页数据 */
@@ -63,6 +63,7 @@ export class IndexComponent implements OnInit {
   }
 
   onPageSelected(page: number) {
+    ClientService.clientNowPage = page;
     this.params.page = page;
     this.load();
   }

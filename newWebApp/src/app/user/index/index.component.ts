@@ -16,7 +16,7 @@ export class IndexComponent implements OnInit {
 
   /*查询参数*/
   params = {
-    page: 0,
+    page: UserService.userNowPage,
     size: MenuService.size,
     username: new FormControl(),
     email: new FormControl()
@@ -83,6 +83,7 @@ export class IndexComponent implements OnInit {
 
   onPageSelected(page: number) {
     this.params.page = page;
+    UserService.userNowPage = page;
     this.loadData();
   }
 

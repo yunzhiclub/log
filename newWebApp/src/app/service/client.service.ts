@@ -8,6 +8,7 @@ import {Client} from '../norm/entity/client';
   providedIn: 'root'
 })
 export class ClientService {
+  public static clientNowPage = 0;
   constructor(private httpClient: HttpClient) { }
   page(params: {clientId?: number, page: number, size: number}): Observable<Page<Client>> {
     const Params = {
