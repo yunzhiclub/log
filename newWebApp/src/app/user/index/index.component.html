@@ -1,6 +1,6 @@
 
 <form (ngSubmit)="onQuery()">
-  <table>
+  <div>
     <tr>
       <td>
         <label>用户名：</label>
@@ -8,20 +8,23 @@
       <td>
         <input class="form-control form-control" name="name" [formControl]="params.username" type="text"/>
       </td>
+      &nbsp;&nbsp;
       <td>
         <label>邮箱：</label>
       </td>
       <td>
         <input class="form-control form-control" name="email" [formControl]="params.email" type="text"/>
       </td>
+      &nbsp;&nbsp;
       <td>
         <button type="submit" class="btn btn-primary">查询</button>
       </td>
+      &nbsp;&nbsp;
       <td>
         <a class="btn btn-success"  routerLink="./add"><span class="oi oi-plus"></span>新增</a>
       </td>
     </tr>
-  </table>
+  </div>
 </form>
 <br>
 <table class="table">

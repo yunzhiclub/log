@@ -12,7 +12,7 @@ import {AppComponent} from '../../app.component';
 export class IndexComponent implements OnInit {
   formGroup: FormGroup;
   ding: Ding;
-  constructor(private settingService: SettingService, private appComponent: AppComponent,) { }
+  constructor(private settingService: SettingService, private appComponent: AppComponent, ) { }
 
   ngOnInit() {
     this.load();

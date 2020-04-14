@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {UserService} from '../service/user.service';
 import {of} from 'rxjs';
 import {TestModule} from '../test/test.module';
+import {AppTestingModule} from '../app-testing/app-testing.module';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,7 +17,8 @@ describe('LoginComponent', () => {
       declarations: [ LoginComponent ],
       imports: [
         ReactiveFormsModule,
-        TestModule
+        TestModule,
+        AppTestingModule
       ]
     })
     .compileComponents();
