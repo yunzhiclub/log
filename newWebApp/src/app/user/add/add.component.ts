@@ -25,8 +25,7 @@ export class AddComponent implements OnInit {
     this.user = new User();
     this.formGroup = new FormGroup({
       name: new FormControl(''),
-      username: new FormControl(''),
-      email: new FormControl('')
+      username: new FormControl('')
     });
   }
 
