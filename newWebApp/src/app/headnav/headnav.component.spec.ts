@@ -6,6 +6,7 @@ import {TestModule} from '../test/test.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserService} from '../service/user.service';
 import {of} from 'rxjs';
+import {AppTestingModule} from '../app-testing/app-testing.module';
 
 
 describe('HeadnavComponent', () => {
@@ -16,7 +17,8 @@ describe('HeadnavComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HeadnavComponent ],
       imports: [RouterTestingModule,
-        TestModule
+        TestModule,
+        AppTestingModule
   ],
     })
     .compileComponents();
