@@ -18,8 +18,7 @@ export class IndexComponent implements OnInit {
   params = {
     page: UserService.userNowPage,
     size: MenuService.size,
-    username: new FormControl(),
-    email: new FormControl()
+    username: new FormControl()
   };
   /*分页数据*/
   pageUser = {
@@ -40,8 +39,7 @@ export class IndexComponent implements OnInit {
     const queryParams = {
       page: this.params.page,
       size: this.params.size,
-      username: this.params.username.value,
-      email: this.params.email.value
+      username: this.params.username.value
     };
 
     this.userService.page(queryParams)

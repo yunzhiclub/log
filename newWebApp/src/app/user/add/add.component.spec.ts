@@ -44,7 +44,6 @@ describe('AddComponent', () => {
     const student: User = req.request.body.valueOf();
     expect(student.name).toEqual('testname');
     expect(student.username).toEqual('testusername');
-    expect(student.email).toEqual('testemail');
   };
 
   /**
@@ -57,12 +56,10 @@ describe('AddComponent', () => {
 
     formTest.setInputValue('input[name="name"]', 'testname');
     formTest.setInputValue('input[name="username"]', 'testusername');
-    formTest.setInputValue('input[name="email"]', 'testemail');
     formTest.clickButton('button[type="submit"]');
     fixture.detectChanges();
     expect(component.user.name).toEqual('testname');
     expect(component.user.username).toEqual('testusername');
-    expect(component.user.email).toEqual('testemail');
 
     savePostTest();
   });

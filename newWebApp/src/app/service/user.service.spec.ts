@@ -54,7 +54,7 @@ describe('UserService', () => {
     expect(req.request.method).toEqual('GET');
 
     // 模拟返回数据，请断言在订阅的方法中成功的接收到了数据
-    const  mockReturnUser = new User({id: null, username: null, name: null, email: null});
+    const  mockReturnUser = new User({id: null, username: null, name: null});
     req.flush(mockReturnUser);
     expect(result).toBe(mockReturnUser);
   });
@@ -62,8 +62,7 @@ describe('UserService', () => {
     const user: User = new User(
       {
         name: 'testname',
-        username: 'testusername',
-        email: 'testemail'
+        username: 'testusername'
 
       });
 
@@ -81,7 +80,6 @@ describe('UserService', () => {
     const userBody: User = req.request.body.valueOf();
     expect(userBody.name).toEqual(user.name);
     expect(userBody.username).toEqual(user.username);
-    expect(userBody.email).toEqual(user.email);
 
     req.flush(new User({id: -1}));
 
@@ -182,7 +180,6 @@ describe('UserService', () => {
     });
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('username')).toEqual('');
-    expect(req.request.params.get('email')).toEqual('');
     expect(req.request.params.get('page')).toEqual('0');
     expect(req.request.params.get('size')).toEqual('10');
 
@@ -193,14 +190,13 @@ describe('UserService', () => {
 
   /* 分页参数测试 */
   it('page params test', () => {
-    service.page({ username: 'username', email: 'email', page: 2, size: 20}).subscribe();
+    service.page({ username: 'username', page: 2, size: 20}).subscribe();
     /* 断言发起了http请求，方法为get；请求参数值符合预期 */
     const req = TestBed.get(HttpTestingController).expectOne(
       request => request.url === '/user'
     );
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('username')).toEqual('username');
-    expect(req.request.params.get('email')).toEqual('email');
     expect(req.request.params.get('page')).toEqual('2');
     expect(req.request.params.get('size')).toEqual('20');
 

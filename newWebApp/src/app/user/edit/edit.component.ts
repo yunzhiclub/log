@@ -28,8 +28,7 @@ export class EditComponent implements OnInit {
     });
     this.formGroup = new FormGroup({
       name: new FormControl(''),
-      username: new FormControl(''),
-      email: new FormControl('')
+      username: new FormControl('')
     });
 
   }
@@ -37,7 +36,6 @@ export class EditComponent implements OnInit {
   onSubmit() {
     this.user.name = this.formGroup.get('name').value;
     this.user.username = this.formGroup.get('username').value;
-    this.user.email = this.formGroup.get('email').value;
     this.update(this.user);
   }
 
@@ -74,8 +72,7 @@ export class EditComponent implements OnInit {
   setFormGroupValue(user: User) {
     this.formGroup.setValue({
       name: user.name,
-      username: user.username,
-      email: user.email,
+      username: user.username
     });
   }
 }
