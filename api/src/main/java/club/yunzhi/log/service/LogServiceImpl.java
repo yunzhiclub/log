@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -122,12 +123,12 @@ public class LogServiceImpl implements LogService {
         return yunzhiService.page(logRepository, log, pageable);
     }
     @Override
-    public List<Log> getLogOfThreeMonth(){
+    public List<Log> getLogOfThreeMonth() throws ParseException {
         return logRepository.getLogOfThreeMonth();
     }
 
     @Override
-    public void deleteLogOfThreeMonth() {
+    public void deleteLogOfThreeMonth() throws ParseException {
         logRepository.deleteLogOfThreeMonth();
     }
 }

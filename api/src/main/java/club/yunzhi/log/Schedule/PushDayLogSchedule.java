@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class PushDayLogSchedule {
     }
 
     @Scheduled(cron = "${time.cron}")
-    public void pushDayLogSchedule() {
+    public void pushDayLogSchedule() throws ParseException {
         List<DayLog> dayLogs = dayLogRepository.getLogOfYesterday();
         for (DayLog dayLog : dayLogs) {
             this.ClientName = dayLog.getClient().getName();
