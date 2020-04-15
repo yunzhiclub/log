@@ -1,17 +1,59 @@
-<div class="row justify-content-center">
-  <div class="col-4">
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">用户名</label>
-        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
-               placeholder="用户名" formControlName="username">
-        <small id="usernameHelp" class="form-text text-muted">系统对您提交的用户信息严格保密</small>
+<!--<div class="row justify-content-center">-->
+<!--  <div class="col-4">-->
+<!--    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">-->
+<!--      <div class="form-group">-->
+<!--        <label for="username">用户名</label>-->
+<!--        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"-->
+<!--               placeholder="用户名" formControlName="username">-->
+<!--        <small id="usernameHelp" class="form-text text-muted">系统对您提交的用户信息严格保密</small>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">密码</label>-->
+<!--        <input type="password" class="form-control" id="password" placeholder="密码" formControlName="password">-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn btn-primary">提交</button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<div class="container-fluid p-0">
+  <div class="header">
+    <div class="row m-0">
+      <div class="col-md-2 offset-md-2">
+        <p class="title"><b>日志管理系统</b></p>
       </div>
-      <div class="form-group">
-        <label for="password">密码</label>
-        <input type="password" class="form-control" id="password" placeholder="密码" formControlName="password">
+    </div>
+  </div>
+  <div class="content">
+    <div class="row m-0 pt-5">
+      <div class="col-md-2 offset-md-8 mt-2 pl-3 pr-3 pt-4 pb-4 bg-white">
+
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
+                   placeholder="用户名" formControlName="username">
+            <small id="usernameHelp" class="form-text text-muted">系统对您提交的用户信息严格保密</small>
+          </div>
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" placeholder="密码" formControlName="password">
+          </div>
+          <button type="submit" class="btn btn-primary">提交</button>
+        </form>
       </div>
-      <button type="submit" class="btn btn-primary">提交</button>
-    </form>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="row m-0">
+      <div class="col-md-8 offset-md-2">
+        <p class="text-center power">
+          技术支持:
+          <a target="_blank">河北工业大学梦云智软件开发中心</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>

@@ -5,6 +5,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
+import {CoreModule} from '../../core/core.module';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 describe('setting -> index', () => {
   let component: IndexComponent;
@@ -15,7 +17,9 @@ describe('setting -> index', () => {
       declarations: [ IndexComponent ],
       imports: [ReactiveFormsModule,
         HttpClientTestingModule,
-        RouterTestingModule],
+        RouterTestingModule,
+        CoreModule,
+        AppTestingModule],
     })
     .compileComponents();
   }));

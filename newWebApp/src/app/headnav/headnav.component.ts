@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../service/user.service';
 import {environment} from '../../environments/environment';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-headnav',
@@ -9,7 +10,7 @@ import {environment} from '../../environments/environment';
 })
 export class HeadnavComponent implements OnInit {
   title: string;
-  constructor(private  userService: UserService) { }
+  constructor(private  userService: UserService, private appComponent: AppComponent) { }
 
   ngOnInit() {
     this.title = environment.title;
@@ -18,7 +19,12 @@ export class HeadnavComponent implements OnInit {
   onLogout() {
     this.userService.logout()
       .subscribe(() => {
+        this.appComponent.success(() => {
+        }, '注销成功');
         this.userService.setIsLogin(false);
+      }, () => {
+        this.appComponent.error(() => {
+        }, '注销失败');
       });
   }
 }
