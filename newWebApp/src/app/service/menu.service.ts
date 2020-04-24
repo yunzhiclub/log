@@ -11,7 +11,7 @@ export class MenuService {
   }
 
   /*在此设置每页大小*/
-  public static size = 2;
+  public static size = 10;
 
   private menusSubject = new BehaviorSubject<Array<Menu>>([
     new Menu({name: '首页', url: ''}),
