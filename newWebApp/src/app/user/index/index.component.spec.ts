@@ -7,8 +7,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UserStubService} from '../../service/user-stub.service';
 import {UserService} from '../../service/user.service';
-import {CoreModule} from '../../core/core.module';
 import {AppTestingModule} from '../../app-testing/app-testing.module';
+import {CoreTestingController} from '../../core/core-testing/core-testing-controller';
+import {PageComponent} from '../../core/core-testing/page/page.component';
+import {CoreTestingModule} from '../../core/core-testing/core-testing.module';
 
 describe('user -> IndexComponent', () => {
   let component: IndexComponent;
@@ -18,8 +20,9 @@ describe('user -> IndexComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IndexComponent ],
-      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, CoreModule, AppTestingModule, ReactiveFormsModule],
+      imports: [HttpClientTestingModule, FormsModule, RouterTestingModule, AppTestingModule, ReactiveFormsModule, CoreTestingModule],
       providers: [
+        CoreTestingController,
         {provide: UserService, useClass: UserStubService}
       ]
     })
@@ -64,6 +67,22 @@ describe('user -> IndexComponent', () => {
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testUser');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('testusername');
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('编辑删除重置密码');
+  });
+
+  it('选择页数组件', function() {
+    const controller = TestBed.get(CoreTestingController) as CoreTestingController;
+    const sizeComponent = controller.get(PageComponent) as PageComponent;
+    expect(sizeComponent.setPage).toBe(component.params.page);
+    expect(sizeComponent.setSize).toBe(component.params.size);
+    expect(sizeComponent.setTotalPages).toBe(component.pageUser.totalPages);
+
+    spyOn(component, 'onPageSelected');
+    spyOn(component, 'onSizeSelected');
+    sizeComponent.selectedPage.emit(3);
+    sizeComponent.selectedSize.emit(4);
+    expect(component.onPageSelected).toHaveBeenCalledWith(3);
+    expect(component.onSizeSelected).toHaveBeenCalledWith(4);
+
   });
 
 });

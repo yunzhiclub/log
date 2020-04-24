@@ -1,13 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PageComponent} from './page/page.component';
+import { SelectComponent } from './select/select.component';
+import { SizeComponent } from './size/size.component';
 
 @NgModule({
-  declarations: [PageComponent],
+  declarations: [PageComponent, SelectComponent, SizeComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     PageComponent
