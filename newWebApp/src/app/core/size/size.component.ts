@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Select} from '../select/select.component';
 
 @Component({
   selector: 'app-size',

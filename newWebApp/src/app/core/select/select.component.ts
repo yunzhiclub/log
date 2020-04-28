@@ -59,5 +59,4 @@ export class Select {
     this.id = id;
     this.name = name;
   }
-
 }
