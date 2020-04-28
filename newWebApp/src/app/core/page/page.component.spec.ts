@@ -255,7 +255,7 @@ describe('PageComponent', () => {
 
     spyOn(component, 'onSizeSelected');
     const emitSize = 4;
-    sizeComponent.onChangeSize.emit(emitSize);
+    sizeComponent.ChangeSize.emit(emitSize);
     expect(component.onSizeSelected).toHaveBeenCalledWith(4);
 
   });

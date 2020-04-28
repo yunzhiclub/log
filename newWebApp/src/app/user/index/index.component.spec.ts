@@ -69,7 +69,7 @@ describe('user -> IndexComponent', () => {
     expect(table.rows.item(row).cells.item(col++).innerText).toBe('编辑删除重置密码');
   });
 
-  it('选择页数组件', function() {
+  it('选择页数组件', () => {
     const controller = TestBed.get(CoreTestingController) as CoreTestingController;
     const sizeComponent = controller.get(PageComponent) as PageComponent;
     expect(sizeComponent.setPage).toBe(component.params.page);
