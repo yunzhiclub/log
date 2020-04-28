@@ -3,10 +3,9 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PageComponent} from './page/page.component';
 import { SizeComponent } from './size/size.component';
-import { SelectComponent } from './select/select.component';
 
 @NgModule({
-  declarations: [PageComponent, SizeComponent, SelectComponent],
+  declarations: [PageComponent, SizeComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -14,7 +13,6 @@ import { SelectComponent } from './select/select.component';
   ],
   exports: [
     PageComponent,
-    SelectComponent
   ]
 })
 export class CoreModule {
