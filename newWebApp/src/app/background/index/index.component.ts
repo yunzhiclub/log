@@ -45,5 +45,10 @@ export class IndexComponent implements OnInit {
     this.params.page = page;
     this.load();
   }
+
+  onSizeSelected(size: number) {
+    this.params.size = MenuService.size = size;
+    this.load();
+  }
 }
 

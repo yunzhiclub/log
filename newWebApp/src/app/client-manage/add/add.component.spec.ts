@@ -5,7 +5,6 @@ import {FormTest} from '../../testing/FormTest';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {Client} from '../../norm/entity/client';
 import {ReactiveFormsModule} from '@angular/forms';
-import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppTestingModule} from '../../app-testing/app-testing.module';
 

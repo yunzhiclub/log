@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageComponent } from './page.component';
 import {By} from '@angular/platform-browser';
 import {FormTest} from '../../testing/FormTest';
-
-
+import {FormsModule} from '@angular/forms';
+import {CoreTestingController} from '../core-testing/core-testing-controller';
+import {SizeComponent} from '../core-testing/size/size.component';
 
 describe('PageComponent', () => {
   let component: PageComponent;
@@ -16,7 +17,11 @@ describe('PageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageComponent ]
+      declarations: [ PageComponent, SizeComponent ],
+      imports: [FormsModule],
+      providers: [
+        CoreTestingController
+      ]
     })
     .compileComponents();
   }));
@@ -43,7 +48,6 @@ describe('PageComponent', () => {
 
     /* 断言绑定了C层的分页值 */
     expect(text).toContain(`第${component.page + 1}/${component.totalPages}页`);
-    expect(text).toContain(`第${component.page + 1}/${component.totalPages}页 每页${component.size}条`);
   });
 
   it('分页 -> 首页样式测试', () => {
@@ -242,5 +246,17 @@ describe('PageComponent', () => {
     spyOn(component, 'onPage');
     liElement.click();
     expect(component.onPage).toHaveBeenCalledWith(component.totalPages - 1);
+  });
+
+  it('选择每页大小', () => {
+    const controller = TestBed.get(CoreTestingController) as CoreTestingController;
+    const sizeComponent = controller.get(SizeComponent) as SizeComponent;
+    expect(sizeComponent.size).toBe(component.size);
+
+    spyOn(component, 'onSizeSelected');
+    const emitSize = 4;
+    sizeComponent.ChangeSize.emit(emitSize);
+    expect(component.onSizeSelected).toHaveBeenCalledWith(4);
+
   });
 });
