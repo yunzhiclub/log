@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalCenterComponent } from './personal-center.component';
-import {TestModule} from '../test/test.module';
-import {User} from '../norm/entity/user';
-import {UserService} from '../service/user.service';
+import {TestModule} from '../../test/test.module';
+import {User} from '../../norm/entity/user';
+import {UserService} from '../../service/user.service';
 import {of} from 'rxjs';
 
 describe('PersonalCenterComponent', () => {
@@ -32,7 +32,7 @@ describe('PersonalCenterComponent', () => {
   it('ngOnInit', () => {
     const userService = TestBed.get(UserService) as UserService;
     console.log(userService);
-    const mockReturnUser = new User({id: null, username: null, name: null, email: null});
+    const mockReturnUser = new User({id: null, username: null, name: null});
     spyOn(userService, 'me').and.returnValue(of(mockReturnUser));
 
     component.ngOnInit();

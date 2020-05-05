@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from '../norm/entity/user';
-import {UserService} from '../service/user.service';
+import {User} from '../../norm/entity/user';
+import {UserService} from '../../service/user.service';
 
 @Component({
   selector: 'app-personal-center',
@@ -15,9 +15,7 @@ export class PersonalCenterComponent implements OnInit {
   ngOnInit() {
     // 调用M层的相关方法
     this.userService.me().subscribe((user) => {
-      console.log(user);
       this.user = user;
     });
   }
-
 }

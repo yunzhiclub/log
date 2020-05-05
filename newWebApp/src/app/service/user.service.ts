@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {User} from '../norm/entity/user';
+import {AbstractControl, AsyncValidatorFn, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {catchError, map} from 'rxjs/operators';
+import {VUser} from "../base/vuser";
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +18,15 @@ export class UserService {
   public isLogin$: Observable<boolean>;
 
   private isLoginCacheKey = 'isLogin';
-
+  private currentLoginUser: User;
+  private currentLoginUserSubject = new ReplaySubject<User>(1);
+  public currentLoginUser$: Observable<User>;
   constructor(private httpClient: HttpClient) {
     const isLogin: string = window.sessionStorage.getItem(this.isLoginCacheKey);
     this.isLogin = new BehaviorSubject(this.convertStringToBoolean(isLogin));
     this.isLogin$ = this.isLogin.asObservable();
-
+    this.currentLoginUser$ = this.currentLoginUserSubject.asObservable();
+    this.getCurrentLoginUser();
   }
   /**
    * 用户登录
@@ -31,6 +37,67 @@ export class UserService {
   login(username: string, password: string): Observable<boolean> {
     const url = '/user/login';
     return this.httpClient.post<boolean>(url, {username, password});
+  }
+  private getCurrentLoginUser() {
+
+    this.httpClient.get<User>(`/user/me`)
+      .subscribe(user => {
+        this.setCurrentLoginUser(user);
+      }, () => {
+        this.setCurrentLoginUser(null);
+      });
+  }
+
+  /**
+   * 设置当前登录用户
+   * @param user 登录用户
+   */
+  setCurrentLoginUser(user: User): void {
+    this.currentLoginUser = user;
+    this.currentLoginUserSubject.next(user);
+  }
+
+  /**
+   * 校验密码是否正确
+   * @param password 密码
+   */
+  public checkPasswordIsRight(password: string): Observable<boolean> {
+    const vUser = new VUser();
+    vUser.password = password;
+    return this.httpClient.post<boolean>(`/user/validatePassword`, vUser);
+  }
+
+  /**
+   * 验证原密码是否正确
+   */
+  public oldPasswordValidator(): AsyncValidatorFn {
+    return (ctrl: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return this.checkPasswordIsRight(ctrl.value)
+        .pipe(map((isRight: boolean) => (isRight ? null : {passwordError: true})),
+          catchError(() => null));
+    };
+  }
+
+  /**
+   * 验证新密码与确认密码是否相同
+   * @param control 表单
+   */
+  public confirmPasswordValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const newPassword = control.get('newPassword').value;
+    const confirmNewPassword = control.get('confirmNewPassword').value;
+
+    // 判断确认密码与新密码是否相同
+    if (newPassword && confirmNewPassword) {
+      return newPassword !== confirmNewPassword ? {confirmPasswordError: true} : null;
+    }
+    return null;
+  }
+  /**
+   * 获取登录用户时，应该结合appOnReady。示例：
+   * this.commonService.appOnReady(() => {const user = this.userService.getCurrentUser();});
+   */
+  getCurrentUser(): User | null {
+    return this.currentLoginUser;
   }
   /**
    * 设置登录状态
