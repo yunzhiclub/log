@@ -11,7 +11,7 @@ export class MenuService {
   }
 
   /*在此设置每页大小*/
-  public static size = 2;
+  public static size = 10;
 
   private menusSubject = new BehaviorSubject<Array<Menu>>([
     new Menu({name: '首页', url: ''}),
@@ -19,7 +19,7 @@ export class MenuService {
     new Menu({name: '后台日志管理', url: 'background'}),
     new Menu({name: '用户管理', url: 'user'}),
     new Menu({name: '系统设置', url: 'setting'}),
-    new Menu({name: '个人中心', url: 'personalCenter'})
+    new Menu({name: '个人中心', url: 'person'})
 
   ]);
 

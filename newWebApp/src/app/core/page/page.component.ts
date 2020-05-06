@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-page',
@@ -26,7 +26,9 @@ export class PageComponent implements OnInit {
   /* 分页数据 */
   pages: Array<number>;
 
-  @Output() selected = new EventEmitter<number>();
+  @Output() selectedPage = new EventEmitter<number>();
+  @Output() selectedSize = new EventEmitter<number>();
+
 
   page: number;
   totalPages: number;
@@ -48,7 +50,7 @@ export class PageComponent implements OnInit {
       return ;
     }
 
-    this.selected.emit(page);
+    this.selectedPage.emit(page);
     this.loadData();
   }
 
@@ -94,4 +96,7 @@ export class PageComponent implements OnInit {
     return result;
   }
 
+  onSizeSelected(size: number) {
+    this.selectedSize.emit(size);
+  }
 }

@@ -38,7 +38,7 @@ export class IndexComponent implements OnInit {
   loadData() {
     const queryParams = {
       page: this.params.page,
-      size: this.params.size,
+      size: MenuService.size,
       username: this.params.username.value
     };
 
@@ -100,5 +100,9 @@ export class IndexComponent implements OnInit {
   clear() {
     this.params.username.setValue(null);
     this.ngOnInit();
+  }
+  onSizeSelected(size: number) {
+    MenuService.size = size;
+    this.loadData();
   }
 }

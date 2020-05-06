@@ -75,7 +75,6 @@ export class IndexComponent implements OnInit {
     this.load();
   }
 
-
   /**
    * 单选框被用户点击时
    * @param $event 弹射值
@@ -96,6 +95,11 @@ export class IndexComponent implements OnInit {
   /* 选择班级 */
   onSelectKlass(client: Client) {
     this.params.client = client;
+    this.load();
+  }
+
+  onSizeSelected(size: number) {
+    this.params.size = MenuService.size = size;
     this.load();
   }
 }

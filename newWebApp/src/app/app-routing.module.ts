@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LoginComponent} from './login/login.component';
-import {PersonalCenterComponent} from './personal-center/personal-center.component';
+
 
 
 
@@ -27,8 +27,8 @@ const routes: Routes = [
     loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
   {
-    path: 'personalCenter',
-    component: PersonalCenterComponent
+    path: 'person',
+    loadChildren: () => import('./person/person.module').then(mod => mod.PersonModule)
   }
 ];
 

@@ -5,6 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {of} from 'rxjs';
 import {HttpRequest} from '@angular/common/http';
 import {User} from '../norm/entity/user';
+import {VUser} from '../base/vuser';
 
 describe('UserService', () => {
   let service: UserService;
@@ -187,7 +188,25 @@ describe('UserService', () => {
     expect(called).toBe(true);
   });
 
-
+  it('updatePassword', () => {
+    const newPassword = 'newPassword';
+    let  called = false;
+    const vUser = new VUser();
+    vUser.newPassword = newPassword;
+    service.updatePassword(vUser.newPassword)
+      .subscribe(result => {
+        called = true;
+      });
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne(`/user/updatePassword`);
+    // 断言请求的参数及方法符合预期
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toEqual(vUser);
+    // 返回值为可被观察者，该观察者携带的内容为`void`
+    expect(called).toBeFalsy();
+    req.flush(of());
+    expect(called).toBeTruthy();
+  });
   /* 分页参数测试 */
   it('page params test', () => {
     service.page({ username: 'username', page: 2, size: 20}).subscribe();

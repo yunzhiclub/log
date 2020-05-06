@@ -3,6 +3,7 @@ package club.yunzhi.log.controller;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.UserService;
+import club.yunzhi.log.vo.VUser;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import net.bytebuddy.utility.RandomString;
@@ -293,6 +294,21 @@ public class UserControllerTest {
         this.mockMvc.perform(putRequest)
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void updatePassword() throws Exception {
+        VUser vUser = new VUser();
+        String newPassword = RandomString.make(6);
+        vUser.setNewPassword(newPassword);
+        JSONObject JsonObject = new JSONObject();
+        JsonObject.put("newPassword", newPassword);
+        MockHttpServletRequestBuilder putRequest = MockMvcRequestBuilders.put("/user/updatePassword", vUser)
+                .contentType("application/json;charset=UTF-8")
+                .content(String.valueOf(JsonObject));
+        this.mockMvc.perform(putRequest)
+                .andExpect(status().isOk());
+    }
+
     @Test
     public void findAll() throws Exception {
         logger.info("初始化模拟返回数据");
