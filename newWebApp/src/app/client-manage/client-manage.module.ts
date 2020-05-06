@@ -6,6 +6,9 @@ import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import {HttpClientModule} from '@angular/common/http';
 import {httpInterceptorProviders} from '../interceptor/index-interceptor';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {UserRoutingModule} from '../user/user-routing.module';
+import {CoreModule} from '../core/core.module';
 
 
 
@@ -14,7 +17,11 @@ import {httpInterceptorProviders} from '../interceptor/index-interceptor';
   imports: [
     CommonModule,
     ClientManageRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    FormsModule,
+    CoreModule
   ],
   providers: [
     httpInterceptorProviders,

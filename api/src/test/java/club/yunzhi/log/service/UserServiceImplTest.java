@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.vo.VUser;
 import net.bytebuddy.utility.RandomString;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -12,7 +13,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -269,8 +269,87 @@ public class UserServiceImplTest {
         Assert.assertEquals(longArgumentCaptor.getValue(), id);
     }
 
+    @Test
+    public void findAllSpecs() {
+        /* 参数初始化 */
+        String name = "hello";
+        String email = "testemail";
+        Long itemId = 1L;
+        Pageable pageable = PageRequest.of(0, 2);
+        List<User> works = Arrays.asList();
+        Page<User> mockStudentPage = new PageImpl<>(works, pageable, 100L);
 
+        /* 设置模拟返回值 */
+        Mockito.when(this.userRepository
+                .findAll(Mockito.eq(name),
+                        Mockito.eq(email),
+                        Mockito.eq(pageable)))
+                .thenReturn(mockStudentPage);
 
+        /* 调用测试方法，获取返回值并断言与预期相同 */
+        Page<User> returnStudentPage = this.userService.findAll( name, email, pageable);
+        Assert.assertEquals(returnStudentPage, mockStudentPage);
 
+    }
+    @Test
+    public void validateOldPassword() {
+        // 用户中有密码，且密码与传入的密码相同，返回true
+        User user = new User();
+        Long id  = new Random().nextLong();
+        VUser vUser = new VUser();
+        String password = RandomString.make(6);
+        vUser.setPassword(password);
+        user.setId(id);
+        user.setPassword(password);
+        Mockito.doReturn(user).when(userService).me();
+        Assert.assertTrue(this.userService.validateOldPassword(vUser));
+        // 密码为null返回false
+        vUser.setPassword(null);
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+
+        // 未设置 用户的密码，返回false
+        user.setPassword(null);
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+
+        //  用户中的密码与传入的密码不相同返回false
+        user.setPassword(RandomString.make(6));
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+    }
+
+    @Test
+    public void updatePassword() {
+        String newPassword = RandomString.make(5);
+        VUser resultVUser = new VUser();
+        resultVUser.setNewPassword(newPassword);
+        User resultUser = new User();
+
+        Mockito.doReturn(resultUser).when(userService).me();
+
+        userService.updatePassword(resultVUser);
+        ArgumentCaptor<VUser> VUserPasswordArgumentCaptor = ArgumentCaptor.forClass(VUser.class);
+        Mockito.verify(userService).updatePassword(VUserPasswordArgumentCaptor.capture());
+        VUser vUser = VUserPasswordArgumentCaptor.getValue();
+        Assertions.assertThat(vUser).isEqualTo(resultVUser);
+    }
+
+    @Test
+    public void resetPassword() {
+        Long id = new  Random().nextLong();
+        User resultUser = new User();
+        resultUser.setId(id);
+        Optional <User> resultUserOptional = Optional.of(new User());
+
+        Mockito.doReturn(resultUserOptional).when(userRepository).findById(Mockito.anyLong());
+        Mockito.doReturn(resultUser).when(userRepository).save(Mockito.any(User.class));
+
+        userService.resetPassword(id);
+        ArgumentCaptor<Long> userIdArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+        Mockito.verify(userService).resetPassword(userIdArgumentCaptor.capture());
+        Long userId = userIdArgumentCaptor.getValue();
+        Assertions.assertThat(userId).isEqualTo(id);
+    }
 
 }

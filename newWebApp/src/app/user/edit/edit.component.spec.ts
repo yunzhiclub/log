@@ -11,6 +11,7 @@ import {ActivatedRouteStub} from './activated-route-stub';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 
 describe('EditComponent', () => {
@@ -23,7 +24,8 @@ describe('EditComponent', () => {
       declarations: [ EditComponent ],
       imports: [ReactiveFormsModule,
       HttpClientTestingModule,
-        RouterTestingModule],
+        RouterTestingModule,
+        AppTestingModule],
       providers: [
         {provide: ActivatedRoute, useClass: ActivatedRouteStub},
         {provide: UserService, useValue: studentServiceSpy}
@@ -74,7 +76,6 @@ describe('EditComponent', () => {
     const user = new User();
     user.name = Math.random().toString(36).slice(-10);
     user.username = Math.random().toString(36).slice(-10);
-    user.email = Math.random().toString(36).slice(-10);
 
     component.setFormGroupValue(user);
 
@@ -84,15 +85,12 @@ describe('EditComponent', () => {
     expect(nameInput.value).toEqual(user.name);
     const usernameInput: HTMLInputElement = fixture.debugElement.query(By.css('input[name="username"]')).nativeElement;
     expect(usernameInput.value).toEqual(user.username);
-    const emailInput: HTMLInputElement = fixture.debugElement.query(By.css('input[name="email"]')).nativeElement;
-    expect(emailInput.value).toEqual(user.email);
   });
 
   it('点击保存按钮', () => {
     spyOn(component, 'onSubmit');
     component.formGroup.get('name').setValue('123');
     component.formGroup.get('username').setValue('123421');
-    component.formGroup.get('email').setValue('1234');
     fixture.detectChanges();
     const button: HTMLButtonElement = fixture.debugElement.query(By.css('button')).nativeElement;
     button.click();
@@ -103,11 +101,9 @@ describe('EditComponent', () => {
     // 设置formGroup的值
     const name = Math.random().toString(36).slice(-10);
     const username = Math.random().toString(36).slice(-10);
-    const email = Math.random().toString(36).slice(-10);
 
     component.formGroup.get('name').setValue(name);
     component.formGroup.get('username').setValue(username);
-    component.formGroup.get('email').setValue(email);
 
     // 设置update方法替身
     spyOn(component, 'update');
@@ -118,7 +114,6 @@ describe('EditComponent', () => {
     // 断言已使用formGroup及班级选择组件的值更新了用户信息
     expect(component.user.name).toBe(name);
     expect(component.user.username).toBe(username);
-    expect(component.user.email).toBe(email);
 
     // 断言调用 向M层传入更新的用户ID及更新的用户信息 方法
     expect(component.update).toHaveBeenCalledWith(component.user);

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class LogServiceImplTest {
         this.logService = Mockito.spy(logService);
     }
     @Test
-    public void getDayLogOfThreeMonth() {
+    public void getDayLogOfThreeMonth() throws ParseException {
 
         List<Log> mockLogs = Arrays.asList(new Log());
         Mockito.when(this.logService.getLogOfThreeMonth()).thenReturn(mockLogs);

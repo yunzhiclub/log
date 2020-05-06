@@ -3,6 +3,8 @@ package club.yunzhi.log.service;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.vo.VUser;
+import com.mengyunzhi.core.exception.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Optional;
@@ -27,6 +30,8 @@ public class UserServiceImpl implements UserService {
     /** auth-token与teacherId的映射 */
     private HashMap<String, Long> authTokenUserIdHashMap = new HashMap<>();
     private final HttpServletRequest request;
+    private String initialPassword = "yunzhi";
+
 
 
     @Autowired
@@ -95,6 +100,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAll(String username, String email, Pageable pageable) {
+        Assert.notNull(pageable, "Pageable不能为null");
+        return this.userRepository.findAll(username, email, pageable);
+    }
+
+    @Override
     public User findById(@NotNull Long id) {
         Assert.notNull(id, "id不能为null");
         return this.userRepository.findById(id).get();
@@ -131,5 +142,34 @@ public class UserServiceImpl implements UserService {
         Long userId = this.authTokenUserIdHashMap.get(authToken);
         return userId != null;
 
+    }
+    @Override
+    public boolean validateOldPassword(VUser vUser) {
+        if (this.me() == null || this.me().getPassword() == null || vUser.getPassword() == null)
+        {
+            return false;
+        }
+        return this.me().getPassword().equals(vUser.getPassword());
+    }
+
+    @Override
+    public void updatePassword(VUser vUser) {
+        logger.debug("获取当前用户");
+        User currentUser = this.me();
+        logger.debug("更新密码");
+        currentUser.setPassword(vUser.getNewPassword());
+        this.userRepository.save(currentUser);
+    }
+
+    @Override
+    public void resetPassword(Long id){
+        logger.debug("获取学生对应的用户信息");
+        Optional <User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent())
+        {
+            throw new ObjectNotFoundException("未找到相关用户");
+        }
+        userOptional.get().setPassword(this.initialPassword);
+        userRepository.save(userOptional.get());
     }
 }

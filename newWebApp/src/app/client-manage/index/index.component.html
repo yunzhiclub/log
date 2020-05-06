@@ -1,3 +1,9 @@
+<div class="row">
+  <div class="col text-right">
+    <a class="btn btn-primary"  routerLink="./add"><span class="oi oi-plus"></span>新增</a>
+  </div>
+</div>
+<br>
 <table class="table">
   <thead>
   <tr>
@@ -10,6 +16,7 @@
     <th>今日info数</th>
     <th>今日warning数</th>
     <th>今日error数</th>
+    <th>操作</th>
   </tr>
   </thead>
   <tbody>
@@ -23,34 +30,14 @@
     <td>{{client.todayLog.infoCount}}</td>
     <td>{{client.todayLog.warnCount}}</td>
     <td>{{client.todayLog.errorCount}}</td>
+    <td>
+      <button class="btn btn-primary btn-sm mr-2" routerLink="./edit/{{client.id}}"><i class="fas fa-edit"></i>
+        编辑</button>
+      <button class="btn btn-danger btn-sm mr-2" (click)="onDelete(client)"> <i class="fas fa-trash-alt"></i>
+      删除</button>
+
+    </td>
   </tr>
 
 </table>
-
-<div *ngIf="clientPage" class="row">
-  <div class="col-4" id="pageInfo">
-    第{{params.page}}/{{clientPage.totalPages}}页 每页{{params.size}}条
-  </div>
-  <div class="col-8">
-    <nav>
-      <ul class="pagination">
-        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(0)">
-          <span class="page-link">首页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(params.page - 1)">
-          <span class="page-link">上一页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'active': params.page === page}" *ngFor="let page of pages" (click)="onPage(page)">
-          <a class="page-link" *ngIf="page !== params.page">{{page + 1}}</a>
-          <span class="page-link" *ngIf="page === params.page">{{page + 1}}<span class="sr-only">(current)</span></span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(params.page + 1)">
-          <span class="page-link">下一页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === clientPage.totalPages - 1}" (click)="onPage(clientPage.totalPages - 1)">
-          <span class="page-link">尾页</span>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>
+<app-page *ngIf="clientPage.totalPages != 0" [setTotalPages]="clientPage.totalPages" [setPage]="params.page" [setSize]="params.size" (selectedPage)="onPageSelected($event)" (selectedSize)="onSizeSelected($event)"></app-page>

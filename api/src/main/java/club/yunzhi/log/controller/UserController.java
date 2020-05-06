@@ -2,13 +2,14 @@ package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.service.UserService;
+import club.yunzhi.log.vo.VUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 
 /**
@@ -35,9 +36,27 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<User> getAll(@RequestParam int page,
-                             @RequestParam int size) {
-        return this.userService.findAll(PageRequest.of(page, size));
+    public Page<User> getAll(@RequestParam(required = false) String username,
+                             @RequestParam(required = false) String email,
+                             Pageable pageable) {
+        return this.userService.findAll(
+                username,
+                email,
+                pageable);
+    }
+
+    @PostMapping("validateOldPassword")
+    public boolean validateOldPassword (@RequestBody VUser vUser)
+    {return this.userService.validateOldPassword(vUser);}
+
+    /**
+     * 修改密码
+     *
+     * @param vUser 带有新密码和旧密码VUser
+     */
+    @PutMapping("updatePassword")
+    public void updatePassword(@RequestBody VUser vUser) {
+        this.userService.updatePassword(vUser);
     }
 
     @GetMapping("{id}")
@@ -60,5 +79,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
         this.userService.deleteById(id);
+    }
+
+    @PutMapping("resetPassword/{id}")
+    public void resetPassword(@PathVariable Long id){
+        userService.resetPassword(id);
     }
 }

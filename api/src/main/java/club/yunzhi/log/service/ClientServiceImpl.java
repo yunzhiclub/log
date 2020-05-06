@@ -2,6 +2,8 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
+import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.entity.User;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
 import com.mengyunzhi.core.service.CommonService;
@@ -12,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -22,8 +25,8 @@ import java.util.List;
  */
 @Service
 public class ClientServiceImpl implements ClientService {
-    private final
-    ClientRepository clientRepository;
+    @Autowired
+    private final ClientRepository clientRepository;
 
     @Autowired
     public ClientServiceImpl(ClientRepository clientRepository) {
@@ -50,8 +53,28 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client findById(Long id) {
+        return this.clientRepository.findById(id).get();
+    }
+
+    @Override
     public Client save(Client client) {
         return clientRepository.save(client);
+    }
+
+    @Override
+    public Client update(Long id, Client client) {
+        Client oldClient = this.clientRepository.findById(id).get();
+        oldClient.setName(client.getName());
+        oldClient.setToken(client.getToken());
+        oldClient.setDescription(client.getDescription());
+        oldClient.setUrl(client.getUrl());
+        return this.clientRepository.save(oldClient);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.clientRepository.deleteById(id);
     }
 
     @Override

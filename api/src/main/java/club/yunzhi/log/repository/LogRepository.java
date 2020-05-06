@@ -1,14 +1,14 @@
 package club.yunzhi.log.repository;
 
-import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,16 +20,32 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
      *
      * @return
      */
-    @Modifying
-    @Query(value = "SELECT * FROM `log` where  `timestamp` <= curdate() - interval 3 month",nativeQuery = true)
-    List<Log> getLogOfThreeMonth();
+    default List<Log> getLogOfThreeMonth() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -3);
+        long TimeStamp = calendar.getTimeInMillis();
+        String dateString = formatter.format(TimeStamp);
+        Date currentDate = formatter.parse(dateString);
+       return this.findAllByTimestampLessThan(currentDate);
+    };
 
+  List<Log> findAllByTimestampLessThan(Date date);
     /**
      * 根据月份删除所有记录
      * @return
      */
+
     @Transactional(rollbackFor = Exception.class)
-    @Modifying
-    @Query(value = "delete from log where  `timestamp` <= curdate() - interval 3 month",nativeQuery = true)
-    void deleteLogOfThreeMonth();
+    default void deleteLogOfThreeMonth() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -3);
+        long TimeStamp = calendar.getTimeInMillis();
+        String dateString = formatter.format(TimeStamp);
+        Date currentDate = formatter.parse(dateString);
+        deleteAllByTimestampIsLessThan(currentDate);
+    };
+
+    void deleteAllByTimestampIsLessThan(Date date);
 }

@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-page',
@@ -8,11 +9,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class PageComponent implements OnInit {
 
   constructor() { }
-  /* 分页数据 */
-  pages: Array<number>;
-
-
-  @Output() selected = new EventEmitter<number>();
 
   @Input() set setTotalPages(totalPages: number) {
     this.totalPages = totalPages;
@@ -26,6 +22,13 @@ export class PageComponent implements OnInit {
     this.size = size;
     this.pages = this.makePagesByTotalPages(this.page, this.totalPages);
   }
+
+  /* 分页数据 */
+  pages: Array<number>;
+
+  @Output() selectedPage = new EventEmitter<number>();
+  @Output() selectedSize = new EventEmitter<number>();
+
 
   page: number;
   totalPages: number;
@@ -46,8 +49,8 @@ export class PageComponent implements OnInit {
     if (page < 0 || page >= this.totalPages) {
       return ;
     }
-    // this.page = page;
-    this.selected.emit(page);
+
+    this.selectedPage.emit(page);
     this.loadData();
   }
 
@@ -93,4 +96,7 @@ export class PageComponent implements OnInit {
     return result;
   }
 
+  onSizeSelected(size: number) {
+    this.selectedSize.emit(size);
+  }
 }

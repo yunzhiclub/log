@@ -7,6 +7,7 @@ import {User} from '../../norm/entity/user';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AppTestingModule} from '../../app-testing/app-testing.module';
 
 describe('AddComponent', () => {
   let component: AddComponent;
@@ -18,7 +19,8 @@ describe('AddComponent', () => {
       declarations: [ AddComponent ],
       imports: [ReactiveFormsModule,
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AppTestingModule
         ]
     })
     .compileComponents();
@@ -42,7 +44,6 @@ describe('AddComponent', () => {
     const student: User = req.request.body.valueOf();
     expect(student.name).toEqual('testname');
     expect(student.username).toEqual('testusername');
-    expect(student.email).toEqual('testemail');
   };
 
   /**
@@ -55,12 +56,10 @@ describe('AddComponent', () => {
 
     formTest.setInputValue('input[name="name"]', 'testname');
     formTest.setInputValue('input[name="username"]', 'testusername');
-    formTest.setInputValue('input[name="email"]', 'testemail');
     formTest.clickButton('button[type="submit"]');
     fixture.detectChanges();
     expect(component.user.name).toEqual('testname');
     expect(component.user.username).toEqual('testusername');
-    expect(component.user.email).toEqual('testemail');
 
     savePostTest();
   });

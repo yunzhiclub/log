@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.vo.VUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -55,6 +56,15 @@ public interface UserService {
      */
     Page<User> findAll(Pageable pageable);
 
+    /**
+     * 查询分页信息
+     * @param username 用户名
+     * @param email 邮件
+     * @param pageable 分页条件
+     * @return 分页数据
+     */
+    Page<User> findAll(String username, String email, Pageable pageable);
+
 
     /**
      * 查找用户
@@ -86,5 +96,14 @@ public interface UserService {
      */
     boolean isLogin(String authToken);
 
+    /**
+     * 重置密码
+     * @param id
+     */
+    void resetPassword(Long id);
+
+    void updatePassword(VUser vUser);
+
+    boolean validateOldPassword(VUser vUser);
 }
 

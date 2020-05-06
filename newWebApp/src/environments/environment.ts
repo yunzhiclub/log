@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  color: '#1E90FF',
+  title: '日志管理系统'
 };
 
 /*

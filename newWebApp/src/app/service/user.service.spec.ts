@@ -5,6 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {of} from 'rxjs';
 import {HttpRequest} from '@angular/common/http';
 import {User} from '../norm/entity/user';
+import {VUser} from '../base/vuser';
 
 describe('UserService', () => {
   let service: UserService;
@@ -54,7 +55,7 @@ describe('UserService', () => {
     expect(req.request.method).toEqual('GET');
 
     // 模拟返回数据，请断言在订阅的方法中成功的接收到了数据
-    const  mockReturnUser = new User({id: null, username: null, name: null, email: null});
+    const  mockReturnUser = new User({id: null, username: null, name: null});
     req.flush(mockReturnUser);
     expect(result).toBe(mockReturnUser);
   });
@@ -62,8 +63,7 @@ describe('UserService', () => {
     const user: User = new User(
       {
         name: 'testname',
-        username: 'testusername',
-        email: 'testemail'
+        username: 'testusername'
 
       });
 
@@ -81,7 +81,6 @@ describe('UserService', () => {
     const userBody: User = req.request.body.valueOf();
     expect(userBody.name).toEqual(user.name);
     expect(userBody.username).toEqual(user.username);
-    expect(userBody.email).toEqual(user.email);
 
     req.flush(new User({id: -1}));
 
@@ -181,9 +180,7 @@ describe('UserService', () => {
       return request.url === '/user';
     });
     expect(req.request.method).toEqual('GET');
-    // expect(req.request.params.get('name')).toEqual('');
-    // expect(req.request.params.get('username')).toEqual('');
-    // expect(req.request.params.get('email')).toEqual('');
+    expect(req.request.params.get('username')).toEqual('');
     expect(req.request.params.get('page')).toEqual('0');
     expect(req.request.params.get('size')).toEqual('10');
 
@@ -191,18 +188,34 @@ describe('UserService', () => {
     expect(called).toBe(true);
   });
 
-
+  it('updatePassword', () => {
+    const newPassword = 'newPassword';
+    let  called = false;
+    const vUser = new VUser();
+    vUser.newPassword = newPassword;
+    service.updatePassword(vUser.newPassword)
+      .subscribe(result => {
+        called = true;
+      });
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const req = httpTestingController.expectOne(`/user/updatePassword`);
+    // 断言请求的参数及方法符合预期
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body).toEqual(vUser);
+    // 返回值为可被观察者，该观察者携带的内容为`void`
+    expect(called).toBeFalsy();
+    req.flush(of());
+    expect(called).toBeTruthy();
+  });
   /* 分页参数测试 */
   it('page params test', () => {
-    service.page({name: 'name', username: 'username', email: 'email', page: 2, size: 20}).subscribe();
+    service.page({ username: 'username', page: 2, size: 20}).subscribe();
     /* 断言发起了http请求，方法为get；请求参数值符合预期 */
     const req = TestBed.get(HttpTestingController).expectOne(
       request => request.url === '/user'
     );
     expect(req.request.method).toEqual('GET');
-    // expect(req.request.params.get('name')).toEqual('name');
-    // expect(req.request.params.get('username')).toEqual('username');
-    // expect(req.request.params.get('email')).toEqual('email');
+    expect(req.request.params.get('username')).toEqual('username');
     expect(req.request.params.get('page')).toEqual('2');
     expect(req.request.params.get('size')).toEqual('20');
 

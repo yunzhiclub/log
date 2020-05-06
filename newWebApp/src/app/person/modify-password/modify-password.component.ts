@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../service/user.service';
 import {AppComponent} from '../../app.component';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -16,6 +16,7 @@ export class ModifyPasswordComponent implements OnInit {
   user: User;
   constructor(private fb: FormBuilder,
               private router: Router,
+              private route: ActivatedRoute,
               private userService: UserService,
               private appComponent: AppComponent) {
   }
@@ -41,14 +42,11 @@ export class ModifyPasswordComponent implements OnInit {
   }
 
   submit() {
-    this.userService.updatePassword(this.modifyPasswordForm.get('newPassword').value,
-      this.modifyPasswordForm.get('oldPassword').value)
+    this.userService.updatePassword(this.modifyPasswordForm.get('newPassword').value)
       .subscribe(() => {
-        this.userService.logout().subscribe(() => {
           this.appComponent.success(() => {
-            this.router.navigateByUrl('/auth');
+            this.router.navigate(['./../'], {relativeTo: this.route});
           }, '修改密码成功');
-        });
       }, (res: HttpErrorResponse) => {
         this.appComponent.error(() => {
         }, `修改密码:${res.error.message}`);

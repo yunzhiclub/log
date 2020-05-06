@@ -1,18 +1,19 @@
-<!--header-->
-<app-headnav *ngIf="isLogin"></app-headnav>
-<!--main-->
+<app-login *ngIf="!isLogin"></app-login>
+<swal #alert></swal>
 <div class="container-fluid">
-  <!--登录组件-->
-  <app-login *ngIf="!isLogin"></app-login>
+  <div class="row header">
+    <div class="col-md-12 p-0">
+      <app-headnav *ngIf="isLogin"></app-headnav>
+    </div>
+  </div>
   <div class="row">
-    <!--左布局-->
-    <div class="col-md-3 col-xl-2 left-slider" >
+    <div class="menu border-right">
       <app-leftnav *ngIf="isLogin"></app-leftnav>
     </div>
-    <!--右布局-->
-    <div class="col-md-9 col-xl-10">
-      <router-outlet *ngIf="isLogin"></router-outlet>
+    <div class="content">
+      <div class="ml-4 mr-4 mt-4">
+        <router-outlet *ngIf="isLogin"></router-outlet>
+      </div>
     </div>
   </div>
 </div>
-<!--footer-->

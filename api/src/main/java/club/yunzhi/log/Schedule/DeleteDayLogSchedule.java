@@ -7,6 +7,7 @@ import club.yunzhi.log.service.LogService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class DeleteDayLogSchedule {
     }
 
     @Scheduled(cron = "${time.cron}")
-    public void deleteLogSchedule() {
+    public void deleteLogSchedule() throws ParseException {
         if (logService.getLogOfThreeMonth().isEmpty()) {
             this.message = "今日没有要删除的日志信息";
         } else {

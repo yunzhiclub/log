@@ -8,6 +8,7 @@
     <th scope="col">线程号</th>
     <th scope="col">发出对象</th>
     <th scope="col">内容</th>
+    <th scope="col">时间戳</th>
   </tr>
   </thead>
   <tbody>
@@ -19,35 +20,9 @@
     <td>{{log.thread}}</td>
     <td>{{log.logger}}</td>
     <td>{{log.message}}</td>
-    <td>{{log.timestamp}}</td>
+    <td>{{log.timestamp | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
   </tr>
 
 </table>
+<app-page *ngIf="logPage.totalPages != 0" [setTotalPages]="logPage.totalPages" [setPage]="params.page" [setSize]="params.size" (selectedPage)="onPageSelected($event)" (selectedSize)="onSizeSelected($event)"></app-page>
 
-<div *ngIf="logPage" class="row">
-  <div class="col-4" id="pageInfo">
-    第{{params.page}}/{{logPage.totalPages}}页 每页{{params.size}}条
-  </div>
-  <div class="col-8">
-    <nav>
-      <ul class="pagination">
-        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(0)">
-          <span class="page-link">首页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === 0}" (click)="onPage(params.page - 1)">
-          <span class="page-link">上一页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'active': params.page === page}" *ngFor="let page of pages" (click)="onPage(page)">
-          <a class="page-link" *ngIf="page !== params.page">{{page + 1}}</a>
-          <span class="page-link" *ngIf="page === params.page">{{page + 1}}<span class="sr-only">(current)</span></span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === logPage.totalPages - 1}" (click)="onPage(params.page + 1)">
-          <span class="page-link">下一页</span>
-        </li>
-        <li class="page-item" [ngClass]="{'disabled': params.page === logPage.totalPages - 1}" (click)="onPage(logPage.totalPages - 1)">
-          <span class="page-link">尾页</span>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>

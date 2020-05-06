@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Page} from '../../norm/entity/page';
 import {Client} from '../../norm/entity/client';
 import {ClientService} from '../../service/client.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AppComponent} from '../../app.component';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-index',
@@ -13,8 +16,8 @@ export class IndexComponent implements OnInit {
   pages: Array<number>;
   /* 查询参数 */
   params = {
-    page: 0,
-    size: 2
+    page: ClientService.clientNowPage,
+    size: MenuService.size,
   };
   /* 分页数据 */
   clientPage = {
@@ -22,7 +25,8 @@ export class IndexComponent implements OnInit {
     content: new Page<Client>(null, 0 , 0, 0)
   };
 
-  constructor(private clientService: ClientService) {
+  constructor(private clientService: ClientService,
+              private appComponent: AppComponent) {
   }
 
   ngOnInit() {
@@ -34,63 +38,38 @@ export class IndexComponent implements OnInit {
       (clientPage: Page<Client>) => {
         this.clientPage.content = clientPage;
         this.clientPage.totalPages = clientPage.totalPages;
-        this.pages = this.makePagesByTotalPages(this.params.page, clientPage.totalPages);
       }
     );
   }
 
   /**
-   * 点击分页按钮
-   * @param page 要请求的页码
+   * 删除日志
+   * @param client 日志
    */
-  onPage(page: number) {
-    if (page === -1 || page === this.clientPage.totalPages) {
-      return;
-    } else {
-      this.params.page = page;
-      this.load();
-    }
-
+  onDelete(client: Client): void {
+    this.appComponent.confirm(() => {
+    this.clientService.deleteById(client.id)
+      .subscribe((data) => {
+        this.load();
+        // 操作成功提示
+        this.appComponent.success(() => {
+        }, '删除成功');
+      }, (res: HttpErrorResponse) => {
+        // 操作失败提示
+        this.appComponent.error(() => {
+        }, '删除失败:' + res.error.message);
+      });
+  }, '即将删除日志');
   }
 
-  /**
-   * 生成页码
-   * @param begin 开始页码
-   * @param end 结束页码
-   */
-  makePages(begin: number, end: number): Array<number> {
-    const result = new Array<number>();
-    for (; begin <= end; begin++) {
-      result.push(begin);
-    }
-    return result;
+  onPageSelected(page: number) {
+    ClientService.clientNowPage = page;
+    this.params.page = page;
+    this.load();
   }
-  /**
-   * 生成分页数据
-   * @param currentPage 当前页
-   * @param totalPages 总页数
-   */
-  makePagesByTotalPages(currentPage: number, totalPages: number): Array<number> {
-    if (totalPages > 0) {
-      /* 总页数小于5 */
-      if (totalPages <= 5) {
-        return this.makePages(0, totalPages - 1);
-      }
 
-      /* 首2页 */
-      if (currentPage < 2) {
-        return this.makePages(0, 4);
-      }
-
-      /* 尾2页 */
-      if (currentPage > totalPages - 3) {
-        return this.makePages(totalPages - 5, totalPages - 1);
-      }
-
-      /* 总页数大于5，且为中间页码*/
-      return this.makePages(currentPage - 2, currentPage + 2);
-    }
-
-    return new Array();
+  onSizeSelected(size: number) {
+    this.params.size = MenuService.size = size;
+    this.load();
   }
 }

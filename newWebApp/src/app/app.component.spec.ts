@@ -5,13 +5,15 @@ import { LeftnavComponent } from './leftnav/leftnav.component';
 import {HeadnavComponent} from './headnav/headnav.component';
 import {TestModule} from './test/test.module';
 import {RouterModule} from '@angular/router';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        TestModule
+        TestModule,
+        SweetAlert2Module.forRoot(),
       ],
       declarations: [
         AppComponent, LeftnavComponent, HeadnavComponent

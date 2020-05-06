@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Page} from '../../norm/entity/page';
 import {Log} from '../../norm/entity/log';
 import {LogService} from '../../service/log.service';
+import {MenuService} from '../../service/menu.service';
 
 @Component({
   selector: 'app-index',
@@ -13,8 +14,8 @@ export class IndexComponent implements OnInit {
   pages: Array<number>;
   /* 查询参数 */
   params = {
-    page: 0,
-    size: 2
+    page: LogService.logNowPage,
+    size: MenuService.size,
   };
   /* 分页数据 */
   logPage = {
@@ -34,66 +35,20 @@ export class IndexComponent implements OnInit {
       (logPage: Page<Log>) => {
         this.logPage.content = logPage;
         this.logPage.totalPages = logPage.totalPages;
-        this.pages = this.makePagesByTotalPages(this.params.page, logPage.totalPages);
-        console.log(logPage);
-        console.log(logPage.totalPages);
       }
     );
   }
 
-  /**
-   * 点击分页按钮
-   * @param page 要请求的页码
-   */
-  onPage(page: number) {
-    if (page === -1 || page === this.logPage.totalPages) {
-      return;
-    } else {
-      this.params.page = page;
-      this.load();
-    }
+
+  onPageSelected(page: number) {
+    LogService.logNowPage = page;
+    this.params.page = page;
+    this.load();
   }
 
-  /**
-   * 生成页码
-   * @param begin 开始页码
-   * @param end 结束页码
-   */
-  makePages(begin: number, end: number): Array<number> {
-    const result = new Array<number>();
-    for (; begin <= end; begin++) {
-      result.push(begin);
-    }
-    return result;
+  onSizeSelected(size: number) {
+    this.params.size = MenuService.size = size;
+    this.load();
   }
-  /**
-   * 生成分页数据
-   * @param currentPage 当前页
-   * @param totalPages 总页数
-   */
-  makePagesByTotalPages(currentPage: number, totalPages: number): Array<number> {
-    if (totalPages > 0) {
-      /* 总页数小于5 */
-      if (totalPages <= 5) {
-        return this.makePages(0, totalPages - 1);
-      }
-
-      /* 首2页 */
-      if (currentPage < 2) {
-        return this.makePages(0, 4);
-      }
-
-      /* 尾2页 */
-      if (currentPage > totalPages - 3) {
-        return this.makePages(totalPages - 5, totalPages - 1);
-      }
-
-      /* 总页数大于5，且为中间页码*/
-      return this.makePages(currentPage - 2, currentPage + 2);
-    }
-
-    return new Array();
-  }
-
 }
 
