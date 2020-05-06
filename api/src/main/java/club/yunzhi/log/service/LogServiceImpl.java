@@ -114,14 +114,10 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public Page<Log> page(Long clientId, Pageable pageable) {
-        Log log = (Log) CommonService.getNullFieldsObject(Log.class);
-        if (clientId != null) {
-            log.setClient(new Client(clientId));
-        }
-
-        return yunzhiService.page(logRepository, log, pageable);
+    public Page<Log> page(Long clientId, String level, String message, Pageable pageable) {
+        return this.logRepository.getAll(clientId, level, message, pageable);
     }
+
     @Override
     public List<Log> getLogOfThreeMonth() throws ParseException {
         return logRepository.getLogOfThreeMonth();

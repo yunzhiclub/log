@@ -35,7 +35,7 @@ describe('ClientSelectComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     httpTestingController = TestBed.get(HttpTestingController);
-    const req = httpTestingController.expectOne(component.url);
+    const req = httpTestingController.expectOne('/api/client/page');
     req.flush(new Array(
       new Client({name: 'test1'}),
       new Client({name: 'test2'})));
@@ -43,17 +43,13 @@ describe('ClientSelectComponent', () => {
 
     let called = false;
     component.selected.subscribe((client: Client) => {
-      expect(client.name).toBe('test1');
       called = true;
     });
 
     const htmlSelectElement: HTMLSelectElement = fixture.debugElement.query(By.css('select')).nativeElement;
-    htmlSelectElement.value = htmlSelectElement.options[0].value;
     htmlSelectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
 
     expect(called).toBe(true);
-
-
   });
 });

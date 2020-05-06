@@ -18,7 +18,7 @@ public interface LogService {
     /**
      * 分页数据
      */
-    Page<Log> page(Long clientId, Pageable pageable);
+    Page<Log> page(Long clientId, String level, String message, Pageable pageable);
 
     /**
      * 查询三个月前的日志信息

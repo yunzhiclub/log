@@ -8,6 +8,7 @@ import {LogService} from '../../service/log.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormTest} from '../../testing/FormTest';
 import {CoreModule} from '../../core/core.module';
+import {ClientSelectComponent} from '../client-select/client-select.component';
 
 describe('BackgroundIndexComponent', () => {
   let component: IndexComponent;
@@ -15,7 +16,7 @@ describe('BackgroundIndexComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IndexComponent ],
+      declarations: [ IndexComponent, ClientSelectComponent ],
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
