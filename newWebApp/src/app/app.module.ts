@@ -10,8 +10,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { httpInterceptorProviders } from './interceptor/index-interceptor';
 
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import { PersonalCenterComponent } from './personal-center/personal-center.component';
 import {AuthTokenInterceptor} from './core/auth-token-interceptor';
+import {PersonalCenterComponent} from './person/personal-center/personal-center.component';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 
@@ -21,7 +21,6 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
     LeftnavComponent,
     HeadnavComponent,
     LoginComponent,
-    PersonalCenterComponent,
   ],
   imports: [
     BrowserModule,

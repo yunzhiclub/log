@@ -19,7 +19,7 @@ export class MenuService {
     new Menu({name: '后台日志管理', url: 'background'}),
     new Menu({name: '用户管理', url: 'user'}),
     new Menu({name: '系统设置', url: 'setting'}),
-    new Menu({name: '个人中心', url: 'personalCenter'})
+    new Menu({name: '个人中心', url: 'person'})
 
   ]);
 

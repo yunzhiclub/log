@@ -29,4 +29,7 @@ export class UserStubService {
 
   deleteById(id: number) {
   }
+  updatePassword(newPassword: string) {
+   newPassword = 'newPassword';
+  }
 }

@@ -3,6 +3,7 @@ package club.yunzhi.log.service;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.vo.VUser;
 import com.mengyunzhi.core.exception.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Optional;
@@ -140,6 +142,23 @@ public class UserServiceImpl implements UserService {
         Long userId = this.authTokenUserIdHashMap.get(authToken);
         return userId != null;
 
+    }
+    @Override
+    public boolean validateOldPassword(VUser vUser) {
+        if (this.me() == null || this.me().getPassword() == null || vUser.getPassword() == null)
+        {
+            return false;
+        }
+        return this.me().getPassword().equals(vUser.getPassword());
+    }
+
+    @Override
+    public void updatePassword(VUser vUser) {
+        logger.debug("获取当前用户");
+        User currentUser = this.me();
+        logger.debug("更新密码");
+        currentUser.setPassword(vUser.getNewPassword());
+        this.userRepository.save(currentUser);
     }
 
     @Override

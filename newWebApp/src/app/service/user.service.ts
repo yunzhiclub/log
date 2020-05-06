@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of, ReplaySubject} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {User} from '../norm/entity/user';
+import {VUser} from '../base/vuser';
+import {AbstractControl, AsyncValidatorFn, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,9 @@ import {User} from '../norm/entity/user';
 export class UserService {
   /*用户管理当前页*/
   public static userNowPage = 0;
-
+  public currentLoginUser: User;
+  public currentLoginUser$: Observable<User>;
+  private currentLoginUserSubject = new ReplaySubject<User>(1);
   /** 数据源 */
   private isLogin: BehaviorSubject<boolean>;
 
@@ -23,7 +28,7 @@ export class UserService {
     const isLogin: string = window.sessionStorage.getItem(this.isLoginCacheKey);
     this.isLogin = new BehaviorSubject(this.convertStringToBoolean(isLogin));
     this.isLogin$ = this.isLogin.asObservable();
-
+    this.currentLoginUser$ = this.currentLoginUserSubject.asObservable();
   }
   /**
    * 用户登录
@@ -57,6 +62,7 @@ export class UserService {
     const url = '/user/me';
     return this.httpClient.get<User>(url);
   }
+
   save(user: User) {
     const url = '/user';
     return this.httpClient.post<User>(url, user);
@@ -120,17 +126,17 @@ export class UserService {
    * @return 1 true; 其它 false
    */
   convertStringToBoolean(value: string) {
-  return value === '1';
+    return value === '1';
   }
 
-/**
- * boolean转string
- * @param value boolean
- * @return '1' true; '0' false;
- */
-convertBooleanToString(value: boolean) {
-  return value ? '1' : '0';
-}
+  /**
+   * boolean转string
+   * @param value boolean
+   * @return '1' true; '0' false;
+   */
+  convertBooleanToString(value: boolean) {
+    return value ? '1' : '0';
+  }
   /**
    * 重置密码
    * @param id  用户id
@@ -139,5 +145,50 @@ convertBooleanToString(value: boolean) {
   public resetPassword(id: number): Observable<void> {
     const url = `/user/resetPassword/${id}`;
     return this.httpClient.put<void>(url, id);
+  }
+  /**
+   * @param password 密码
+   */
+  public checkPasswordIsRight(password: string): Observable<boolean> {
+    const vUser = new VUser();
+    vUser.password = password;
+    return this.httpClient.post<boolean>(`/user/validateOldPassword`, vUser);
+  }
+
+  /**
+   * 验证原密码是否正确
+   */
+  public oldPasswordValidator(): AsyncValidatorFn {
+    return (ctrl: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return this.checkPasswordIsRight(ctrl.value)
+        .pipe(map((isRight: boolean) => (isRight ? null : {passwordError: true})),
+          catchError(() => of(null)));
+    };
+  }
+
+  /**
+   * 验证新密码与确认密码是否相同
+   * @param control 表单
+   */
+  public confirmPasswordValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+    const newPassword = control.get('newPassword').value;
+    const confirmNewPassword = control.get('confirmNewPassword').value;
+
+    // 判断确认密码与新密码是否相同
+    if (newPassword && confirmNewPassword) {
+      return newPassword !== confirmNewPassword ? {confirmPasswordError: true} : null;
+    }
+    return null;
+  }
+
+  /**
+   * 登录用户修改密码
+   * @param newPassword 新密码
+   */
+  public updatePassword(newPassword: string): Observable<void> {
+    const vUser = new VUser();
+    vUser.newPassword = encodeURIComponent(newPassword);
+
+    return this.httpClient.put<void>(`/user/updatePassword`, vUser);
   }
 }

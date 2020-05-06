@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.vo.VUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -100,5 +101,9 @@ public interface UserService {
      * @param id
      */
     void resetPassword(Long id);
+
+    void updatePassword(VUser vUser);
+
+    boolean validateOldPassword(VUser vUser);
 }
 
