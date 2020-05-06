@@ -69,4 +69,5 @@ describe('BackgroundIndexComponent', () => {
     // 由于时区不一样，时间差八小时，无法同时通过本地和机器人的单元测试
     // expect(table.rows.item(row).cells.item(col++).innerText).toBe('1970-01-01 08:00:00');
   });
+
 });
