@@ -97,4 +97,8 @@ export class IndexComponent implements OnInit {
       });
   }
 
+  clear() {
+    this.params.username.setValue(null);
+    this.ngOnInit();
+  }
 }
