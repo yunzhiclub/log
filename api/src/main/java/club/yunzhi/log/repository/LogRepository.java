@@ -1,6 +1,11 @@
 package club.yunzhi.log.repository;
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
+import club.yunzhi.log.repository.specs.LogSpecs;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +35,7 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
        return this.findAllByTimestampLessThan(currentDate);
     };
 
-  List<Log> findAllByTimestampLessThan(Date date);
+    List<Log> findAllByTimestampLessThan(Date date);
     /**
      * 根据月份删除所有记录
      * @return
@@ -48,4 +53,18 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
     };
 
     void deleteAllByTimestampIsLessThan(Date date);
+
+    default Page getAll(Long clientId, String level, String message, Pageable pageable) {
+        Client _client = new Client();
+        _client.setId(clientId);
+        Log _log = new Log();
+        if (level != null && !level.equals("null") && !level.equals("")) {
+            _log.setLevel(level);
+        }
+        System.out.println("test"+_log.getLevelCode());
+        Specification<Log> specification = LogSpecs.containingMessage(message)
+                .and(LogSpecs.belongToClient(_client))
+                .and(LogSpecs.isLevel(_log.getLevelCode()));
+        return this.findAll(specification, pageable);
+    }
 }

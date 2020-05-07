@@ -1,3 +1,41 @@
+<form [formGroup]="logForm">
+
+  <form>
+    <app-client-select [client]="params.client" (selected)="onSelectKlass($event)"></app-client-select>
+    &nbsp;
+    <label>内容：<input name="sno" [formControl]="params.message" type="text"/></label>
+    &nbsp;
+    <button class="btn btn-sm btn-primary"  (click)="onQuery()"><i class="fas fa-search"></i>查询</button>
+    &nbsp;
+    <button class="btn btn-sm btn-warning" (click)="clear()"><i class="fas fa-trash-alt"></i>清空</button>
+
+    &nbsp;
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" [checked]="1" (change)="onCheckBoxChange($event, 0)" id="customRadioInline0" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline0">全部</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" (change)="onCheckBoxChange($event, 1)" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline1">DEBUG</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" (change)="onCheckBoxChange($event, 2)" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline2">TRACE</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" (change)="onCheckBoxChange($event, 3)" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline3">INFO</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" (change)="onCheckBoxChange($event, 4)" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline4">WARN</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input type="radio" (change)="onCheckBoxChange($event, 5)" id="customRadioInline5" name="customRadioInline1" class="custom-control-input">
+      <label class="custom-control-label" for="customRadioInline5">ERROR</label>
+    </div>
+  </form>
+
 <table class="table">
   <thead>
   <tr>
@@ -24,5 +62,5 @@
   </tr>
 
 </table>
-<app-page *ngIf="logPage.totalPages != 0" [setTotalPages]="logPage.totalPages" [setPage]="params.page" [setSize]="params.size" (selectedPage)="onPageSelected($event)" (selectedSize)="onSizeSelected($event)"></app-page>
 
+<app-page *ngIf="logPage.totalPages != 0" [setTotalPages]="logPage.totalPages" [setPage]="params.page" [setSize]="params.size" (selectedPage)="onPageSelected($event)" (selectedSize)="onSizeSelected($event)"></app-page>

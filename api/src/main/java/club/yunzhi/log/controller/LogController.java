@@ -49,10 +49,16 @@ public class LogController {
 
     @GetMapping("page")
     @JsonView(page.class)
-    public Page<Log> page(@PathVariable(required = false) Long clientId,
-                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 20) Pageable pageable) {
-        logger.info("调用TeacherController的getAll方法");
-        return new PageImpl(logService.page(clientId, pageable));
+    public Page<Log> page(@RequestParam(required = false) String clientId,
+                          @RequestParam(required = false) String message,
+                          @RequestParam(required = false) String level,
+                          Pageable pageable) {
+        logger.info(message+""+level);
+        Long _clientId = null;
+        if (!clientId.equals("null")) {
+            _clientId = Long.parseLong(clientId);
+        }
+        return new PageImpl(logService.page(_clientId, level, message, pageable));
     }
 
     private interface page extends PageImpl.base, Log.base, Log.client {

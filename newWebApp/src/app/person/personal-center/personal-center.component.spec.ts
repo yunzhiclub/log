@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalCenterComponent } from './personal-center.component';
-import {TestModule} from '../test/test.module';
-import {User} from '../norm/entity/user';
-import {UserService} from '../service/user.service';
+import {TestModule} from '../../test/test.module';
+import {User} from '../../norm/entity/user';
+import {UserService} from '../../service/user.service';
 import {of} from 'rxjs';
 
 describe('PersonalCenterComponent', () => {

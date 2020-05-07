@@ -8,6 +8,7 @@ import {LogService} from '../../service/log.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormTest} from '../../testing/FormTest';
 import {CoreModule} from '../../core/core.module';
+import {ClientSelectComponent} from '../client-select/client-select.component';
 
 describe('BackgroundIndexComponent', () => {
   let component: IndexComponent;
@@ -15,7 +16,7 @@ describe('BackgroundIndexComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IndexComponent ],
+      declarations: [ IndexComponent, ClientSelectComponent ],
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
@@ -69,4 +70,5 @@ describe('BackgroundIndexComponent', () => {
     // 由于时区不一样，时间差八小时，无法同时通过本地和机器人的单元测试
     // expect(table.rows.item(row).cells.item(col++).innerText).toBe('1970-01-01 08:00:00');
   });
+
 });

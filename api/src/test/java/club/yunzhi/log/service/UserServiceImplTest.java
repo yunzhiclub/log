@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.vo.VUser;
 import net.bytebuddy.utility.RandomString;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -290,6 +291,50 @@ public class UserServiceImplTest {
         Assert.assertEquals(returnStudentPage, mockStudentPage);
 
     }
+    @Test
+    public void validateOldPassword() {
+        // 用户中有密码，且密码与传入的密码相同，返回true
+        User user = new User();
+        Long id  = new Random().nextLong();
+        VUser vUser = new VUser();
+        String password = RandomString.make(6);
+        vUser.setPassword(password);
+        user.setId(id);
+        user.setPassword(password);
+        Mockito.doReturn(user).when(userService).me();
+        Assert.assertTrue(this.userService.validateOldPassword(vUser));
+        // 密码为null返回false
+        vUser.setPassword(null);
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+
+        // 未设置 用户的密码，返回false
+        user.setPassword(null);
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+
+        //  用户中的密码与传入的密码不相同返回false
+        user.setPassword(RandomString.make(6));
+        Assert.assertFalse(
+                this.userService.validateOldPassword(vUser));
+    }
+
+    @Test
+    public void updatePassword() {
+        String newPassword = RandomString.make(5);
+        VUser resultVUser = new VUser();
+        resultVUser.setNewPassword(newPassword);
+        User resultUser = new User();
+
+        Mockito.doReturn(resultUser).when(userService).me();
+
+        userService.updatePassword(resultVUser);
+        ArgumentCaptor<VUser> VUserPasswordArgumentCaptor = ArgumentCaptor.forClass(VUser.class);
+        Mockito.verify(userService).updatePassword(VUserPasswordArgumentCaptor.capture());
+        VUser vUser = VUserPasswordArgumentCaptor.getValue();
+        Assertions.assertThat(vUser).isEqualTo(resultVUser);
+    }
+
     @Test
     public void resetPassword() {
         Long id = new  Random().nextLong();
