@@ -13,7 +13,7 @@ import {CoreTestingController} from '../core-testing-controller';
 export class SizeComponent implements OnInit {
   @Input() size: number;
 
-  @Output() ChangeSize = new EventEmitter<number>();
+  @Output() changeSize = new EventEmitter<number>();
 
   constructor(private controller: CoreTestingController) {
     this.controller.addUnit(this);

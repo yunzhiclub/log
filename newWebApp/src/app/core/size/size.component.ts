@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class SizeComponent implements OnInit {
   @Input() size: number;
 
-  @Output() ChangeSize = new EventEmitter<number>();
+  @Output() changeSize = new EventEmitter<number>();
 
   constructor() { }
 
@@ -16,6 +16,6 @@ export class SizeComponent implements OnInit {
   }
 
   sizeChange(size: number) {
-    this.ChangeSize.emit(size);
+    this.changeSize.emit(size);
   }
 }
