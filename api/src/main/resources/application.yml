@@ -40,10 +40,10 @@ logging:
 server:
   port: ${port:8114}
 
----
-# 机器人环境
-spring:
-  profiles: travis
+#---
+## 机器人环境
+#spring:
+#  profiles: travis
 
 ---
 spring:
