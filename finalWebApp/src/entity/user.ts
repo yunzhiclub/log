@@ -1,5 +1,6 @@
 /**
  * 用户
+ * author: liMingAo
  */
 export class User {
   /**
