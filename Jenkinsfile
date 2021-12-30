@@ -5,7 +5,7 @@ import hudson.model.*;
 // https://stackoverflow.com/questions/24226862/how-to-get-build-time-stamp-from-jenkins-build-variables
 
 // 定义变量
-def url = 'https://oapi.dingtalk.com/robot/send?access_token=886710bc59180148ab6c51007dcea7441c8b066d090134b716aed9acbbf2409a'
+def url = 'https://oapi.dingtalk.com/robot/send?access_token=ca422b6dc6681969f26b451e0535dbf394f0534a4fca02ddb8002021c500d694'
 def header = 'Content-Type: application/json'
 def message = '{"msgtype": "markdown","markdown": {"title": "Build %s", "text":"Build %s"}}'
 def status = 'success'
