@@ -1,1 +1,43 @@
-<p>edit works!</p>
+<form (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup" class="container-sm">
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="name">姓名</label>
+    <div class="col-7">
+      <input [formControlName]="formKeys.name" class="form-control" id="name" type="text">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="username">用户名<code>*</code></label>
+    <div class="col-7">
+      <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
+      <small
+        class="text-danger">
+        必填项
+      </small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="password">密码<code>*</code></label>
+    <div class="col-7">
+      <input [formControlName]="formKeys.password" class="form-control" id="password" type="text">
+      <small
+        class="text-danger">
+        必填项
+      </small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="email">邮箱</label>
+    <div class="col-7">
+      <input [formControlName]="formKeys.email" class="form-control" id="email" type="text">
+    </div>
+  </div>
+
+
+  <div class="mb-3 row">
+    <div class="col-10 offset-5">
+      <button [disabled]="formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.password).invalid"
+              class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
+      </button>
+    </div>
+  </div>
+</form>
