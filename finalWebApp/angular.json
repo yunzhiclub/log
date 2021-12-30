@@ -107,5 +107,8 @@
       }
     }
   },
-  "defaultProject": "finalWebApp"
+  "defaultProject": "finalWebApp",
+  "cli": {
+    "analytics": "58407670-ce15-46c8-adfd-83fe9776303b"
+  }
 }
