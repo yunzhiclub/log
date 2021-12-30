@@ -1,4 +1,4 @@
-import swal, {SweetAlertResult} from 'sweetalert2';
+import swal, {SweetAlertIcon, SweetAlertResult} from 'sweetalert2';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 })
 export class CommonService {
   /** 所有路由信息 */
-  public routeStates: Array<{ url: string, state: { [k: string]: any } | undefined }> = [];
+  public routeStates: Array<{url: string, state: {[k: string]: any} | undefined}> = [];
   /** 当前是否处于后退状态 */
   private isBack = false;
 
@@ -62,4 +62,66 @@ export class CommonService {
       this.router.navigate([url], {relativeTo: route});
     }
   }
+
+  /**
+   * 是否确认提示框
+   * @param callback    回调
+   * @param description 描述
+   * @param title       标题
+   */
+  confirm(callback?: (state?: boolean) => void, description: string = '该操作不可逆，请谨慎操作', title: string = '请确认',
+          confirmButtonText = '确定', cancelButtonText = '取消', options = {icon: 'question' as SweetAlertIcon}): void {
+    swal.fire({
+      titleText: title,
+      text: description,
+      icon: options.icon,
+      background: '#F7F8FA',
+      allowOutsideClick: false,
+      confirmButtonText,
+      confirmButtonColor: '#007BFF',
+      showCancelButton: true,
+      cancelButtonText,
+      cancelButtonColor: '#6C757D'
+    }).then((result: SweetAlertResult) => {
+      if (callback) {
+        callback(result.isConfirmed);
+      }
+    });
+  }
+
+  /**
+   * 将参数转换为路由参数
+   * @param params 参数
+   * @return 适用于route的Params
+   */
+  public static convertToRouteParams(params: {[header: string]: string | string[] | number | number[] | null | undefined;})
+    : {[header: string]: string | string[];} {
+    const queryParams = {} as {[header: string]: string | string[];};
+    // 过滤掉undefined及null的数据
+    for (const key in params) {
+      if (params[key] !== undefined) {
+        const value = params[key];
+        if (value !== undefined || value !== null) {
+          if (typeof value === 'string') {
+            if (value.length > 0) {
+              queryParams[key] = value;
+            }
+          } else if (typeof value === 'number') {
+            queryParams[key] = value.toString();
+          } else if (Array.isArray(value)) {
+            queryParams[key] = [];
+            (value as []).forEach(v => {
+              if (typeof v === 'number') {
+                (queryParams[key] as string[]).push((v as number).toString());
+              } else {
+                (queryParams[key] as string[]).push(v);
+              }
+            });
+          }
+        }
+      }
+    }
+    return queryParams;
+  }
+
 }
