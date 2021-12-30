@@ -17,10 +17,10 @@ jobs:
         access_token: ${{ github.token }}
     - name: checkout
       uses: actions/checkout@v2
-    - name: Use Node.js 12.8
+    - name: Use Node.js 12.14
       uses: actions/setup-node@v1
       with:
-        node-version: 12.8
+        node-version: 12.14
     - name: set PR_NUMBER
       run: |
         echo PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') >> $GITHUB_ENV
