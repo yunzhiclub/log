@@ -1,9 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {EditComponent} from './edit.component';
 import {EditModule} from './edit.module';
-import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRouteStub, RouterStub, RouterTestingModule} from '@yunzhi/ng-router-testing';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ApiTestingModule} from '../../../api/api.testing.module';
+import {getTestScheduler} from 'jasmine-marbles';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -15,7 +16,7 @@ describe('EditComponent', () => {
       imports: [
         RouterTestingModule,
         EditModule,
-        HttpClientModule
+        ApiTestingModule
       ]
     })
       .compileComponents();
@@ -31,6 +32,7 @@ describe('EditComponent', () => {
 
   it('should create', () => {
     route.paramsSubject.next({id: 1});
+    getTestScheduler().flush();
     fixture.autoDetectChanges();
     expect(component).toBeTruthy();
   });

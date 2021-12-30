@@ -39,6 +39,7 @@ export class EditComponent implements OnInit {
     this.userService.getById(id)
       .subscribe((user: User) => {
         this.setUser(user);
+        console.log(user);
       }, (error: any) => console.log(error));
   }
 
@@ -46,11 +47,12 @@ export class EditComponent implements OnInit {
     this.user = user;
     Assert.isDefined(user, self.name + ' user must be defined');
     Assert.isDefined(user.username, user.password + ' user validate fail');
-    this.formGroup.get(this.formKeys.name)?.setValue(user.name);
-    this.formGroup.get(this.formKeys.username)?.setValue(user.username);
-    this.formGroup.get(this.formKeys.password)?.setValue(user.password);
-    this.formGroup.get(this.formKeys.email)?.setValue(user.email);
-    this.formGroup.get(this.formKeys.id)?.setValue(user.id);
+    this.formGroup.get(this.formKeys.name).setValue(user.name);
+    this.formGroup.get(this.formKeys.username).setValue(user.username);
+    this.formGroup.get(this.formKeys.password).setValue(user.password);
+    this.formGroup.get(this.formKeys.email).setValue(user.email);
+    this.formGroup.get(this.formKeys.id).setValue(user.id);
+    console.log(user);
   }
 
   initFormControl(): void {
@@ -73,16 +75,14 @@ export class EditComponent implements OnInit {
   onSubmit(formGroup: FormGroup): void {
     const id = this.formGroup.get(this.formKeys.id)?.value;
     const user = {
-      id: id as number,
-      name: formGroup.get(this.formKeys.name)?.value as string,
-      username: formGroup.get(this.formKeys.username)?.value as string,
-      password: formGroup.get(this.formKeys.password)?.value as string,
-      email: formGroup.get(this.formKeys.email)?.value as string
+      name: formGroup.get(this.formKeys.name).value as string,
+      username: formGroup.get(this.formKeys.username).value as string,
+      password: formGroup.get(this.formKeys.password).value as string,
+      email: formGroup.get(this.formKeys.email).value as string
     };
     this.userService.update(id, user)
       .subscribe(() => {
         this.commonService.success(() => this.commonService.back());
-      }, (error: any) => console.log('保存失败', error));
+      }, error => console.log('保d存失败', error));
   }
-
 }

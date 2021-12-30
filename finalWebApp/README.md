@@ -6,6 +6,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 nodejs 14.15.4
 
 npm 6.14.10
+# 启动
+```
+$ npm install
+$ npm install -g @angular/cli
+$ ng s finalWebApp
+$ ng t finalWebApp
+$ ng build finalWebApp
+$ ng lint finalWebApp
+$ ng lit lib
+```
 
 ## Development server
 

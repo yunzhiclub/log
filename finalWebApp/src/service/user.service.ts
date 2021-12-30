@@ -40,6 +40,8 @@ export class UserService {
     Assert.isDefined(user, 'user must be defined');
     Assert.isDefined(user.username, 'username must be defined');
     Assert.isDefined(user.password, 'password must be defined');
+    console.log(userId);
+    console.log(user);
     return this.httpClient.put<User>(`${this.baseUrl}/${userId.toString()}`, user);
   }
 }
