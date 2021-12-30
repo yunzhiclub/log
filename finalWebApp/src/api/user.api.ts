@@ -30,9 +30,6 @@ export class UserApi implements MockApiInterface {
           body: User
         }) => {
           const body = option.body;
-          Assert.isNumber(
-            body.id
-          );
           Assert.isString(
             body.username,
             body.password
