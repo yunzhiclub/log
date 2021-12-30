@@ -10,7 +10,7 @@ def header = 'Content-Type: application/json'
 def message = '{"msgtype": "markdown","markdown": {"title": "Build %s", "text":"Build %s"}}'
 def status = 'success'
 def startDate = new Date()
-def dbname = "smart-community"
+def dbname = "log"
 def dbusername = env.dbusername
 def dbpssword = env.dbpassword
 
@@ -22,17 +22,6 @@ pipeline {
 
     // 定义构造的步骤
     stages {
-         // 步骤一：清空历史。创建数据库。数据库的密码写到了~/.my.cnf中
-        // stage('clear WORKSPACE') {
-        //     steps {
-        //         sh """
-        //         rm -f /mengyunzhi/app/work-review/api/work-review.jar
-        //         rm -Rf /mengyunzhi/app/work-review/web
-        //         """
-        //         // sh "mysql -e 'DROP DATABASE IF EXISTS ${dbname};'"
-        //         // sh "mysql -e 'CREATE DATABASE IF NOT EXISTS ${dbname} default charset utf8mb4 COLLATE utf8mb4_general_ci;'"
-        //     }
-        // }
         stage('project build') {
             // 并行步骤
             parallel {
@@ -41,7 +30,7 @@ pipeline {
                     agent { label 'nodejs'}  
                     steps {
                         // sh "npm config set registry https://registry.npm.taobao.org"
-                        dir("${env.WORKSPACE}/web") {
+                        dir("${env.WORKSPACE}/finalWebApp") {
                         	sh """
   								export NVM_DIR="$HOME/.nvm"
   									[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && . "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
