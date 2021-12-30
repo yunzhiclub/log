@@ -37,11 +37,11 @@ jobs:
         npm install --no-optional  --no-package-lock
         node_modules/@angular/cli/bin/ng --version
     - name: ng lint
-      run: cd web && node_modules/@angular/cli/bin/ng lint
+      run: cd finalWebApp && node_modules/@angular/cli/bin/ng lint
     - name: ng test
-      run: cd web && node_modules/@angular/cli/bin/ng test --watch=false --browsers=ChromeHeadless --sourceMap=false    
+      run: cd finalWebApp && node_modules/@angular/cli/bin/ng test --watch=false --browsers=ChromeHeadless --sourceMap=false
     - name: ng build
-      run: cd web && node_modules/@angular/cli/bin/ng build --prod
+      run: cd finalWebApp && node_modules/@angular/cli/bin/ng build --prod
     - name: angular build success
       if: ${{ success() }}
       uses: fifsky/dingtalk-action@master
