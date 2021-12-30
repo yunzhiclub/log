@@ -8,7 +8,7 @@ export class User {
    */
   id: number;
   /**
-   *用户姓名
+   * 用户姓名
    */
   name?: string;
   /**
@@ -23,6 +23,7 @@ export class User {
    * 邮箱
    */
   email?: string;
+
   constructor(data = {} as {
     id: number,
     name?: string,
