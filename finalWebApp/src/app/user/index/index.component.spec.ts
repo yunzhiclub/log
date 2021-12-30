@@ -37,7 +37,7 @@ describe('IndexComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     // 发送数据，触发 C 层的订阅方法
     route.queryParamsSubject.next({});
 
