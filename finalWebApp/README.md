@@ -1,8 +1,14 @@
-# FinalWebApp
+# 日志系统
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.7.
+## 版本
+
+nodejs 14.15.4
+
+npm 6.14.10
 
 ## Development server
+
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
