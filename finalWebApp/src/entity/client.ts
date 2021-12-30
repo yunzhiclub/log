@@ -31,7 +31,7 @@ export class Client {
   todayLog: DayLog;
 
   // 构造函数——刘宇轩
-  constructor(param?: {id?: number; name: string; token?: string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog;}) {
+  constructor(param?: {id?: number; name: string; token?: string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog; }) {
 
     if (!param) {
       return;

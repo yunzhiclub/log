@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { EditComponent } from './edit.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {EditComponent} from './edit.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 /**
  * 用户管理编辑
@@ -9,10 +10,13 @@ import { EditComponent } from './edit.component';
 @NgModule({
   declarations: [EditComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+
   ],
   exports: [
     EditComponent
   ]
 })
-export class EditModule { }
+export class EditModule {
+}
