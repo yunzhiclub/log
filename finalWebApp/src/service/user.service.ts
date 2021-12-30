@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
 import {User} from '../entity/user';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {CommonService} from './common.service';
 import {Assert} from '@yunzhi/utils/build/src';
+import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
+import {Page} from '@yunzhi/ng-common';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +44,39 @@ export class UserService {
     Assert.isDefined(user.username, 'username must be defined');
     Assert.isDefined(user.password, 'password must be defined');
     return this.httpClient.put<User>(`${this.baseUrl}/${userId}`, user);
+  }
+
+  /**
+   * 删除
+   */
+  public delete(userId: number): Observable<null> {
+    return this.httpClient.delete<null>(`${this.baseUrl}/${userId.toString()}`);
+  }
+
+  /**
+   * 分页方法
+   * @param page 第几页
+   * @param size 每页条数
+   * @param param 查询参数
+   */
+  public page(page: number, size: number, param: {username?: string, name?: string}): Observable<Page<User>> {
+    const httpParams = new HttpParams()
+      .append('page', page.toString())
+      .append('size', size.toString())
+      .append('username', isNotNullOrUndefined(param.username) ? param.username.toString() : '')
+      .append('name', isNotNullOrUndefined(param.name) ? param.name : '');
+    // 返回根据相应链接订阅的数据，将数据中的每一个json对象转换为 User 对象。
+    return this.httpClient.get<Page<User>>(`${this.baseUrl}/page`, {params: httpParams})
+      .pipe(map(data => new Page<User>(data).toObject(o => new User(o))));
+  }
+
+  /**
+   * 重置密码
+   * @param id 用户id
+   */
+  public resetPassword(id: number): Observable<string> {
+    Assert.isNotNullOrUndefined(id, 'id未传入');
+    const url = `${this.baseUrl}/resetPassword/${id}`;
+    return this.httpClient.patch<string>(url, {});
   }
 }
