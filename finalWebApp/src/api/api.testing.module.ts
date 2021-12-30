@@ -6,6 +6,7 @@ import {apis} from './apis';
 
 /**
  * 用于单元测试的ApiModule.
+ * author: liMingAo
  */
 @NgModule({
   imports: [

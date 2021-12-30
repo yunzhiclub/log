@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ApiTestingModule} from '../../../api/api.testing.module';
 import {getTestScheduler} from 'jasmine-marbles';
 
-describe('EditComponent', () => {
+describe('UserEditComponent', () => {
   let component: EditComponent;
   let fixture: ComponentFixture<EditComponent>;
   let route: ActivatedRouteStub;

@@ -6,6 +6,7 @@ import {LoadingInterceptor} from '../intercepter/LoadingInterceptor';
 
 /**
  * 用于脱离后台跑demo
+ * author: liMingAo
  */
 @NgModule({
   providers: [

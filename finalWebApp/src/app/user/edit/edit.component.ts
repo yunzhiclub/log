@@ -9,6 +9,7 @@ import {Assert} from '@yunzhi/utils/build/src';
 
 /**
  * 用户管理编辑
+ * author: liMingAo
  */
 @Component({
   selector: 'app-edit',
@@ -39,7 +40,6 @@ export class EditComponent implements OnInit {
     this.userService.getById(id)
       .subscribe((user: User) => {
         this.setUser(user);
-        console.log(user);
       }, (error: any) => console.log(error));
   }
 
@@ -52,7 +52,6 @@ export class EditComponent implements OnInit {
     this.formGroup.get(this.formKeys.password).setValue(user.password);
     this.formGroup.get(this.formKeys.email).setValue(user.email);
     this.formGroup.get(this.formKeys.id).setValue(user.id);
-    console.log(user);
   }
 
   initFormControl(): void {
@@ -73,16 +72,17 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit(formGroup: FormGroup): void {
-    const id = this.formGroup.get(this.formKeys.id)?.value;
+    const id = this.formGroup.get(this.formKeys.id).value;
     const user = {
+      id,
       name: formGroup.get(this.formKeys.name).value as string,
       username: formGroup.get(this.formKeys.username).value as string,
       password: formGroup.get(this.formKeys.password).value as string,
       email: formGroup.get(this.formKeys.email).value as string
-    };
+    } as User;
     this.userService.update(id, user)
       .subscribe(() => {
         this.commonService.success(() => this.commonService.back());
-      }, error => console.log('保d存失败', error));
+      }, error => console.log('保存失败', error));
   }
 }
