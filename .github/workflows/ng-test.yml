@@ -33,7 +33,7 @@ jobs:
       run: printenv
     - name: npm install
       run: |
-        cd web
+        cd finalWebApp
         npm install --no-optional  --no-package-lock
         node_modules/@angular/cli/bin/ng --version
     - name: ng lint
