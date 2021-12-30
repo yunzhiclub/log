@@ -35,13 +35,13 @@ export class UserService {
    * @param user 用户
    * author: liMingAo
    */
-  public update(userId: number, user: { name: string, username: string, password: string, email: string }): Observable<User> {
+  public update(userId: number, user: User): Observable<User> {
     Assert.isNumber(userId, 'userId must be number');
     Assert.isDefined(user, 'user must be defined');
     Assert.isDefined(user.username, 'username must be defined');
     Assert.isDefined(user.password, 'password must be defined');
     console.log(userId);
     console.log(user);
-    return this.httpClient.put<User>(`${this.baseUrl}/${userId.toString()}`, user);
+    return this.httpClient.put<User>(`${this.baseUrl}/${userId}`, user);
   }
 }
