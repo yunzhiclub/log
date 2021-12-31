@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AddComponent } from './add.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AddComponent} from './add.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 /**
  * 用户管理新增
@@ -9,10 +10,12 @@ import { AddComponent } from './add.component';
 @NgModule({
   declarations: [AddComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
   ],
   exports: [
     AddComponent
   ]
 })
-export class AddModule { }
+export class AddModule {
+}

@@ -79,4 +79,13 @@ export class UserService {
     const url = `${this.baseUrl}/resetPassword/${id}`;
     return this.httpClient.patch<string>(url, {});
   }
+
+  /**
+   * 用户新增
+   */
+  public save(user: User): Observable<User> {
+    // 向后台请求,并通过管道返回User对象
+    return this.httpClient.post<User>(`${this.baseUrl}`, user)
+      .pipe(map(data => new User(data)));
+  }
 }
