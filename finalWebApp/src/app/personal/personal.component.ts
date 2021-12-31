@@ -26,6 +26,7 @@ export class PersonalComponent implements OnInit {
         if (user) {
           Assert.isNotNullOrUndefined(user.name, 'name must be exist');
           Assert.isNotNullOrUndefined(user.username, 'username must be exit');
+          Assert.isNotNullOrUndefined(user.email,'email must be exit');
           this.user = user;
         }
       })
