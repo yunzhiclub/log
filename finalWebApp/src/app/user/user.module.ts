@@ -12,7 +12,6 @@ import {IndexModule} from './index/index.module';
 
 @NgModule({
   declarations: [
-    IndexComponent
   ],
   imports: [
     CommonModule,
