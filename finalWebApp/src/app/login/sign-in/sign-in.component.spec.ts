@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignInComponent } from './sign-in.component';
 import {SignInModule} from './sign-in.module';
+import {RouterTestingModule} from '@yunzhi/ng-router-testing';
+import {ApiTestingModule} from '../../../api/api.testing.module';
 
 describe('SignInComponent', () => {
   let component: SignInComponent;
@@ -10,7 +12,9 @@ describe('SignInComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [],
-      imports: [SignInModule]
+      imports: [SignInModule,
+        RouterTestingModule,
+        ApiTestingModule,]
     })
     .compileComponents();
   });

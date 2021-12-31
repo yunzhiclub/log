@@ -29,10 +29,7 @@ export class UserService {
   constructor(protected httpClient: HttpClient,
               private commonService: CommonService,
               private router: Router) {
-    // 防止在初始化时与其它服务造成的循环依赖问题
-    setTimeout(() => {
-      this.initCurrentLoginUser();
-    });
+
   }
 
   /**

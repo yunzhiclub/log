@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SignInComponent} from './sign-in.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 /**
  * 登录
@@ -9,7 +10,8 @@ import {SignInComponent} from './sign-in.component';
 @NgModule({
   declarations: [SignInComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     SignInComponent
