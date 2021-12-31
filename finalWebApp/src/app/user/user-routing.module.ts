@@ -4,6 +4,10 @@ import {AddComponent} from './add/add.component';
 import {EditComponent} from './edit/edit.component';
 import {NgModule} from '@angular/core';
 
+/**
+ * 用户模块路由
+ * author: liMingAo
+ */
 const routs: Routes = [
   {
     path: '',

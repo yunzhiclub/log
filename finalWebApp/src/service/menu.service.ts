@@ -3,6 +3,10 @@ import {Menu} from '../entity/menu';
 import {Observable, Subscriber} from 'rxjs';
 import {UserService} from './user.service';
 
+/**
+ * 菜单服务
+ * author: liMingAo
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +30,9 @@ export class MenuService {
         user => {
           subscribe.next(
             MenuService.menus.filter(menu => {
+              /**
+               * found 为 true 表示显示此栏菜单，由于目前没有添加user的role属性，默认为全部显示
+               */
               let found = true;
               return found;
             })
