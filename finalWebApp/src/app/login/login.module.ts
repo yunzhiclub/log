@@ -5,7 +5,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginRoutingModule} from './login-routing.module';
 
-
+/**
+ * 登录页面
+ * @author weiweiyi
+ */
 
 @NgModule({
   declarations: [LoginComponent],
