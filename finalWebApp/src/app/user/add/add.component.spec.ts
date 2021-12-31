@@ -26,7 +26,7 @@ describe('AddComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     console.log('aaa');
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();

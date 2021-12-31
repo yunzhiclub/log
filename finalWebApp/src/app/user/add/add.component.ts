@@ -4,7 +4,7 @@ import {UserService} from '../../../service/user.service';
 import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../entity/user';
-import {error} from 'protractor';
+
 
 /**
  * 用户管理新增
