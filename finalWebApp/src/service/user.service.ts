@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {User} from '../entity/user';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {CommonService} from './common.service';
 import {Assert} from '@yunzhi/utils/build/src';
 import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
@@ -16,7 +16,15 @@ import {map} from 'rxjs/operators';
  * 用户Service
  */
 export class UserService {
+
   protected baseUrl = 'user';
+
+  /**
+   * buffer 设置为 1
+   * 只保留最新的登录用户
+   */
+  protected currentLoginUserSubject = new BehaviorSubject<User | null>(null);
+  currentLoginUser$ = this.currentLoginUserSubject.asObservable();
 
   constructor(protected httpClient: HttpClient,
               private commonService: CommonService,
@@ -59,7 +67,7 @@ export class UserService {
    * @param size 每页条数
    * @param param 查询参数
    */
-  public page(page: number, size: number, param: {username?: string, name?: string}): Observable<Page<User>> {
+  public page(page: number, size: number, param: { username?: string, name?: string }): Observable<Page<User>> {
     const httpParams = new HttpParams()
       .append('page', page.toString())
       .append('size', size.toString())
@@ -88,4 +96,15 @@ export class UserService {
     return this.httpClient.post<User>(`${this.baseUrl}`, user)
       .pipe(map(data => new User(data)));
   }
+
+  /**
+   * 设置当前登录用户
+   * @param user 登录用户
+   */
+  setCurrentLoginUser(user: User | undefined): void {
+    if (user !== this.currentLoginUserSubject.value) {
+      this.currentLoginUserSubject.next(user);
+    }
+  }
+
 }
