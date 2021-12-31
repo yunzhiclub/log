@@ -1,0 +1,42 @@
+<form (submit)="onSubmit(queryForm)" [formGroup]="queryForm" class="form-group">
+  <div class="form-row justify-content-between">
+    <div class="form-group col-md-3">
+      <label>客户端名称</label>
+      <input class="form-control" formControlName="clientName" type="text">
+    </div>
+    <div class="form-group col-md-3 text-left align-self-end search">
+      <button class="btn btn-info" type="submit"><i class="fas fa-search"></i> 查询</button>
+    </div>
+  </div>
+</form>
+<yz-size (changeSize)="onSizeChange($event)" [size]="pageData.size"></yz-size>
+<table class="table table-striped mt-2">
+  <thead>
+  <tr class="table-primary">
+    <th>序号</th>
+    <th>客户端</th>
+    <th>等级</th>
+    <th>上下文</th>
+    <th>线程号</th>
+    <th>发出对象</th>
+    <th>内容</th>
+    <th>时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let log of pageData.content; index as i">
+    <td>{{ pageData.size * pageData.number + i + 1 }}</td>
+    <td>{{ log.client.name }}</td>
+    <td>{{ log.level }}</td>
+    <td>{{ log.context}}</td>
+    <td>{{ log.thread }}</td>
+    <td>{{ log.logger}}</td>
+    <td>{{ log.message}}</td>
+    <td>{{log.timestamp | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+  </tr>
+  </tbody>
+</table>
+<yz-page (changePage)="onPageChange($event)" *ngIf="pageData.content"
+         [page]="pageData.number"
+         [size]="pageData.size"
+         [totalElements]="pageData.totalElements"></yz-page>

@@ -4,6 +4,7 @@ import {getTestScheduler} from 'jasmine-marbles';
 import {ActivatedRouteStub, RouterTestingModule} from '@yunzhi/ng-router-testing';
 import {ApiTestingModule} from '../../../api/api.testing.module';
 import {ActivatedRoute} from '@angular/router';
+import {IndexModule} from './index.module';
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -15,7 +16,8 @@ describe('IndexComponent', () => {
       declarations: [  ],
       imports: [
         RouterTestingModule,
-        ApiTestingModule
+        ApiTestingModule,
+        IndexModule
       ]
     })
     .compileComponents();
