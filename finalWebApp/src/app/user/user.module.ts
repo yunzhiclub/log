@@ -2,10 +2,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserRoutingModule} from './user-routing.module';
 import {IndexComponent} from './index/index.component';
-import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
-import {ReactiveFormsModule} from '@angular/forms';
 import {EditModule} from './edit/edit.module';
 import {AddModule} from './add/add.module';
+import {IndexModule} from './index/index.module';
 
 /**
  * 用户管理
@@ -18,9 +17,7 @@ import {AddModule} from './add/add.module';
   imports: [
     CommonModule,
     UserRoutingModule,
-    YzSizeModule,
-    ReactiveFormsModule,
-    YzPageModule,
+    IndexModule,
     EditModule,
     AddModule
   ]
