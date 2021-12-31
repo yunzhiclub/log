@@ -30,7 +30,7 @@ public class UserRepositoryTest {
 
 
         // 调用测试方法并断言
-       User user1 = this.userRepository.findByUsername(user.getUsername());
+       User user1 = this.userRepository.findByUsername(user.getUsername()).get();
         Assert.assertEquals(user.getId(), user1.getId());
     }
 
