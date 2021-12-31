@@ -22,6 +22,13 @@ const routes: Routes = [
         data: {
           title: '用户管理'
         }
+      },
+      {
+        path: 'client',
+        loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
+        data: {
+          title: '客户端管理'
+        }
       }
     ]
   }
