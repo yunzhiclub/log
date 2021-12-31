@@ -26,7 +26,7 @@
     "zone.js": "~0.10.2",
     "@yunzhi/ng-common": "0.0.6",
     "@yunzhi/ng-mock-api": "0.0.9",
-    "@yunzhi/ng-theme": "0.0.6",
+    "@yunzhi/ng-theme": "0.0.8",
     "@yunzhi/utils": "0.0.3"
   },
   "devDependencies": {

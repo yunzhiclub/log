@@ -23,7 +23,7 @@ export class UserService {
    * buffer 设置为 1
    * 只保留最新的登录用户
    */
-  protected currentLoginUserSubject = new BehaviorSubject<User | null>(null);
+  protected currentLoginUserSubject = new BehaviorSubject<User | null | undefined>(undefined);
   currentLoginUser$ = this.currentLoginUserSubject.asObservable();
 
   constructor(protected httpClient: HttpClient,
@@ -60,7 +60,7 @@ export class UserService {
    * @param user 用户
    * @author: weiweiyi
    */
-  login(user: { username: string, password: string}): Observable<User> {
+  login(user: { username: string, password: string }): Observable<User> {
     // 新建Headers，并添加认证信息
     let headers = new HttpHeaders();
     // 添加 content-type
