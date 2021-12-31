@@ -1,5 +1,6 @@
-// // import {YzMenu} from '@yunzhi/ng-theme';
-//
-// export interface Menu extends YzMenu{
-//
-// }
+// @ts-ignore
+import {YzMenu} from '@yunzhi/ng-theme';
+
+export interface Menu extends YzMenu {
+  roles: string[];
+}
