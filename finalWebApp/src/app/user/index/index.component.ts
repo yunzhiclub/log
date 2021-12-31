@@ -73,7 +73,6 @@ export class IndexComponent implements OnInit {
    */
   onDelete(object: User): void {
     Assert.isNotNullOrUndefined(object.id, 'id未定义');
-    console.log('测试id：' + object.id);
     this.commonService.confirm((confirm = false) => {
       if (confirm) {
         const index = this.pageData.content.indexOf(object);
