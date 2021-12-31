@@ -5,6 +5,8 @@ import {LoginModule} from './login.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiTestingModule} from '../../api/api.testing.module';
+import {HttpClientModule} from '@angular/common/http';
+import {SignInModule} from './sign-in/sign-in.module';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -15,7 +17,6 @@ describe('LoginComponent', () => {
       declarations: [],
       imports: [
         LoginModule,
-        ReactiveFormsModule,
         RouterTestingModule,
         ApiTestingModule
       ]

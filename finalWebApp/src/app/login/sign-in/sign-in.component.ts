@@ -51,7 +51,7 @@ export class SignInComponent implements OnInit {
     this.userService.login(user)
       .subscribe(() => {
         this.userService.initCurrentLoginUser(() => {
-          this.router.navigateByUrl('dashboard').then();
+          this.router.navigateByUrl('user').then();
         });
       }, (response) => {
         const errorCode = +response.headers.get(config.ERROR_RESPONSE_CODE_KEY);

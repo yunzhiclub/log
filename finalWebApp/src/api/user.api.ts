@@ -48,7 +48,6 @@ export class UserApi implements MockApiInterface {
 
           const username = auths[0];
           const password = auths[1];
-         console.log(password);
           if (password === 'yunzhi') {
             let user: User;
             user = new User({
@@ -160,6 +159,14 @@ export class UserApi implements MockApiInterface {
             email: body.email,
             password: randomString()
           } as User;
+        }
+      },
+      {
+        method: 'GET',
+        url: this.url + '/me',
+        description: '获取当前登录用户',
+        result: () => {
+          return this.getCurrentLoginUser();
         }
       }
     ];
