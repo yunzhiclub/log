@@ -8,21 +8,21 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    // children: [
-    //   {
-    //     path: '',
-    //     redirectTo: 'login',
-    //     pathMatch: 'full',
-    //   },
-    //   {
-    //     path: 'login',
-    //     component: SignInComponent,
-    //   },
-    //   {
-    //     path: 'reset',
-    //     component: ResetPasswordComponent,
-    //   }
-    // ]
+    children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full',
+      },
+      {
+        path: 'login',
+        component: SignInComponent,
+      },
+      // {
+      //   path: 'reset',
+      //   component: ResetPasswordComponent,
+      // }
+    ]
   },
 ];
 

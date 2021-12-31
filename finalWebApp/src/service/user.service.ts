@@ -68,7 +68,6 @@ export class UserService {
     // 添加认证信息
     headers = headers.append('Authorization',
       'Basic ' + btoa(user.username + ':' + encodeURIComponent(user.password)));
-
     // 发起get请求并返回
     return this.httpClient.get<User>(`${this.baseUrl}/login`, {headers})
       .pipe(tap(data => this.setCurrentLoginUser(data)));
