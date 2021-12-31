@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IndexComponent } from './index.component';
 import {getTestScheduler} from 'jasmine-marbles';
-import {IndexModule} from './index.module';
 import {ActivatedRouteStub, RouterTestingModule} from '@yunzhi/ng-router-testing';
 import {ApiTestingModule} from '../../../api/api.testing.module';
 import {ActivatedRoute} from '@angular/router';
@@ -15,7 +14,6 @@ describe('IndexComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [  ],
       imports: [
-        IndexModule,
         RouterTestingModule,
         ApiTestingModule
       ]

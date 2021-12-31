@@ -1,15 +1,18 @@
 import swal, {SweetAlertIcon, SweetAlertResult} from 'sweetalert2';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   /** 所有路由信息 */
-  public routeStates: Array<{url: string, state: {[k: string]: any} | undefined}> = [];
+  public routeStates: Array<{ url: string, state: { [k: string]: any } | undefined }> = [];
   /** 当前是否处于后退状态 */
   private isBack = false;
+  /** 当前路由是否能后退观察者 */
+  protected canBack$ = new BehaviorSubject<boolean>(false);
 
   constructor(private router: Router) {
   }
@@ -94,9 +97,9 @@ export class CommonService {
    * @param params 参数
    * @return 适用于route的Params
    */
-  public static convertToRouteParams(params: {[header: string]: string | string[] | number | number[] | null | undefined;})
-    : {[header: string]: string | string[];} {
-    const queryParams = {} as {[header: string]: string | string[];};
+  public static convertToRouteParams(params: { [header: string]: string | string[] | number | number[] | null | undefined; })
+    : { [header: string]: string | string[]; } {
+    const queryParams = {} as { [header: string]: string | string[]; };
     // 过滤掉undefined及null的数据
     for (const key in params) {
       if (params[key] !== undefined) {
@@ -124,4 +127,7 @@ export class CommonService {
     return queryParams;
   }
 
+  canBack(): Observable<boolean> {
+    return this.canBack$;
+  }
 }
