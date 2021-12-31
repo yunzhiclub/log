@@ -47,7 +47,7 @@ export class UserApi implements MockApiInterface {
         url: this.url + '/page',
         method: 'GET',
         description: '分页',
-        result: (urlMatches: (string)[], options: {params: HttpParams;}) => {
+        result: (urlMatches: (string)[], options: { params: HttpParams; }) => {
           const params = options.params as HttpParams;
           console.log('接受的参数为：', params);
           const page = +params.get('page');
@@ -78,7 +78,7 @@ export class UserApi implements MockApiInterface {
         url: `${this.url}/resetPassword/(\\d+)`,
         description: '重置密码',
         result: (urlMatches: (string)[],
-                 options: {params: HttpParams}) => {
+                 options: { params: HttpParams }) => {
           const body = options.params;
           return randomString();
         }
@@ -88,6 +88,25 @@ export class UserApi implements MockApiInterface {
         method: 'DELETE',
         url: `${this.url}/(\\d+)`
       },
+      {
+        method: 'POST',
+        url: `${this.url}`,
+        description: 'save: 新增用户',
+        result: (urlMatches: any, options: { body: User; }) => {
+          let body = {} as User;
+          if (options) {
+            body = options.body;
+          }
+          Assert.isString(body.username, 'name mast be string');
+          return {
+            id: randomNumber(),
+            name: body.name,
+            username: body.username,
+            email: body.email,
+            password: randomString()
+          } as User;
+        }
+      }
     ];
   }
 }

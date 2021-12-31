@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AddComponent } from './add.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {AddComponent} from './add.component';
+import {RouterTestingModule} from '@yunzhi/ng-router-testing';
+import {ApiTestingModule} from '../../../api/api.testing.module';
+import {getTestScheduler} from 'jasmine-marbles';
+import {AddModule} from './add.module';
 
 describe('AddComponent', () => {
   let component: AddComponent;
@@ -8,9 +11,13 @@ describe('AddComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddComponent ]
+      imports: [
+        RouterTestingModule,
+        ApiTestingModule,
+        AddModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -20,6 +27,13 @@ describe('AddComponent', () => {
   });
 
   it('should create', () => {
+    console.log('aaa');
     expect(component).toBeTruthy();
+    fixture.autoDetectChanges();
+  });
+
+  afterEach(() => {
+    fixture.autoDetectChanges();
+    getTestScheduler().flush();
   });
 });
