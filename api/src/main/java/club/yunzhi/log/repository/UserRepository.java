@@ -10,21 +10,18 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
-public interface UserRepository  extends PagingAndSortingRepository<User,Long>, JpaSpecificationExecutor {
-    /**
-     * 查找用户
-     * @param username 用户名
-     * @return
-     */
-      User findByUsername(String username);
+public interface UserRepository extends PagingAndSortingRepository<User, Long>, JpaSpecificationExecutor {
+  /**
+   * 根据用户名查询用户
+   */
+  Optional<User> findByUsername(String username);
 
-    default Page findAll(String username, String email, @NotNull Pageable pageable) {
-        Assert.notNull(pageable, "传入的Pageable不能为null");
-        Specification<User> specification = UserSpecs.containingName(username)
-                .and(UserSpecs.containingEmail(email));
-        return this.findAll(specification, pageable);
-    }
-
-
+  default Page findAll(String username, String email, @NotNull Pageable pageable) {
+    Assert.notNull(pageable, "传入的Pageable不能为null");
+    Specification<User> specification = UserSpecs.containingName(username)
+        .and(UserSpecs.containingEmail(email));
+    return this.findAll(specification, pageable);
+  }
 }

@@ -1,15 +1,23 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.repository.UserRepository;
 import club.yunzhi.log.service.UserService;
 import club.yunzhi.log.vo.VUser;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 
 /**
@@ -18,71 +26,100 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("user")
 public class UserController {
-    @Autowired
-    UserService userService;
+  @Autowired
+  UserService userService;
 
-    @PostMapping("login")
-    public boolean login(@RequestBody User user)
-   {
-    return this.userService.login(user.getUsername(), user.getPassword());
-   }
-    @GetMapping("logout")
-    public void login() {
-        this.userService.logout();
-    }
-    @GetMapping("me")
-    public User me(){
-        return this.userService.me();
-    }
+  @Autowired
+  UserRepository userRepository;
 
-    @GetMapping
-    public Page<User> getAll(@RequestParam(required = false) String username,
-                             @RequestParam(required = false) String email,
-                             Pageable pageable) {
-        return this.userService.findAll(
-                username,
-                email,
-                pageable);
-    }
+  @RequestMapping("login")
+  @JsonView(LoginJsonView.class)
+  public User login(Principal user) {
+    return this.userRepository.findByUsername(user.getName())
+        .orElseThrow(() ->
+            new EntityNotFoundException("未在数据库中找到用户，这可能是当前用户被删除导致的"));
+  }
 
-    @PostMapping("validateOldPassword")
-    public boolean validateOldPassword (@RequestBody VUser vUser)
-    {return this.userService.validateOldPassword(vUser);}
+  @GetMapping("logout")
+  public void logout(HttpServletRequest request, HttpServletResponse response) {
+    // 获取用户认证信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    /**
-     * 修改密码
-     *
-     * @param vUser 带有新密码和旧密码VUser
-     */
-    @PutMapping("updatePassword")
-    public void updatePassword(@RequestBody VUser vUser) {
-        this.userService.updatePassword(vUser);
+    // 存在认证信息，注销
+    if (authentication != null) {
+      new SecurityContextLogoutHandler().logout(request, response, authentication);
     }
+  }
 
-    @GetMapping("{id}")
-    public User getById(@PathVariable Long id) {
-        return this.userService.findById(id);
-    }
+  @GetMapping("getCurrentLoginUser")
+  public User getCurrentLoginUser() {
+    return this.userService.getCurrentLoginUser();
+  }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User save(@RequestBody User user) {
-        return userService.save(user);
-    }
+  @GetMapping
+  @JsonView(GetAllJsonView.class)
+  public Page<User> getAll(@RequestParam(required = false) String username,
+                           @RequestParam(required = false) String email,
+                           Pageable pageable) {
+    return this.userService.findAll(
+        username,
+        email,
+        pageable);
+  }
 
-    @PutMapping("{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return this.userService.update(id, user);
-    }
+  @PostMapping("validateOldPassword")
+  public boolean validateOldPassword(@RequestBody VUser vUser) {
+    return this.userService.validateOldPassword(vUser);
+  }
 
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id) {
-        this.userService.deleteById(id);
-    }
+  /**
+   * 修改密码
+   *
+   * @param vUser 带有新密码和旧密码VUser
+   */
+  @PutMapping("updatePassword")
+  public void updatePassword(@RequestBody VUser vUser) {
+    this.userService.updatePassword(vUser);
+  }
 
-    @PutMapping("resetPassword/{id}")
-    public void resetPassword(@PathVariable Long id){
-        userService.resetPassword(id);
-    }
+  @GetMapping("{id}")
+  public User getById(@PathVariable Long id) {
+    return this.userService.findById(id);
+  }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  @JsonView(SaveJsonView.class)
+  public User save(@RequestBody User user) {
+    return userService.save(user);
+  }
+
+  @PutMapping("{id}")
+  @JsonView(UpdateJsonView.class)
+  public User update(@PathVariable Long id, @RequestBody User user) {
+    return this.userService.update(id, user);
+  }
+
+  @DeleteMapping("{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteById(@PathVariable Long id) {
+    this.userService.deleteById(id);
+  }
+
+  @PutMapping("resetPassword/{id}")
+  public void resetPassword(@PathVariable Long id) {
+    userService.resetPassword(id);
+  }
+
+  public class LoginJsonView {
+  }
+
+  public class SaveJsonView {
+  }
+
+  public class UpdateJsonView {
+  }
+
+  public class GetAllJsonView {
+  }
 }

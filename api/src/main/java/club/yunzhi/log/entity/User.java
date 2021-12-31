@@ -1,5 +1,7 @@
 package club.yunzhi.log.entity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -10,6 +12,12 @@ import java.util.Calendar;
  */
 @Entity
 public class User implements Serializable {
+
+    /**
+     * 密码加密
+     */
+    private static PasswordEncoder passwordEncoder;
+
     private static final long serialVersionUID = 6903403699983360575L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +33,14 @@ public class User implements Serializable {
 
     @Transient
     private Calendar time = Calendar.getInstance();
+
+    public static PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public static void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        User.passwordEncoder = passwordEncoder;
+    }
 
 
     public Long getId() {
@@ -80,7 +96,10 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password){
-        this.password = password;
+        if (User.passwordEncoder == null) {
+            throw new RuntimeException("未设置User实体的passwordEncoder，请调用set方法设置");
+        }
+        this.password = User.passwordEncoder.encode(password);
     }
 
     public static long getSerialVersionUID() {

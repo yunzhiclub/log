@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.User;
+import club.yunzhi.log.properties.AppProperties;
 import club.yunzhi.log.repository.UserRepository;
 import club.yunzhi.log.vo.VUser;
 import net.bytebuddy.utility.RandomString;
@@ -37,29 +38,15 @@ public class UserServiceImplTest {
     @Autowired
     ApplicationContext applicationContext;
 
+    @Autowired
+    AppProperties appProperties;
+
     @Before
     public void before(){
         this.userRepository = Mockito.mock(UserRepository.class);
         this.httpServletRequest = Mockito.mock(HttpServletRequest.class);
-        UserServiceImpl userService = new UserServiceImpl(this.userRepository,this.httpServletRequest);
+        UserServiceImpl userService = new UserServiceImpl(this.userRepository,this.httpServletRequest, appProperties);
         this.userService = Mockito.spy(userService);
-    }
-    @Test
-    public void login() {
-        String username = RandomString.make(6);
-        String password = RandomString.make(6);
-        User user  =  new User();
-        Mockito.when(this.userRepository.findByUsername(username)).thenReturn(user);
-        Mockito.doReturn(true).when(this.userService).validatePassword(user, password);
-
-        // 调用
-        boolean result = this.userService.login(username, password);
-
-        // 断言
-        Assert.assertTrue(result);
-        ArgumentCaptor<String> stringArgumentCaptor =  ArgumentCaptor.forClass(String.class);
-        Mockito.verify(this.userRepository).findByUsername(stringArgumentCaptor.capture());
-        Assert.assertEquals(stringArgumentCaptor.getValue(), username);
     }
 
     @Test
@@ -301,7 +288,7 @@ public class UserServiceImplTest {
         vUser.setPassword(password);
         user.setId(id);
         user.setPassword(password);
-        Mockito.doReturn(user).when(userService).me();
+        Mockito.doReturn(user).when(userService).getCurrentLoginUser();
         Assert.assertTrue(this.userService.validateOldPassword(vUser));
         // 密码为null返回false
         vUser.setPassword(null);
@@ -326,7 +313,7 @@ public class UserServiceImplTest {
         resultVUser.setNewPassword(newPassword);
         User resultUser = new User();
 
-        Mockito.doReturn(resultUser).when(userService).me();
+        Mockito.doReturn(resultUser).when(userService).getCurrentLoginUser();
 
         userService.updatePassword(resultVUser);
         ArgumentCaptor<VUser> VUserPasswordArgumentCaptor = ArgumentCaptor.forClass(VUser.class);
