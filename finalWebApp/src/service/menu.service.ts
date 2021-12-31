@@ -16,6 +16,11 @@ export class MenuService {
       name: '用户管理',
       url: 'user',
       icon: 'fa fa-user-cog',
+    },
+    {
+      name: '日志管理',
+      url: 'log',
+      icon: 'fa fa-user-cog'
     }
   ] as Menu[];
 
