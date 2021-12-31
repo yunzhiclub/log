@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {User} from '../entity/user';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CommonService} from './common.service';
 import {Assert} from '@yunzhi/utils/build/src';
+import {tap} from 'rxjs/operators';
 import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
 import {Page} from '@yunzhi/ng-common';
 import {map} from 'rxjs/operators';
@@ -18,7 +19,6 @@ import {map} from 'rxjs/operators';
 export class UserService {
 
   protected baseUrl = 'user';
-
   /**
    * buffer 设置为 1
    * 只保留最新的登录用户
@@ -29,6 +29,7 @@ export class UserService {
   constructor(protected httpClient: HttpClient,
               private commonService: CommonService,
               private router: Router) {
+
   }
 
   /**
@@ -52,6 +53,25 @@ export class UserService {
     Assert.isDefined(user.username, 'username must be defined');
     Assert.isDefined(user.password, 'password must be defined');
     return this.httpClient.put<User>(`${this.baseUrl}/${userId}`, user);
+  }
+
+  /**
+   * 登录
+   * @param user 用户
+   * @author: weiweiyi
+   */
+  login(user: { username: string, password: string}): Observable<User> {
+    // 新建Headers，并添加认证信息
+    let headers = new HttpHeaders();
+    // 添加 content-type
+    headers = headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    // 添加认证信息
+    headers = headers.append('Authorization',
+      'Basic ' + btoa(user.username + ':' + encodeURIComponent(user.password)));
+
+    // 发起get请求并返回
+    return this.httpClient.get<User>(`${this.baseUrl}/login`, {headers})
+      .pipe(tap(data => this.setCurrentLoginUser(data)));
   }
 
   /**
@@ -107,4 +127,27 @@ export class UserService {
     }
   }
 
+  /**
+   * 请求当前登录用户
+   */
+  initCurrentLoginUser(callback?: () => void): void {
+    this.httpClient.get<User>(`${this.baseUrl}/me`)
+      .subscribe((user: User) => {
+          this.setCurrentLoginUser(user);
+        }, () => {
+          if (callback) {
+            callback();
+          }
+          try {
+            this.router.navigateByUrl('/login').then();
+          } catch (e) {
+            console.error('在跳转路由时发生错误', '/login');
+          }
+        },
+        () => {
+          if (callback) {
+            callback();
+          }
+        });
+  }
 }

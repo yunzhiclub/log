@@ -6,6 +6,11 @@ import {HttpParams} from '@angular/common/http';
 
 export class UserApi implements MockApiInterface {
   protected url = 'user';
+  public static currentLoginUser = {
+    id: randomNumber(12345),
+    name: randomString('name'),
+    username: randomString('username'),
+  } as User;
 
   getInjectors(): ApiInjector[] {
     return [{
