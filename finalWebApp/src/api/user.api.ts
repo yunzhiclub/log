@@ -2,18 +2,72 @@ import {ApiInjector, Assert, MockApiInterface} from '@yunzhi/ng-mock-api';
 import {User} from '../entity/user';
 import {randomNumber, randomString} from '@yunzhi/utils';
 import {Page} from '@yunzhi/ng-common';
-import {HttpParams} from '@angular/common/http';
+import {HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 export class UserApi implements MockApiInterface {
   protected url = 'user';
+  private sessionKey = 'currentLoginUser';
   public static currentLoginUser = {
     id: randomNumber(12345),
     name: randomString('name'),
     username: randomString('username'),
   } as User;
 
+  /**
+   * 获取当前登录用户
+   */
+  getCurrentLoginUser(): User {
+    return UserApi.currentLoginUser;
+  }
+
+  /**
+   * 清除当前登录用户
+   */
+  private clearCurrentLoginUser(): void {
+    localStorage.removeItem(this.sessionKey);
+  }
+
+  /**
+   * 设置当前登录用户
+   * @param user 用户
+   */
+  private setCurrentLoginUser(user: User): void {
+    localStorage.setItem(this.sessionKey, JSON.stringify(user));
+  }
+
   getInjectors(): ApiInjector[] {
-    return [{
+    return [
+      {
+        url: this.url + '/login',
+        method: 'GET',
+        description: '登录',
+        result: (urlMatches: any, options: {headers: HttpHeaders;}) => {
+          const auth = options.headers.get('Authorization');
+          const auths = atob(auth!.substr(6)).split(':');
+
+          const username = auths[0];
+          const password = auths[1];
+          if (password === 'yunzhi') {
+            let user: User;
+            user = new User({
+              id: randomNumber(),
+              username,
+              password
+            });
+            // 设置user基本信息
+            user.name = randomString('姓名');
+            this.setCurrentLoginUser(user);
+            return user;
+          } else {
+            return new Observable<HttpErrorResponse>(subscriber => {
+              subscriber.error(new HttpErrorResponse({status: 401}));
+              subscriber.complete();
+            });
+          }
+        }
+      },
+      {
       method: 'GET',
       description: 'getById 根据ID获取用户  author: liMingAo',
       url: `${this.url}/(\\d+)`,
@@ -105,6 +159,14 @@ export class UserApi implements MockApiInterface {
             email: body.email,
             password: randomString()
           } as User;
+        }
+      },
+      {
+        method: 'GET',
+        url: this.url + '/me',
+        description: '获取当前登录用户',
+        result: () => {
+          return this.getCurrentLoginUser();
         }
       }
     ];
