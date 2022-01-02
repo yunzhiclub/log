@@ -1,8 +1,8 @@
 import swal, {SweetAlertIcon, SweetAlertResult} from 'sweetalert2';
 import {Injectable} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Event, NavigationEnd, Params, Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
-
+import {filter} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +12,38 @@ export class CommonService {
   /** 当前是否处于后退状态 */
   private isBack = false;
   /** 当前路由是否能后退观察者 */
+  /** 当前路由 */
+  private currentUrl: string | undefined;
   protected canBack$ = new BehaviorSubject<boolean>(false);
 
   constructor(private router: Router) {
+
+    /** 订阅路由事件 */
+    this.router.events
+      /** 过滤：路由结束事件 */
+      .pipe(filter((event) => {
+        return event instanceof NavigationEnd;
+      }))
+      /** 订阅路由结束后执行的方法 */
+      .subscribe((route: Event) => {
+        const routeState = route as NavigationEnd;
+        this.currentUrl = routeState.urlAfterRedirects;
+
+        if (this.isBack) {
+          /** 如果处于后退状态，清空状态 */
+          /** 获取完历史参数以后再清除后退状态 */
+          this.isBack = false;
+        } else if (!this.currentUrl.startsWith('/login')) {
+          /** 如果不是认证模块，将当前路由添加到数组中 */
+          if (this.routeStates.length >= 50) {
+            this.routeStates.splice(0, 1);
+          }
+          this.routeStates.push({url: this.currentUrl, state: this.router.getCurrentNavigation()?.extras.state});
+        }
+
+        /** 更新是否能后退信息 */
+        this.canBack$.next(this.routeStates.length >= 2);
+      });
   }
 
   /**
