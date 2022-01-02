@@ -1,1 +1,59 @@
-<p>index works!</p>
+<form (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup" class="form-group">
+  <div class="form-row justify-content-between">
+    <div class="form-group col-md-3">
+      <label>姓名</label>
+      <input class="form-control" [formControlName]="keys.name" type="text">
+    </div>
+    <div class="form-group col-md-3 text-left align-self-end search">
+      <button [disabled]="formGroup.invalid" class="btn btn-info" type="submit"><i class="fas fa-search"></i> 查询
+      </button>
+    </div>
+  </div>
+</form>
+<div class="row mb-2">
+  <div class="col-12 text-right">
+    <a class="btn btn-primary" routerLink="add"><i class="fas fa-plus"></i>新增</a>
+  </div>
+</div>
+<yz-size (changeSize)="onSizeChange($event)" [size]="pageData.size"></yz-size>
+<table class="table table-striped mt-2">
+  <thead>
+  <tr class="table-primary">
+    <th>序号</th>
+    <th>名称</th>
+    <th>token</th>
+    <th>访问地址</th>
+    <th>最后一次发送日志的时间</th>
+    <th>最近一次系统启动时间</th>
+    <th>今日info数</th>
+    <th>今日warning数</th>
+    <th>今日error数</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let client of pageData.content; index as i">
+    <td>{{pageData.size * pageData.number + i + 1}}</td>
+    <td>{{client.name}}</td>
+    <td>{{client.token}}</td>
+    <td>{{client.url}}</td>
+    <td>{{client.lastSendTime}}</td>
+    <td>{{client.lastStartTime}}</td>
+    <td>{{client.todayLog.infoCount}}</td>
+    <td>{{client.todayLog.warnCount}}</td>
+    <td>{{client.todayLog.errorCount}}</td>
+    <td>
+      <a class="btn btn-outline-primary btn-sm" routerLink="edit/">
+        <i class="fas fa-pen"></i>编辑
+      </a>
+      <span class="btn btn-sm btn-outline-danger">
+        <i class="far fa-trash-alt"></i>删除
+      </span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<yz-page (changePage)="onPageChange($event)" *ngIf="pageData.content"
+         [page]="pageData.number"
+         [size]="pageData.size"
+         [totalElements]="pageData.totalElements"></yz-page>

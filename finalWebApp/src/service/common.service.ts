@@ -1,6 +1,6 @@
 import swal, {SweetAlertIcon, SweetAlertResult} from 'sweetalert2';
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
@@ -129,5 +129,22 @@ export class CommonService {
 
   canBack(): Observable<boolean> {
     return this.canBack$;
+  }
+  /**
+   * 使用查询查询，重新加载当前路由，
+   * 在重新加载前将过滤掉undefined及null的属性
+   * @param params 查询参数
+   * @param route 相对跳转的路由
+   * @param broadcast 是否向所有路由广播
+   */
+  reload(params: Params, route: ActivatedRoute, broadcast = false): Promise<boolean> {
+    const queryParams = CommonService.convertToRouteParams(params);
+    // 第一个queryParams是传入route.params; 作用域为当前路由。生成的URL采用matrix法(;key=value;kye1=value1)；
+    // 第二个queryParams是传入route.queryParams; 作用域为所有路由。生成的URL采用m使用传统表示法(?key=value&key1=value1)
+    return this.router.navigate(['./', queryParams],
+      {
+        relativeTo: route,
+        queryParams: broadcast ? queryParams : null
+      }).then();
   }
 }

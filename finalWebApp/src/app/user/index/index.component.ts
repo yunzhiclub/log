@@ -48,6 +48,7 @@ export class IndexComponent implements OnInit {
       this.params = params;
       // 使用参数中的数据设置formGroup
       this.queryForm.get(this.keys.name).setValue(params[this.keys.name]);
+
       getDefaultWhenValueIsInValid(params[this.keys.page], '0');
       getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString());
 

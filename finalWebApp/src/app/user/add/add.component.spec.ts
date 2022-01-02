@@ -27,7 +27,6 @@ describe('AddComponent', () => {
   });
 
   it('should create', () => {
-    console.log('aaa');
     expect(component).toBeTruthy();
     fixture.autoDetectChanges();
   });

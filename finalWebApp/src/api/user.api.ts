@@ -152,6 +152,8 @@ export class UserApi implements MockApiInterface {
             body = options.body;
           }
           Assert.isString(body.username, 'name mast be string');
+          Assert.isString(body.name, 'name mast be string');
+
           return {
             id: randomNumber(),
             name: body.name,
