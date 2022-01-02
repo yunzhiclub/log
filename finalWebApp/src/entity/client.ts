@@ -30,8 +30,7 @@ export class Client {
    */
   todayLog: DayLog;
 
-  // 构造函数——刘宇轩
-  constructor(param?: {id?: number; name: string; token?: string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog; }) {
+  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog; }) {
 
     if (!param) {
       return;
@@ -40,6 +39,7 @@ export class Client {
     this.id = param.id ? param.id : null;
     this.name = param.name ? param.name : '';
     this.token = param.token ? param.token : '';
+    this.url = param.url ? param.url : '';
     this.lastSendTime = param.lastSendTime ? param.lastSendTime : null;
     this.lastStartTime = param.lastStartTime ? param.lastStartTime : null;
     this.todayLog = param.todayLog ? param.todayLog : null;

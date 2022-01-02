@@ -7,6 +7,8 @@ import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
 import {CommonService} from './common.service';
 import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
+import {User} from '../entity/user';
+import {Assert} from '@yunzhi/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +35,27 @@ export class ClientService {
       .append('name', isNotNullOrUndefined(param.name) ? param.name.toString() : '');
     return this.httpClient.get<Page<Client>>(`${this.baseurl}/page`, {params: httpParams})
       .pipe(map(data => new Page<Client>(data).toObject(o => new Client(o))));
+  }
+
+  /**
+   * 更新
+   * @param clientId 客户端ID
+   * @param client 客户端
+   */
+  public update(clientId: number, client: Client): Observable<User> {
+    Assert.isNumber(clientId, 'clientId must be number');
+    Assert.isDefined(client, 'client must be defined');
+    Assert.isDefined(client.name, 'name must be defined');
+    Assert.isDefined(client.token, 'token must be defined');
+    Assert.isDefined(client.url, 'url must be defined');
+    return this.httpClient.put<User>(`${this.baseurl}/${clientId}`, client);
+  }
+
+  /**
+   * 通过Id获取用户
+   * @param clientId 客户端ID
+   */
+  public getById(clientId: number): Observable<Client> {
+    return this.httpClient.get<Client>(`${this.baseurl}/${clientId.toString()}`);
   }
 }

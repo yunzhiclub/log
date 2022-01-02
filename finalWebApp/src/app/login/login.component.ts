@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /**
- * author weiweiyi
+ * @author weiweiyi
  */
 
 @Component({
