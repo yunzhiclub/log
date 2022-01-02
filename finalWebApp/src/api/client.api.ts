@@ -1,4 +1,4 @@
-import {ApiInjector, Assert, MockApiInterface, randomNumber, randomTimestamp} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, randomNumber} from '@yunzhi/ng-mock-api';
 import {HttpParams} from '@angular/common/http';
 import {Client} from '../entity/client';
 import {randomString} from '@yunzhi/utils';
@@ -46,6 +46,49 @@ export class ClientApi implements MockApiInterface {
           totalElements: 40 + randomNumber()
         } as Page<Client>
       }
-    }];
+    }, {
+      method: 'GET',
+      url: `${this.url}/(\\d+)`,
+      description: '根据ID获取client',
+      result: (urlMatches: Array<string>) => {
+        // 使用 + 完成字符串向数字的转换
+        const id = +urlMatches[1];
+        Assert.isNumber(id, 'id类型必须为number');
+        return {
+          id,
+          name: randomString('客户端'),
+          token: 'ZmYDHrlgfelZsP2YqlbaToub5gP30vORv8HQoGr5',
+          url: 'yunzhi.com'
+        } as Client;
+      }
+    },
+      {
+        method: 'PUT',
+        url: `${this.url}/(\\d+)`,
+        description: '修改client',
+        result: (urlMatches: (string)[], option: { body: { id: number, name: string, token: string, url: string }; }) => {
+          let body = {} as { id: number, name: string, token: string, url: string };
+          let id;
+
+          if (urlMatches) {
+            id = +urlMatches[1];
+          }
+          if (option) {
+            body = option.body;
+          }
+
+          Assert.isNumber(id, 'id must be set');
+          Assert.isString(body.name, 'name must be set');
+          Assert.isString(body.token, 'token must be set');
+          Assert.isString(body.url, 'url must be set');
+
+          return {
+            id: body.id,
+            name: body.name,
+            token: body.token,
+            url: body.url
+          } as Client;
+        }
+      },];
   }
 }
