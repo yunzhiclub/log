@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup" class="container-sm">
   <div class="mb-3 row">
-    <label class="col-3 text-right col-form-label" for="name">姓名</label>
+    <label class="col-3 text-right col-form-label" for="name">姓名<code>*</code></label>
     <div class="col-7">
       <input [formControlName]="formKeys.name" class="form-control" id="name" type="text">
     </div>
@@ -19,7 +19,7 @@
   </div>
   <div class="mb-3 row">
     <div class="col-10 offset-5">
-      <button [disabled]="formGroup.get(formKeys.username).invalid"
+      <button [disabled]="formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.name).invalid"
               class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
       </button>
     </div>
