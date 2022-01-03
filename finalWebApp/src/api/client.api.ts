@@ -35,6 +35,7 @@ export class ClientApi implements MockApiInterface {
             id: beginId + i + 1,
             name: randomString('名字'),
             token: randomString('token'),
+            url: 'http://' + randomString(),
             lastStartTime: time,
             lastSendTime: time,
             todayLog: todayLog
@@ -89,6 +90,12 @@ export class ClientApi implements MockApiInterface {
             url: body.url
           } as Client;
         }
-      },];
+      },
+      {
+        method: 'DELETE',
+        url: `${this.url}/(\\d+)`,
+        description: '删除'
+      }
+      ];
   }
 }
