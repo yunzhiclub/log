@@ -36,6 +36,9 @@ const routes: Routes = [
         data: {
           title: '日志管理'
         }
+      },{
+      path: 'personal',
+        loadChildren: () => import('./personal/personal.module').then(m => m.PersonalModule)
       }
     ]
   }
