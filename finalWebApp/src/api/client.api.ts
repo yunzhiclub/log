@@ -13,7 +13,7 @@ export class ClientApi implements MockApiInterface {
       method: 'GET',
       description: '分页',
       url: this.url + '/page',
-      result: (urlMatches: (string)[], options: { params: HttpParams; }) => {
+      result: (urlMatches: (string)[], options: {params: HttpParams;}) => {
         const params = options.params as HttpParams;
         console.log('接受的参数为：', params);
         const page = +params.get('page');
@@ -67,8 +67,8 @@ export class ClientApi implements MockApiInterface {
         method: 'PUT',
         url: `${this.url}/(\\d+)`,
         description: '修改client',
-        result: (urlMatches: (string)[], option: { body: { id: number, name: string, token: string, url: string }; }) => {
-          let body = {} as { id: number, name: string, token: string, url: string };
+        result: (urlMatches: (string)[], option: {body: {id: number, name: string, token: string, url: string};}) => {
+          let body = {} as {id: number, name: string, token: string, url: string};
           let id;
 
           if (urlMatches) {
@@ -95,7 +95,32 @@ export class ClientApi implements MockApiInterface {
         method: 'DELETE',
         url: `${this.url}/(\\d+)`,
         description: '删除'
-      }
-      ];
+      },
+      {
+        method: 'POST',
+        description: 'save: 新增client',
+        url: this.url,
+        result: (urlMatches: any, options: {body: Client;}) => {
+          let body = {} as Client;
+
+          if (options) {
+            body = options.body;
+          }
+
+          // 断言传入的数据不为空
+          Assert.isString(body.name, 'name must be set');
+          Assert.isString(body.url, 'url must be set');
+          Assert.isString(body.token, 'token must be set');
+
+          // 构造返回数据
+          return {
+            id: randomNumber(),
+            name: body.name,
+            url: body.url,
+            token: body.token,
+          } as Client;
+        }
+      },
+    ];
   }
 }
