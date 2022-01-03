@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LogComponent} from './log.component';
 
 /**
- * 客户端模块路由
+ * 日志管理模块路由
  * author: liMingAo
  */
 const routs: Routes = [
