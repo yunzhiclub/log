@@ -58,4 +58,10 @@ export class ClientService {
   public getById(clientId: number): Observable<Client> {
     return this.httpClient.get<Client>(`${this.baseurl}/${clientId.toString()}`);
   }
+  /**
+   * 删除
+   */
+  public delete(userId: number): Observable<null> {
+    return this.httpClient.delete<null>(`${this.baseurl}/${userId.toString()}`);
+  }
 }

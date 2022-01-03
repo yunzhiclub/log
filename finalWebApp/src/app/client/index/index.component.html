@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup" class="form-group">
   <div class="form-row justify-content-between">
     <div class="form-group col-md-3">
-      <label>姓名</label>
+      <label>名称</label>
       <input class="form-control" [formControlName]="keys.name" type="text">
     </div>
     <div class="form-group col-md-3 text-left align-self-end search">
@@ -46,7 +46,7 @@
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑
       </a>
-      <span class="btn btn-sm btn-outline-danger">
+      <span (click)="onDelete(client)" class="btn btn-sm btn-outline-danger">
         <i class="far fa-trash-alt"></i>删除
       </span>
     </td>
