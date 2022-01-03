@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonalComponent } from './personal.component';
+import {PersonalRoutingModule} from './personal-routing.module';
 
 /**
  * 个人中心模块
@@ -11,7 +12,8 @@ import { PersonalComponent } from './personal.component';
     PersonalComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    PersonalRoutingModule
   ],
   exports: [
     PersonalComponent
