@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {LogComponent} from './log.component';
 
 /**
- * 客户端模块路由
+ * 日志管理模块路由
  * author: liMingAo
  */
 const routs: Routes = [
@@ -14,21 +13,7 @@ const routs: Routes = [
     data: {
       title: ''
     }
-  },
-  // {
-  //   path: 'add',
-  //   component: AddComponent,
-  //   data: {
-  //     title: '新增'
-  //   }
-  // },
-  // {
-  //   path: 'edit/:id',
-  //   component: EditComponent,
-  //   data: {
-  //     title: '编辑'
-  //   }
-  // }
+  }
 ];
 
 
