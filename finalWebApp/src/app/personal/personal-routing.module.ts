@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {PersonalComponent} from './personal.component';
+import {ModifyPasswordComponent} from './modify-password/modify-password.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,14 @@ const routes: Routes = [
       title: ''
     }
   },
+  {
+    path: 'modifyPassword',
+    component: ModifyPasswordComponent,
+    data: {
+      title: '修改密码'
+    }
+  }
+
 
 ];
 
