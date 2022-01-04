@@ -23,8 +23,8 @@
     <th>名称</th>
     <th>token</th>
     <th>访问地址</th>
-    <th>最后一次发送日志的时间</th>
-    <th>最近一次系统启动时间</th>
+    <th>最后交互时间</th>
+    <th>最近启动时间</th>
     <th>今日info数</th>
     <th>今日warning数</th>
     <th>今日error数</th>
@@ -37,8 +37,8 @@
     <td>{{client.name}}</td>
     <td>{{client.token}}</td>
     <td>{{client.url}}</td>
-    <td>{{client.lastSendTime}}</td>
-    <td>{{client.lastStartTime}}</td>
+    <td>{{client.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td>{{client.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client.todayLog.infoCount}}</td>
     <td>{{client.todayLog.warnCount}}</td>
     <td>{{client.todayLog.errorCount}}</td>
