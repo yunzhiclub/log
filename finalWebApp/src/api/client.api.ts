@@ -97,6 +97,21 @@ export class ClientApi implements MockApiInterface {
         description: '删除'
       },
       {
+        method: 'GET',
+        url: this.url+'/getAll',
+        description: '获取所有client',
+        result: () => {
+          let clients = [] as Client[];
+          for(let i = 0; i< randomNumber(); i++){
+            clients.push({
+              id: randomNumber(),
+              name: randomString('name')
+            } as Client)
+          }
+          return clients;
+        }
+      },
+      {
         method: 'POST',
         description: 'save: 新增client',
         url: this.url,

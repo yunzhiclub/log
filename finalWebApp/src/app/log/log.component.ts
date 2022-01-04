@@ -22,9 +22,10 @@ export class LogComponent implements OnInit {
   keys = {
     page: 'page',
     size: 'size',
-    clientName: 'clientName',
+    clientId: 'clientId',
+    message: 'message',
+    level: 'level'
   };
-  clientNameFormControl = new FormControl('');
   pageData = {} as Page<Log>;
   params: Params;
   queryForm = new FormGroup({});
@@ -36,14 +37,11 @@ export class LogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // 使用this.keys初始化FormControl，从而避免拼写错误
-    this.queryForm!.addControl(this.keys.clientName, this.clientNameFormControl);
+    this.initQueryForm();
     // 订阅参数变化
     this.route.queryParams.subscribe((params: {page?: string, size?: string}) => {
       // 缓存查询参数
       this.params = params;
-      // 使用参数中的数据设置formGroup
-      this.queryForm.get(this.keys.clientName).setValue(params[this.keys.clientName]);
       getDefaultWhenValueIsInValid(params[this.keys.page], '0');
       getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString());
 
@@ -53,7 +51,9 @@ export class LogComponent implements OnInit {
         getDefaultWhenValueIsInValid(params[this.keys.page], '0'),
         getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString()),
         {
-          clientName: params[this.keys.clientName]
+          clientId: params[this.keys.clientId],
+          level: params[this.keys.level],
+          message: params[this.keys.message]
         },
       ).subscribe(page => {
         this.validateData(page);
@@ -89,6 +89,7 @@ export class LogComponent implements OnInit {
   reload(params: Params): void {
     // 将参数转换为路由参数
     const queryParams = CommonService.convertToRouteParams(params);
+    console.log(params);
     this.router.navigate(['./'],
       {
         relativeTo: this.route,
@@ -101,16 +102,15 @@ export class LogComponent implements OnInit {
    * @param data 分页数据
    */
   validateData(data: Page<Log>): void {
-    data.content.forEach(v => this.validateUser(v));
+    data.content.forEach(v => this.validateLog(v));
     this.pageData = data;
   }
 
 
   /**
    * 校验字段是否符合V层表现
-   * @param user 用户
    */
-  validateUser(log: Log): void {
+  validateLog(log: Log): void {
     // 必有条件
     Assert.isNotNullOrUndefined(
       log.context,
@@ -123,6 +123,12 @@ export class LogComponent implements OnInit {
       log.timestamp,
       '未满足table列表的初始化条件'
     );
+  }
+
+  initQueryForm() {
+    this.queryForm.addControl(this.keys.clientId, new FormControl());
+    this.queryForm.addControl(this.keys.message, new FormControl());
+    this.queryForm.addControl(this.keys.level, new FormControl());
   }
 
 
