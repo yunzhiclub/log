@@ -4,6 +4,7 @@ import {UserService} from '../../../service/user.service';
 import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../entity/user';
+import {UsernameValidator} from './username-validator';
 
 
 /**
@@ -35,7 +36,7 @@ export class AddComponent implements OnInit {
 
   initFormControl(): void {
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.username, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.username, new FormControl('', UsernameValidator.username));
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
   }
 
@@ -50,11 +51,10 @@ export class AddComponent implements OnInit {
       email: formGroup.get(this.formKeys.email).value as string
     } as User;
     this.userService.save(user)
-      .subscribe(() => {
-        console.log(user);
+      .subscribe(user => {
         this.commonService.success(() => {
           this.commonService.back();
-        }), error => {
+        },'','操作成功，密码为' + user.password), error => {
           console.log(error);
         };
       });
