@@ -38,4 +38,8 @@ export class ThemeService extends BasicService {
     return this.commonService.canBack();
   }
 
+  logout() {
+    this.userService.logout().subscribe();
+  }
+
 }

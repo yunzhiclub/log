@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditComponent } from './edit.component';
 import {EditModule} from './edit.module';
-import {ApiTestingModule} from '../../../api/api.testing.module';
 import {ActivatedRouteStub, RouterStub, RouterTestingModule} from '@yunzhi/ng-router-testing';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getTestScheduler} from 'jasmine-marbles';
+import {ApiTestingModule} from '../../../api/api.testing.module';
 
 describe('client->EditComponent', () => {
   let component: EditComponent;

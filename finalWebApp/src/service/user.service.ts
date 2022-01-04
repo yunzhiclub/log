@@ -62,7 +62,7 @@ export class UserService {
   /**
    * 登录
    * @param user 用户
-   * @author: weiweiyi
+   * @author  weiweiyi
    */
   login(user: { username: string, password: string }): Observable<User> {
     // 新建Headers，并添加认证信息
@@ -75,6 +75,10 @@ export class UserService {
     // 发起get请求并返回
     return this.httpClient.get<User>(`${this.baseUrl}/login`, {headers})
       .pipe(tap(data => this.setCurrentLoginUser(data)));
+  }
+
+  logout(): Observable<void> {
+    return this.httpClient.get<void>(`${this.baseUrl}/logout`).pipe(tap(() => this.currentLoginUserSubject.next(null)));
   }
 
   /**
