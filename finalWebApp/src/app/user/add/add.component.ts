@@ -48,14 +48,13 @@ export class AddComponent implements OnInit {
     const user = {
       name: formGroup.get(this.formKeys.name).value as string,
       username: formGroup.get(this.formKeys.username).value as string,
-      email: formGroup.get(this.formKeys.email).value as string,
-      password: formGroup.get(this.formKeys.username).value as string
+      email: formGroup.get(this.formKeys.email).value as string
     } as User;
     this.userService.save(user)
-      .subscribe(() => {
+      .subscribe(user => {
         this.commonService.success(() => {
           this.commonService.back();
-        },'','操作成功，初始密码为用户名'), error => {
+        },'','操作成功，密码为' + user.password), error => {
           console.log(error);
         };
       });
