@@ -5,10 +5,11 @@ import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CommonService} from './common.service';
 import {Assert} from '@yunzhi/utils/build/src';
-import {tap} from 'rxjs/operators';
-import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
+import {catchError, tap} from 'rxjs/operators';
+import {isNotNullOrUndefined, Random} from '@yunzhi/ng-mock-api';
 import {Page} from '@yunzhi/ng-common';
 import {map} from 'rxjs/operators';
+import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -156,5 +157,61 @@ export class UserService {
             callback();
           }
         });
+  }
+  /**
+   * 验证原密码是否正确
+   */
+  public oldPasswordValidator(): AsyncValidatorFn {
+    return (ctrl: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return this.checkPasswordIsRight(ctrl.value)
+        .pipe(map((isRight: boolean) => (isRight ? null : {passwordError: true})),
+          catchError(async () => null));
+    };
+  }
+
+  /**
+   * 校验密码是否正确
+   * @param oldPassword 密码
+   */
+  public checkPasswordIsRight(oldPassword: string): Observable<boolean> {
+    // 由于后台接收时接收两个参数， 而且不能为null，newPassword未使用到，传入随机值
+    // 如果传入user， user的password会被自动加密， 密码必然错误
+    const vUser = {password: oldPassword, newPassword: Random.nextString('', 6)};
+    return this.httpClient.post<boolean>(this.baseUrl + '/checkPasswordIsRight', vUser);
+  }
+
+  /**
+   * 校验新密码与校验密码是否相同
+   * @param control 表单
+   */
+  public confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const newPassword = control.get('newPassword')?.value;
+    const confirmNewPassword = control.get('confirmNewPassword')?.value;
+
+    // 判断确认密码与新密码是否相同
+    if (newPassword && confirmNewPassword) {
+      return newPassword !== confirmNewPassword ? {confirmPasswordError: true} : null;
+    }
+    return null;
+  };
+  /**
+   * 登录用户修改密码
+   * @param newPassword 新密码
+   * @param oldPassword 旧密码
+   */
+  public updatePassword(newPassword: string, oldPassword: string): Observable<void> {
+    const vUser = {password: oldPassword, newPassword: encodeURIComponent(newPassword)};
+    return this.httpClient.put<void>(this.baseUrl + '/updatePassword', vUser);
+  }
+
+  /**
+   * 等注销功能完成后可删除
+   * logoutTest
+   * todo
+   */
+  public logoutTest(): Observable<void> {
+    return this.httpClient.get<void>(`${this.baseUrl}/logoutTest`).pipe(tap(() => {
+      this.currentLoginUserSubject.next(null);
+    }));
   }
 }

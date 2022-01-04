@@ -29,6 +29,16 @@ const routes: Routes = [
         data: {
           title: '客户端管理'
         }
+      },
+      {
+        path: 'log',
+        loadChildren: () => import('./log/log.module').then(m => m.LogModule),
+        data: {
+          title: '日志管理'
+        }
+      },{
+      path: 'personal',
+        loadChildren: () => import('./personal/personal.module').then(m => m.PersonalModule)
       }
     ]
   }

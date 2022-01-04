@@ -1,1 +1,26 @@
-<p>add works!</p>
+<form class="container-sm" (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup">
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label text-right" for="name">客户端名称<code>*</code></label>
+    <div class="col-sm-10">
+      <input type="text" [formControlName]="formKeys.name" class="form-control" name="name" id="name">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label  text-right" for="token">Token<code>*</code></label>
+    <div class="col-sm-10">
+      <input type="text" [formControlName]="formKeys.token" class="form-control" name="pinyin" id="token">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label  text-right" for="url">Url<code>*</code></label>
+    <div class="col-sm-10">
+      <input type="text" [formControlName]="formKeys.url" class="form-control" name="pinyin" id="url">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <div class="col-sm-10 offset-2">
+      <button class="btn btn-primary" [disabled]="formGroup.invalid" type="submit"><i class="fas fa-save"></i>保存
+      </button>
+    </div>
+  </div>
+</form>

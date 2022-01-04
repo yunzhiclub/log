@@ -118,5 +118,20 @@ export class IndexComponent implements OnInit {
   onSubmit(queryForm: FormGroup): void {
     this.reload({...this.params, ...queryForm.value});
   }
+  /**
+   * 删除
+   */
+  onDelete(object: Client): void {
+    Assert.isNotNullOrUndefined(object.id, 'id未定义');
+    this.commonService.confirm((confirm = false) => {
+      if (confirm) {
+        const index = this.pageData.content.indexOf(object);
+        this.clientService.delete(object.id!)
+          .subscribe(() => {
+            this.commonService.success(() => this.pageData.content.splice(index, 1));
+          });
+      }
+    }, '');
+  }
 }
 
