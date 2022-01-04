@@ -170,7 +170,52 @@ export class UserApi implements MockApiInterface {
         result: () => {
           return this.getCurrentLoginUser();
         }
-      }
+      },
+      // 检验密码是否正确
+      {
+        method: 'POST',
+        url: this.url + '/checkPasswordIsRight',
+        result: (urlMatches: (string)[], options: {body: {password: string, newPassword: string};}) => {
+          let body = {} as {password: string, newPassword: string};
+
+          if (options) {
+            body = options.body;
+          }
+          Assert.isString(body.password, 'password must be set');
+          return 'yunzhi' === body.password;
+        }
+      },
+      // 修改密码
+      {
+        method: 'PUT',
+        url: this.url + '/updatePassword',
+        result: (urlMatches: (string)[], options: {body: {password: string, newPassword: string};}) => {
+          const body = options.body;
+          console.log('接收到的参数为:' + 'oldPassword:' + body.password + '  newPassword' + body.newPassword);
+          Assert.isString(body.password, 'password must be set');
+          Assert.isString(body.newPassword, 'newPassword must be set');
+        }
+      },
+      /**
+       * 注销Test
+       * 等注销功能完成后可删除
+       * todo
+       */
+      {
+        method: 'GET',
+        url: `${this.url}/logoutTest`,
+        result: () => {
+          if (this.getCurrentLoginUser() !== null) {
+            this.clearCurrentLoginUser();
+            return null;
+          } else {
+            return new Observable<HttpErrorResponse>(subscriber => {
+              subscriber.next(new HttpErrorResponse({status: 401}));
+              subscriber.complete();
+            });
+          }
+        }
+      },
     ];
   }
 }
