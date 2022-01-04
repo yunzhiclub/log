@@ -203,15 +203,4 @@ export class UserService {
     const vUser = {password: oldPassword, newPassword: encodeURIComponent(newPassword)};
     return this.httpClient.put<void>(this.baseUrl + '/updatePassword', vUser);
   }
-
-  /**
-   * 等注销功能完成后可删除
-   * logoutTest
-   * todo
-   */
-  public logoutTest(): Observable<void> {
-    return this.httpClient.get<void>(`${this.baseUrl}/logoutTest`).pipe(tap(() => {
-      this.currentLoginUserSubject.next(null);
-    }));
-  }
 }

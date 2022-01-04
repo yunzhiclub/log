@@ -53,7 +53,10 @@ export class ThemeService extends BasicService {
   }
 
   logout() {
-    this.userService.logout().subscribe();
+    this.userService.logout().subscribe({
+      error: () => this.router.navigateByUrl('/login').then(),
+      complete: () => this.router.navigateByUrl('/login').then()
+    });
   }
 
 }
