@@ -29,7 +29,6 @@ export class ClientService {
    * author: liMingAo
    */
   public page(page: number, size: number, param: {name?: String}): Observable<Page<Client>> {
-    console.log('servicePage')
     const httpParams = new HttpParams()
       .append('page', page.toString())
       .append('size', size.toString())
