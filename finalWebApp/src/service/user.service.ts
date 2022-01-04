@@ -53,10 +53,9 @@ export class UserService {
    * author: liMingAo
    */
   public update(userId: number, user: User): Observable<User> {
-    Assert.isNumber(userId, 'userId must be number');
-    Assert.isDefined(user, 'user must be defined');
-    Assert.isDefined(user.username, 'username must be defined');
-    Assert.isDefined(user.password, 'password must be defined');
+    // Assert.isNumber(userId, 'userId must be number');
+    // Assert.isDefined(user, 'user must be defined');
+    // Assert.isDefined(user.username, 'username must be defined');
     return this.httpClient.put<User>(`${this.baseUrl}/${userId}`, user);
   }
 

@@ -93,7 +93,7 @@ export class UserApi implements MockApiInterface {
           const body = option.body;
           Assert.isString(
             body.username,
-            body.password
+            body.name
           );
         }
       },

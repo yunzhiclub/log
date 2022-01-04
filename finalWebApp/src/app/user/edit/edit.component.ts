@@ -31,7 +31,6 @@ export class EditComponent implements OnInit {
     id: 'id',
     name: 'name',
     username: 'username',
-    password: 'password',
     email: 'email'
   };
   user = {} as User;
@@ -49,7 +48,6 @@ export class EditComponent implements OnInit {
     Assert.isDefined(user.username, user.password + ' user validate fail');
     this.formGroup.get(this.formKeys.name).setValue(user.name);
     this.formGroup.get(this.formKeys.username).setValue(user.username);
-    this.formGroup.get(this.formKeys.password).setValue(user.password);
     this.formGroup.get(this.formKeys.email).setValue(user.email);
     this.formGroup.get(this.formKeys.id).setValue(user.id);
   }
@@ -57,7 +55,6 @@ export class EditComponent implements OnInit {
   initFormControl(): void {
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.username, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.password, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
   }
@@ -77,12 +74,14 @@ export class EditComponent implements OnInit {
       id,
       name: formGroup.get(this.formKeys.name).value as string,
       username: formGroup.get(this.formKeys.username).value as string,
-      password: formGroup.get(this.formKeys.password).value as string,
       email: formGroup.get(this.formKeys.email).value as string
     } as User;
     this.userService.update(id, user)
       .subscribe(() => {
         this.commonService.success(() => this.commonService.back());
-      }, error => console.log('保存失败', error));
+      }, (error) => {
+        this.commonService.error(() => {
+        }, error)
+      });
   }
 }
