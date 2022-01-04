@@ -36,7 +36,7 @@ export class ModifyPasswordComponent implements OnInit {
     this.userService.updatePassword(this.formGroup.get('newPassword').value,
       this.formGroup.get('oldPassword').value)
       .subscribe(() => {
-        this.userService.logoutTest()//等注销功能完成后将Test去掉即可  todo
+        this.userService.logout()
           .subscribe(() => {
           }, error => {
           }, () => {
