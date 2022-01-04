@@ -1,0 +1,12 @@
+<!--<ng-select [items]="clients"-->
+<!--           bindLabel="name"-->
+<!--           bindValue="id"-->
+<!--           [formControl]="clientId"-->
+<!--           class="form-control"-->
+<!--&gt;-->
+<!--</ng-select>-->
+<select class="form-control" [formControl]="clientId" >
+  <option *ngFor="let client of clients"  [ngValue]="client.id">
+    {{client.name}}
+  </option>
+</select>

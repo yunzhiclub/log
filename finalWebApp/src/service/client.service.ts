@@ -16,10 +16,11 @@ import {Assert} from '@yunzhi/utils';
 
 export class ClientService {
   protected baseurl = 'client';
+
   constructor(protected httpClient: HttpClient,
-              private commonService: CommonService,
-              private router: Router) {
+              ) {
   }
+
   /**
    * 分页方法
    * @param page 第几页
@@ -30,7 +31,7 @@ export class ClientService {
   public page(page: number, size: number, param: {name?: String}): Observable<Page<Client>> {
     console.log('servicePage')
     const httpParams = new HttpParams()
-      .append('page',page.toString())
+      .append('page', page.toString())
       .append('size', size.toString())
       .append('name', isNotNullOrUndefined(param.name) ? param.name.toString() : '');
     return this.httpClient.get<Page<Client>>(`${this.baseurl}/page`, {params: httpParams})
@@ -58,10 +59,19 @@ export class ClientService {
   public getById(clientId: number): Observable<Client> {
     return this.httpClient.get<Client>(`${this.baseurl}/${clientId.toString()}`);
   }
+
   /**
    * 删除
    */
   public delete(userId: number): Observable<null> {
     return this.httpClient.delete<null>(`${this.baseurl}/${userId.toString()}`);
+  }
+
+  /**
+   * 获取所有client
+   */
+  public getAll(): Observable<Client[]> {
+    return this.httpClient.get<Client[]>(`${this.baseurl}/getAll`)
+      .pipe(map(clients => clients.map(client => new Client(client))));
   }
 }
