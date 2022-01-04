@@ -26,10 +26,16 @@ export class MenuService {
       name: '客户端管理',
       url: 'client',
       icon: 'fa fa-house-user'
-    }, {
+    },
+    {
       name: '个人中心',
       url: 'personal',
       icon: 'fa fa-user-alt'
+    },
+    {
+      name: '系统设置',
+      url: 'setting',
+      icon: 'fa fa-cog'
     }
   ] as Menu[];
 
