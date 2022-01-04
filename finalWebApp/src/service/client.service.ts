@@ -18,7 +18,7 @@ export class ClientService {
   protected baseurl = 'client';
 
   constructor(protected httpClient: HttpClient,
-              ) {
+  ) {
   }
 
   /**
@@ -73,5 +73,14 @@ export class ClientService {
   public getAll(): Observable<Client[]> {
     return this.httpClient.get<Client[]>(`${this.baseurl}/getAll`)
       .pipe(map(clients => clients.map(client => new Client(client))));
+  }
+
+  /**
+   * 新增
+   */
+  public save(client: Client): Observable<Client> {
+    // 向后台请求,并通过管道返回User对象
+    return this.httpClient.post<Client>(`${this.baseurl}`, client)
+      .pipe(map(data => new Client(data)));
   }
 }

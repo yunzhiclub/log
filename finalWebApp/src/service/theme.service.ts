@@ -37,5 +37,26 @@ export class ThemeService extends BasicService {
   isShowBack$() {
     return this.commonService.canBack();
   }
+  getTitle(): Observable<string> {
+    return new Observable<string>(subscriber => {
+      subscriber.next('日志管理系统')
+    });
+  }
+  onClickUserName(){
+      this.router.navigateByUrl('/personal').then();
+  }
+  /**
+   * 获取当前登录用户
+   */
+  getCurrentLoginUser$(): Observable<any> {
+    return this.userService.currentLoginUser$;
+  }
+
+  logout() {
+    this.userService.logout().subscribe({
+      error: () => this.router.navigateByUrl('/login').then(),
+      complete: () => this.router.navigateByUrl('/login').then()
+    });
+  }
 
 }
