@@ -196,14 +196,10 @@ export class UserApi implements MockApiInterface {
           Assert.isString(body.newPassword, 'newPassword must be set');
         }
       },
-      /**
-       * 注销Test
-       * 等注销功能完成后可删除
-       * todo
-       */
       {
         method: 'GET',
-        url: `${this.url}/logoutTest`,
+        url: `${this.url}/logout`,
+        description: '注销',
         result: () => {
           if (this.getCurrentLoginUser() !== null) {
             this.clearCurrentLoginUser();
