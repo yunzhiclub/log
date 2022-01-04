@@ -18,14 +18,11 @@ export class LogApi implements MockApiInterface {
           const params = options.params as HttpParams;
           const page = +params.get('page');
           const size = +params.get('size');
-          let clientName = params.get('clientName');
-          // 如果查询按查询内容返回结果
-          if (!clientName) {
-            clientName = randomString('name');
-          }
           // 参数校验
           Assert.isNotNullOrUndefined(page, size, 'page,size为必选');
-          Assert.isDefined(params.get('clientName'), self.name + ' 选填参数未添加全');
+          Assert.isDefined(params.get('clientId'), self.name + ' 选填参数未添加全');
+          Assert.isDefined(params.get('message'), self.name + ' 选填参数未添加全');
+          Assert.isDefined(params.get('level'), self.name + ' 选填参数未添加全');
 
           const beginId = page * size;
           const logs = new Array<Log>();
@@ -33,7 +30,7 @@ export class LogApi implements MockApiInterface {
             logs.push({
               id: beginId + i + 1,
               client: {
-                name: clientName
+                name: randomString('name')
               } as Client,
               level: randomString('level'),
               levelCode: randomNumber(),

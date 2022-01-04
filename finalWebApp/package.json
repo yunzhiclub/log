@@ -30,7 +30,8 @@
     "@yunzhi/ng-mock-api": "0.0.9",
     "@yunzhi/ng-theme": "0.0.8",
     "@yunzhi/utils": "0.0.3",
-    "@fortawesome/fontawesome-free": "^5.15.3"
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@ng-select/ng-select": "^7.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.2",

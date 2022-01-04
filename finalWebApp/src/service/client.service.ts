@@ -18,8 +18,7 @@ export class ClientService {
   protected baseurl = 'client';
 
   constructor(protected httpClient: HttpClient,
-              private commonService: CommonService,
-              private router: Router) {
+  ) {
   }
 
   /**
@@ -66,6 +65,14 @@ export class ClientService {
    */
   public delete(userId: number): Observable<null> {
     return this.httpClient.delete<null>(`${this.baseurl}/${userId.toString()}`);
+  }
+
+  /**
+   * 获取所有client
+   */
+  public getAll(): Observable<Client[]> {
+    return this.httpClient.get<Client[]>(`${this.baseurl}/getAll`)
+      .pipe(map(clients => clients.map(client => new Client(client))));
   }
 
   /**
