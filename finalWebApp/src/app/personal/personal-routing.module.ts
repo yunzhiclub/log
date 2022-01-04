@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: PersonalComponent,
     data: {
-      title: ''
+      title: '个人中心'
     }
   },
   {

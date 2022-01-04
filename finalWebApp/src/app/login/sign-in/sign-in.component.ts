@@ -27,7 +27,8 @@ export class SignInComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
-        Validators.pattern('\\d+')]),
+        Validators.minLength(6),
+        Validators.maxLength(11)]),
       password: new FormControl('', Validators.required)
     });
   }
