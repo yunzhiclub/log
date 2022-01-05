@@ -37,8 +37,10 @@
     <td>{{client.name}}</td>
     <td>{{client.token}}</td>
     <td>{{client.url}}</td>
-    <td>{{client.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
-    <td>{{client.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td *ngIf="client.lastSendTime">{{client.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td *ngIf="!client.lastSendTime">{{'-'}}</td>
+    <td *ngIf="client.lastStartTime">{{client.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td *ngIf="!client.lastStartTime">{{'-'}}</td>
     <td>{{client.todayLog.infoCount}}</td>
     <td>{{client.todayLog.warnCount}}</td>
     <td>{{client.todayLog.errorCount}}</td>
