@@ -4,6 +4,7 @@ import { LogComponent } from './log.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
+import {LogRoutingModule} from './log-routing.module';
 
 /**
  * 日志管理
@@ -19,7 +20,8 @@ import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
     ReactiveFormsModule,
     RouterModule,
     YzSizeModule,
-    YzPageModule
+    YzPageModule,
+    LogRoutingModule
   ],
   exports: [
     LogComponent
