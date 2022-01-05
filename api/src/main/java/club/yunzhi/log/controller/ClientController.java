@@ -1,6 +1,7 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.service.ClientService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
@@ -13,6 +14,8 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author panjie
  */
@@ -21,58 +24,83 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "ClientController 客户端")
 public class ClientController {
 
-    @Autowired  private ClientService clientService;
+  @Autowired
+  private ClientService clientService;
 
-    @Autowired
-    public ClientController(final ClientService clientService) {
-        this.clientService = clientService;
-    }
+  @Autowired
+  ClientRepository clientRepository;
 
-    @PostMapping
-    public void save(@RequestBody final Client client) {
-        this.clientService.save(client);
+  @Autowired
+  public ClientController(final ClientService clientService) {
+    this.clientService = clientService;
+  }
 
-    }
+  @PostMapping
+  public void save(@RequestBody final Client client) {
+    this.clientService.save(client);
 
-    @GetMapping("page")
-    @JsonView(page.class)
-    public Page<Client> page(final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return new PageImpl(this.clientService.page(pageable));
-    }
+  }
 
-    /**
-     * 根据ID获取客户端
-     * @param id
-     * @return
-     */
-    @GetMapping("{id}")
-    @JsonView(get.class)
-    public Client getById(@PathVariable Long id) {
-        return clientService.findById(id);
-    }
+  @GetMapping("page")
+  @JsonView(page.class)
+  public Page<Client> page(final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    return new PageImpl(this.clientService.page(pageable));
+  }
 
-    /**
-     * 更新客户端
-     * @param id
-     * @param client
-     * @return
-     */
-    @PutMapping("{id}")
-    @JsonView(update.class)
-    public Client updateById(@PathVariable Long id, @RequestBody Client client) {
-        return clientService.update(id, client);
-    }
+  @GetMapping("getAll")
+  @JsonView(getAll.class)
+  public List<Client> getAll() {
+    return (List<Client>) this.clientRepository.findAll();
+  }
 
-    /**
-     * 删除客户端
-     * @param id
-     */
-    @DeleteMapping("{id}")
-    public void deleteById(@PathVariable Long id) {
-        clientService.deleteById(id);
-    }
+  /**
+   * 根据ID获取客户端
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("{id}")
+  @JsonView(get.class)
+  public Client getById(@PathVariable Long id) {
+    return clientService.findById(id);
+  }
 
-    private interface page extends Client.base, Client.todayLog, PageImpl.base{};
-    private interface get extends Client.base, Client.todayLog, PageImpl.base{}
-    private interface update extends Client.base, Client.todayLog, PageImpl.base{}
+  /**
+   * 更新客户端
+   *
+   * @param id
+   * @param client
+   * @return
+   */
+  @PutMapping("{id}")
+  @JsonView(update.class)
+  public Client updateById(@PathVariable Long id, @RequestBody Client client) {
+    return clientService.update(id, client);
+  }
+
+  /**
+   * 删除客户端
+   *
+   * @param id
+   */
+  @DeleteMapping("{id}")
+  public void deleteById(@PathVariable Long id) {
+    clientService.deleteById(id);
+  }
+
+  private interface page extends Client.base, Client.todayLog, PageImpl.base {
+  }
+
+  ;
+
+  private interface getAll {
+  }
+
+  ;
+
+  private interface get extends Client.base, Client.todayLog, PageImpl.base {
+  }
+
+  private interface update extends Client.base, Client.todayLog, PageImpl.base {
+  }
 }
