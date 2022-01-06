@@ -21,7 +21,7 @@ import {ClientService} from '../../../service/client.service';
 export class ClientSelectComponent implements OnInit, ControlValueAccessor {
 
   clients = [] as {id: number, name: string}[]
-  clientId = new FormControl(0);
+  clientId = new FormControl(null);
 
   constructor(private clientService: ClientService) {
   }
