@@ -51,19 +51,19 @@ public class UserController {
     }
   }
 
-  @GetMapping("getCurrentLoginUser")
+  @GetMapping("me")
   public User getCurrentLoginUser() {
     return this.userService.getCurrentLoginUser();
   }
 
-  @GetMapping
+  @GetMapping("page")
   @JsonView(GetAllJsonView.class)
-  public Page<User> getAll(@RequestParam(required = false) String username,
-                           @RequestParam(required = false) String email,
+  public Page<User> getAll(@RequestParam(required = false) String name,
+                           @RequestParam(required = false) String username,
                            Pageable pageable) {
     return this.userService.findAll(
+        name,
         username,
-        email,
         pageable);
   }
 
@@ -90,7 +90,7 @@ public class UserController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @JsonView(SaveJsonView.class)
-  public User save(@RequestBody User user) {
+  public String save(@RequestBody User user) {
     return userService.save(user);
   }
 
@@ -106,9 +106,9 @@ public class UserController {
     this.userService.deleteById(id);
   }
 
-  @PutMapping("resetPassword/{id}")
-  public void resetPassword(@PathVariable Long id) {
-    userService.resetPassword(id);
+  @PatchMapping("resetPassword/{id}")
+  public String resetPassword(@PathVariable Long id) {
+    return userService.resetPassword(id);
   }
 
   public class LoginJsonView {

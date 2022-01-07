@@ -44,7 +44,7 @@ public interface UserService {
    * @param user 保存前的用户
    * @return 保存后的用户
    */
-  User save(User user);
+  String save(User user);
 
   /**
    * 查询分页信息
@@ -103,7 +103,7 @@ public interface UserService {
    *
    * @param id
    */
-  void resetPassword(Long id);
+  String resetPassword(Long id);
 
   void updatePassword(VUser vUser);
 

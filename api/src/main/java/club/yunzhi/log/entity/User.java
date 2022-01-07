@@ -1,5 +1,6 @@
 package club.yunzhi.log.entity;
 
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -23,7 +24,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name = "";
-    private String username = "";
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
     private  String password = "yunzhi";
 
     @Transient

@@ -55,7 +55,7 @@ public class LogController {
                           Pageable pageable) {
         logger.info(message+""+level);
         Long _clientId = null;
-        if (!clientId.equals("null")) {
+        if (clientId != null && !clientId.equals("null")) {
             _clientId = Long.parseLong(clientId);
         }
         return new PageImpl(logService.page(_clientId, level, message, pageable));

@@ -81,31 +81,6 @@ public class UserServiceImplTest {
     }
 
     /**
-     * 保存
-     * 1. 模拟输入、输出
-     * 2. 调用测试方法
-     * 3. 断言数据转发与输出
-     */
-    @Test
-    public void save() {
-//        UserRepository userRepository = Mockito.mock(UserRepository.class);
-//        ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
-//        configurableApplicationContext.getBeanFactory().registerSingleton("UserRepository", userRepository);
-
-        User passUser = new User();
-        User mockReturnUser = new User();
-        Mockito.when(userRepository.save(Mockito.any(User.class)))
-                .thenReturn(mockReturnUser);
-
-        User returnUser = this.userService.save(passUser);
-        ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-        Mockito.verify(userRepository).save(userArgumentCaptor.capture());
-
-        Assertions.assertThat(userArgumentCaptor.getValue()).isEqualTo(passUser);
-        Assertions.assertThat(returnUser).isEqualTo(mockReturnUser);
-    }
-
-    /**
      * 分页查询
      * 1. 模拟输入、输出、调用userRepository
      * 2. 调用测试方法

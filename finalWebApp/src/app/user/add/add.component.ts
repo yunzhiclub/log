@@ -51,10 +51,11 @@ export class AddComponent implements OnInit {
       email: formGroup.get(this.formKeys.email).value as string
     } as User;
     this.userService.save(user)
-      .subscribe(user => {
+      .subscribe(string => {
+        console.log(string);
         this.commonService.success(() => {
           this.commonService.back();
-        },'','操作成功，密码为' + user.password), error => {
+        },'','操作成功，密码为' + string), error => {
           console.log(error);
         };
       });

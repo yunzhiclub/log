@@ -70,9 +70,12 @@ export class UserService {
     // 添加 content-type
     headers = headers.append('Content-Type', 'application/x-www-form-urlencoded');
     // 添加认证信息
+    console.log(user.username);
+    console.log(user.password);
     headers = headers.append('Authorization',
       'Basic ' + btoa(user.username + ':' + encodeURIComponent(user.password)));
     // 发起get请求并返回
+    console.log(headers);
     return this.httpClient.get<User>(`${this.baseUrl}/login`, {headers})
       .pipe(tap(data => this.setCurrentLoginUser(data)));
   }
