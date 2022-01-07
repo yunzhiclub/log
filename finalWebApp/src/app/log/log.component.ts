@@ -126,9 +126,9 @@ export class LogComponent implements OnInit {
   }
 
   initQueryForm() {
-    this.queryForm.addControl(this.keys.clientId, new FormControl());
-    this.queryForm.addControl(this.keys.message, new FormControl());
-    this.queryForm.addControl(this.keys.level, new FormControl());
+    this.queryForm.addControl(this.keys.clientId, new FormControl(null));
+    this.queryForm.addControl(this.keys.message, new FormControl(null));
+    this.queryForm.addControl(this.keys.level, new FormControl(null));
   }
 
 

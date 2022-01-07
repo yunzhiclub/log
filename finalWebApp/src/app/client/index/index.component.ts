@@ -131,5 +131,8 @@ export class IndexComponent implements OnInit {
       }
     }, '');
   }
+  location(url: string): void{
+    window.open(url);
+  }
 }
 
