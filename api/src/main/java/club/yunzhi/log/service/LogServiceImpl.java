@@ -115,7 +115,8 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public Page<Log> page(Long clientId, String level, String message, Pageable pageable) {
-        return this.logRepository.getAll(clientId, level, message, pageable);
+        Page<Log> page = logRepository.getAll(clientId, level, message, pageable);
+        return page;
     }
 
     @Override

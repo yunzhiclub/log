@@ -48,12 +48,9 @@ export class IndexComponent implements OnInit {
         client.name,
         client.token,
         client.url,
-        client.lastSendTime,
-        client.lastStartTime,
         '校验中继器错误'
       );
 
-      Assert.isDefined(client.todayLog, '今日日志未获取到');
     });
   }
 
@@ -79,6 +76,7 @@ export class IndexComponent implements OnInit {
           name: params[this.keys.name],
         },
       ).subscribe(page => {
+        console.log(page.content);
         this.validate(page);
         this.pageData = page;
       });

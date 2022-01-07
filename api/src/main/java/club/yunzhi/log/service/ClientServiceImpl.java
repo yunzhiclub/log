@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 
 import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client save(Client client) {
+        client.setLastSendTime(new Time(System.currentTimeMillis()));
+        client.setLastStartTime(new Time(System.currentTimeMillis()));
         return clientRepository.save(client);
     }
 

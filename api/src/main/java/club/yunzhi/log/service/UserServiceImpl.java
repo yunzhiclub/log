@@ -4,6 +4,7 @@ import club.yunzhi.log.entity.User;
 import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.properties.AppProperties;
 import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.repository.specs.UserSpecs;
 import club.yunzhi.log.vo.VUser;
 import com.mengyunzhi.core.exception.ObjectNotFoundException;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   @Override
   public boolean login(String username, String password) {
     User user = this.userRepository.findByUsername(username)
-        .orElseThrow( () -> new EntityNotFoundException("用户实体不存在"));
+        .orElseThrow(() -> new EntityNotFoundException("用户实体不存在"));
     if (!this.validatePassword(user, password)) {
       // 认证不成功直接返回
       return false;
@@ -78,28 +79,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public User getCurrentLoginUser() {
-      logger.debug("初始化用户");
-      User user = new User();
+    logger.debug("初始化用户");
+    User user = new User();
 
-      logger.debug("获取用户认证信息");
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    logger.debug("获取用户认证信息");
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-      logger.debug("根据认证信息查询用户");
-      if (authentication != null && authentication.isAuthenticated()) {
-          user = userRepository.findByUsername(authentication.getName())
-              .orElseThrow( () -> new EntityNotFoundException("用户实体不存在"));
-      }
+    logger.debug("根据认证信息查询用户");
+    if (authentication != null && authentication.isAuthenticated()) {
+      user = userRepository.findByUsername(authentication.getName())
+          .orElseThrow(() -> new EntityNotFoundException("用户实体不存在"));
+    }
 
-      return user;
+    return user;
   }
 
 
   @Override
-  public User save(User user) {
+  public String save(User user) {
     logger.debug("密码设置为初始密码");
     user.setPassword(appProperties.getPassword());
-
-    return this.userRepository.save(user);
+    this.userRepository.save(user);
+    return appProperties.getPassword();
   }
 
   @Override
@@ -108,9 +109,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   @Override
-  public Page<User> findAll(String username, String email, Pageable pageable) {
+  public Page<User> findAll(String name, String username, Pageable pageable) {
     Assert.notNull(pageable, "Pageable不能为null");
-    return this.userRepository.findAll(username, email, pageable);
+    return this.userRepository.findAll(UserSpecs.containingName(name)
+        .and(UserSpecs.containingUsername(username)), pageable);
   }
 
   @Override
@@ -171,7 +173,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   @Override
-  public void resetPassword(Long id) {
+  public String resetPassword(Long id) {
     logger.debug("获取学生对应的用户信息");
     Optional<User> userOptional = userRepository.findById(id);
     if (!userOptional.isPresent()) {
@@ -179,12 +181,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
     userOptional.get().setPassword(this.appProperties.getPassword());
     userRepository.save(userOptional.get());
+    return this.appProperties.getPassword();
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = this.userRepository.findByUsername(username)
-        .orElseThrow( () -> new EntityNotFoundException("用户实体不存在"));
+        .orElseThrow(() -> new EntityNotFoundException("用户实体不存在"));
 
     // 设置用户角色
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();

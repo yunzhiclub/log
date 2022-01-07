@@ -20,7 +20,7 @@ import java.util.UUID;
  * 继承HttpFilter以过滤http请求与响应
  * @author panjie
  */
-@WebFilter
+//@WebFilter
 public class TokenFilter extends HttpFilter {
     private final static Logger logger = LoggerFactory.getLogger(TokenFilter.class);
     public static String TOKEN_KEY = "auth-token";

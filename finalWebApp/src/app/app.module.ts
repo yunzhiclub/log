@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BasicModule} from '@yunzhi/ng-theme';
 import {ThemeService} from '../service/theme.service';
 import {ApiDemoModule} from '../api/api.demo.module';
+import {ApiProModule} from "../api/api.pro.module";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {ApiDemoModule} from '../api/api.demo.module';
     BasicModule.forRoot({
       basicService: ThemeService
     }),
-    ApiDemoModule
+    // ApiDemoModule
+    ApiProModule
   ],
   providers: [],
   bootstrap: [AppComponent]
