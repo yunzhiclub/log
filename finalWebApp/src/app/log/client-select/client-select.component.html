@@ -6,6 +6,7 @@
 <!--&gt;-->
 <!--</ng-select>-->
 <select class="form-control" [formControl]="clientId" >
+  <option [ngValue]="null">请选择</option>
   <option *ngFor="let client of clients"  [ngValue]="client.id">
     {{client.name}}
   </option>

@@ -7,11 +7,12 @@
     <div class="form-group col-md-3">
       <label>等级</label>
       <select [formControlName]="keys.level" class="form-control">
-        <option [ngValue]="1">DEBUG</option>
-        <option [ngValue]="2">TRACE</option>
-        <option [ngValue]="3">INFO</option>
-        <option [ngValue]="4">WARN</option>
-        <option [ngValue]="5">ERROR</option>
+        <option [ngValue]="null">请选择</option>
+        <option [ngValue]="'DEBUG'">DEBUG</option>
+        <option [ngValue]="'TRACE'">TRACE</option>
+        <option [ngValue]="'INFO'">INFO</option>
+        <option [ngValue]="'WARN'">WARN</option>
+        <option [ngValue]="'ERROR'">ERROR</option>
       </select>
     </div>
     <div class="form-group col-md-3">
