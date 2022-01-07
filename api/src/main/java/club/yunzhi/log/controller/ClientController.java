@@ -50,7 +50,8 @@ public class ClientController {
   @GetMapping("getAll")
   @JsonView(getAll.class)
   public List<Client> getAll() {
-    return (List<Client>) this.clientRepository.findAll();
+    List<Client> clients = (List<Client>) this.clientRepository.findAll();
+    return clients;
   }
 
   /**
@@ -93,7 +94,7 @@ public class ClientController {
 
   ;
 
-  private interface getAll {
+  private interface getAll extends Client.base {
   }
 
   ;

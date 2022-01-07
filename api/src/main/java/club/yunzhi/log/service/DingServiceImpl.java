@@ -23,9 +23,10 @@ import java.util.Base64;
 public class DingServiceImpl implements DingService {
 
     //请求地址以及access_token
-    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
+//    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
+    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=deca5f757bf7734f8b8b223fcac0e2d776b4750a40166617970e982ea79d761f";
     //密钥
-    private static String secret = "SEC0ff9722aed33970e9c58cc4a636e3fac22dc1f4fa0fcff2975a88a072cf309b6";
+    private static String secret = "SEC1ae6440b09750b652159bd2e742beda2c34a8653d25de9284c9daeb984aaff9a";
 
     @Override
     public String encode() throws Exception {

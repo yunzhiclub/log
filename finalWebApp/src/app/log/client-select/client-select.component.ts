@@ -29,6 +29,7 @@ export class ClientSelectComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     this.clientService.getAll()
       .subscribe(clients => {
+        console.log(clients[0]);
         clients.forEach(client => {
           this.clients.push(
             {

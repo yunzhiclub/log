@@ -69,9 +69,8 @@ export class ClientService {
   /**
    * 获取所有client
    */
-  public getAll(): Observable<Client[]> {
-    return this.httpClient.get<Client[]>(`${this.baseurl}/getAll`)
-      .pipe(map(clients => clients.map(client => new Client(client))));
+  public getAll(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseurl}/getAll`);
   }
 
   /**

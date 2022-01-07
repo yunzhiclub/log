@@ -20,17 +20,17 @@ export class Client {
   /**
    * 最后一次发送日志的时间
    */
-  lastSendTime: Date;
+  lastSendTime: number;
   /**
    * 最近一次系统启动时间
    */
-  lastStartTime: Date;
+  lastStartTime: number;
   /**
    * 当日 日志
    */
   todayLog: DayLog;
 
-  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: Date; lastStartTime?: Date; todayLog?: DayLog; }) {
+  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: number; lastStartTime?: number; todayLog?: DayLog; }) {
 
     if (!param) {
       return;

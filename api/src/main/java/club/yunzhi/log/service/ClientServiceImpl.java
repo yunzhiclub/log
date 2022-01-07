@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,8 +61,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client save(Client client) {
-        client.setLastSendTime(new Time(System.currentTimeMillis()));
-        client.setLastStartTime(new Time(System.currentTimeMillis()));
+        client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+        client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
         return clientRepository.save(client);
     }
 
@@ -84,7 +85,7 @@ public class ClientServiceImpl implements ClientService {
     @Async
     public void update(List<Log> logs) {
         if (logs.size() > 0) {
-            Time lastStartTime = null;
+            Timestamp lastStartTime = null;
 
             int infoCount = 0;
             int warnCount = 0;
@@ -92,7 +93,7 @@ public class ClientServiceImpl implements ClientService {
             for (Log log : logs) {
                 if (log.getLevelCode().equals(LogLevelEnum.INFO.getValue())) {
                     infoCount++;
-                    Time lastStartTimeTmp = this.getLastStartTime(log);
+                    Timestamp lastStartTimeTmp = this.getLastStartTime(log);
                     if (lastStartTimeTmp != null) {
                         lastStartTime = lastStartTimeTmp;
                     }
@@ -104,7 +105,7 @@ public class ClientServiceImpl implements ClientService {
             }
 
             Client client1 = clientRepository.findById(logs.get(0).getClient().getId()).get();
-            client1.setLastSendTime(new Time(Calendar.getInstance().getTimeInMillis()));
+            client1.setLastSendTime(new Timestamp(System.currentTimeMillis()));
             client1.getTodayLog().addErrorCount(errorCount);
             client1.getTodayLog().addWarnCount(warnCount);
             client1.getTodayLog().addInfoCount(infoCount);
@@ -121,9 +122,10 @@ public class ClientServiceImpl implements ClientService {
      * @param log 日志
      * @return
      */
-    private Time getLastStartTime(Log log) {
-        if (log.getMessage().startsWith("Started ResourceApplication in")) {
-            return new Time(log.getTimestamp().getTime());
+    private Timestamp getLastStartTime(Log log) {
+        if (log.getMessage().startsWith("Starting Servlet engine")) {
+            System.out.println(log.getTimestamp());
+            return log.getTimestamp();
         }
         return null;
     }
