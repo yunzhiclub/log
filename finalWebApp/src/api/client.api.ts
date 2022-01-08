@@ -23,7 +23,7 @@ export class ClientApi implements MockApiInterface {
         Assert.isDefined(params.get('name'), self.name + ' 选填参数未添加全');
         const beginId = page * size;
         const clients = new Array<Client>();
-        const time = new Date();
+        const time = randomNumber(10);
         for (let i = 0; i < +size; i++) {
           const todayLog = {
             id: randomNumber(),

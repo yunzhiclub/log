@@ -36,7 +36,11 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-
+        .authorizeRequests()
+        // 开放端口
+        .antMatchers( "/favicon.ico").permitAll()
+        .anyRequest().authenticated()
+        .and()
         .cors()
         .and().httpBasic()
         .and().csrf().disable();

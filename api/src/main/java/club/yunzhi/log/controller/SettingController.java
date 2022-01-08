@@ -24,8 +24,8 @@ public class SettingController {
     }
 
     @PostMapping()
-    public void updateDing(@RequestBody Ding ding) {
-        dingService.setDing(ding);
+    public Ding updateDing(@RequestBody Ding ding) {
+        return dingService.setDing(ding);
     }
 
 }

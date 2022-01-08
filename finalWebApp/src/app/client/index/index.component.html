@@ -34,14 +34,14 @@
   <tbody>
   <tr *ngFor="let client of pageData.content; index as i">
     <td>{{pageData.size * pageData.number + i + 1}}</td>
-    <td>{{client.name}}</td>
-    <td>{{client.token}}</td>
-    <td (click)="location(client.url)">{{client.url}}</td>
-    <td>{{client.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
-    <td>{{client.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
-    <td>{{client.todayLog.infoCount}}</td>
-    <td>{{client.todayLog.warnCount}}</td>
-    <td>{{client.todayLog.errorCount}}</td>
+    <td>{{client?.name}}</td>
+    <td>{{client?.token}}</td>
+    <td (click)="location(client.url)">{{client?.url}}</td>
+    <td>{{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td>{{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td>{{client.todayLog?.infoCount}}</td>
+    <td>{{client.todayLog?.warnCount}}</td>
+    <td>{{client.todayLog?.errorCount}}</td>
     <td>
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑

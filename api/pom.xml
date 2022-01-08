@@ -50,27 +50,6 @@
             <version>1.3.5.RELEASE</version>
         </dependency>
 
-        <!--http log-->
-        <dependency>
-            <groupId>org.logback-extensions</groupId>
-            <artifactId>logback-ext-loggly</artifactId>
-            <version>0.1.5</version>
-        </dependency>
-
-        <!--log to json-->
-        <dependency>
-            <groupId>ch.qos.logback.contrib</groupId>
-            <artifactId>logback-jackson</artifactId>
-            <version>0.1.5</version>
-        </dependency>
-
-        <!--log to json-->
-        <dependency>
-            <groupId>ch.qos.logback.contrib</groupId>
-            <artifactId>logback-json-classic</artifactId>
-            <version>0.1.5</version>
-        </dependency>
-
         <!--one time password-->
         <dependency>
             <groupId>com.j256.two-factor-auth</groupId>

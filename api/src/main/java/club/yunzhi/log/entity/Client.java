@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -40,10 +41,10 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     private String url;
 
     @JsonView(base.class)
-    private Time lastSendTime;
+    private Timestamp lastSendTime;
 
     @JsonView(base.class)
-    private Time lastStartTime;
+    private Timestamp lastStartTime;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonView(todayLog.class)
@@ -107,19 +108,19 @@ public class Client implements YunzhiEntity<Long>, Serializable {
         this.url = url;
     }
 
-    public Time getLastSendTime() {
+    public Timestamp getLastSendTime() {
         return this.lastSendTime;
     }
 
-    public void setLastSendTime(final Time lastSendTime) {
+    public void setLastSendTime(final Timestamp lastSendTime) {
         this.lastSendTime = lastSendTime;
     }
 
-    public Time getLastStartTime() {
+    public Timestamp getLastStartTime() {
         return this.lastStartTime;
     }
 
-    public void setLastStartTime(final Time lastStartTime) {
+    public void setLastStartTime(final Timestamp lastStartTime) {
         this.lastStartTime = lastStartTime;
     }
 
