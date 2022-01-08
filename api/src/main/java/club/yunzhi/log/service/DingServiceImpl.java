@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 
 import club.yunzhi.log.entity.Ding;
+import club.yunzhi.log.repository.DingRepository;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -19,17 +20,23 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.util.Base64;
+import java.util.List;
+
 @Service
 public class DingServiceImpl implements DingService {
 
     //请求地址以及access_token
 //    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
-    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=deca5f757bf7734f8b8b223fcac0e2d776b4750a40166617970e982ea79d761f";
-    //密钥
-    private static String secret = "SEC1ae6440b09750b652159bd2e742beda2c34a8653d25de9284c9daeb984aaff9a";
+
+    @Autowired
+    DingRepository dingRepository;
 
     @Override
     public String encode() throws Exception {
+        Ding ding = getDing();
+        String webHook = ding.webHook;
+        String secret = ding.secret;
+
         //获取时间戳
         Long timestamp = System.currentTimeMillis();
         //把时间戳和密钥拼接成字符串，中间加入一个换行符
@@ -56,6 +63,9 @@ public class DingServiceImpl implements DingService {
      */
     @Override
     public void dingRequest(String message){
+        Ding ding = getDing();
+        String webHook = ding.webHook;
+        String secret = ding.secret;
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         String url = null;
         try {
@@ -108,14 +118,29 @@ public class DingServiceImpl implements DingService {
     }
 
     @Override
-    public void setDing (Ding ding) {
-        webHook = ding.webHook ;
-        secret = ding.secret;
+    public Ding setDing (Ding ding) {
+        List<Ding> dings = dingRepository.findAll();
+
+        if (dings.size() != 0) {
+            Ding ding1 = dings.get(0);
+            ding1.webHook = ding.webHook;
+            ding1.secret = ding.secret;
+            return dingRepository.save(ding1);
+        } else {
+            Ding ding1 = new Ding("", "");
+            ding1.webHook = ding.webHook;
+            ding1.secret = ding.secret;
+            return dingRepository.save(ding1);
+        }
     }
 
     @Override
     public Ding getDing () {
-        return new Ding(webHook, secret);
+        List<Ding> dings = dingRepository.findAll();
+        if (dings.size() == 0) {
+            return new Ding("", "");
+        } else {
+            return dings.get(0);
+        }
     }
-
 }

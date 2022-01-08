@@ -38,7 +38,11 @@ export class SettingComponent implements OnInit {
     this.ding.webHook = this.formGroup.get('webHook').value;
     this.ding.secret = this.formGroup.get('secret').value;
     this.settingService.setDing(this.ding).subscribe(
-      () => {
+      (ding) => {
+        this.formGroup.setValue({
+          webHook: ding.webHook,
+          secret: ding.secret
+        });
         this.commonService.success(() => {
         }, '数据更新成功');
       }, () => {

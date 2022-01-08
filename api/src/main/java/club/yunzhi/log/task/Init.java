@@ -2,9 +2,11 @@ package club.yunzhi.log.task;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
+import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.DayLogRepository;
+import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,10 @@ import java.util.List;
 @Component
 public class Init implements ApplicationListener<ContextRefreshedEvent>, Ordered {
   private final static Logger logger = LoggerFactory.getLogger(Init.class);
+  private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=deca5f757bf7734f8b8b223fcac0e2d776b4750a40166617970e982ea79d761f";
+  //密钥
+  private static String secret = "SEC1ae6440b09750b652159bd2e742beda2c34a8653d25de9284c9daeb984aaff9a";
+
 
   @Autowired
   private ClientRepository clientRepository;
@@ -26,9 +32,16 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>, Ordered
   private DayLogRepository dayLogRepository;
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private DingRepository dingRepository;
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    if (dingRepository.count() == 0 ) {
+      Ding ding = new Ding(webHook, secret);
+      dingRepository.save(ding);
+    }
+
     if (userRepository.count() == 0) {
       logger.debug("初始化用户");
       User user = new User();
