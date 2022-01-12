@@ -42,9 +42,9 @@
       <button (click)="onResetPassword(user.id)" class="btn btn-sm btn-outline-warning">
         <i class="fas fa-key"></i> 重置密码
       </button>
-      <span (click)="onDelete(user)" class="btn btn-sm btn-outline-danger">
+      <button (click)="onDelete(user)" [disabled]="currentUserId === user.id"  class="btn btn-sm btn-outline-danger">
         <i class="far fa-trash-alt"></i>删除
-      </span>
+      </button>
     </td>
   </tr>
   </tbody>
