@@ -76,10 +76,7 @@ export class IndexComponent implements OnInit {
           name: params[this.keys.name],
         },
       ).subscribe(page => {
-        console.log(page.content);
         this.validate(page);
-        console.log(page.content);
-        console.log(11);
         this.pageData = page;
       });
     });
