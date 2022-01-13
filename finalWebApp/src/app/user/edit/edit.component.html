@@ -9,6 +9,12 @@
     <label class="col-3 text-right col-form-label" for="username">用户名<code>*</code></label>
     <div class="col-7">
       <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
+      <small class="text-danger"
+             *ngIf="formGroup.get(this.formKeys.username)!.touched && formGroup.get(this.formKeys.username)!.invalid">
+        <span *ngIf="formGroup.get(this.formKeys.username).errors.userExist">
+                      该用户已存在，请重新输入！
+        </span>
+      </small>
     </div>
   </div>
   <div class="col-7 offset-3">
