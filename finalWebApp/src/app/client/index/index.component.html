@@ -36,7 +36,7 @@
     <td>{{pageData.size * pageData.number + i + 1}}</td>
     <td>{{client?.name}}</td>
     <td>{{client?.token}}</td>
-    <td (click)="location(client.url)">{{client?.url}}</td>
+    <td><label class="btu" (click)="location(client.url)">{{client?.url}}</label></td>
     <td>{{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client.todayLog?.infoCount}}</td>
