@@ -204,4 +204,14 @@ export class UserService {
     const vUser = {password: oldPassword, newPassword: encodeURIComponent(newPassword)};
     return this.httpClient.put<void>(this.baseUrl + '/updatePassword', vUser);
   }
+
+  /**
+   * 校验输入的用户名是否已存在
+   */
+  public existByUsername(username: string): Observable<boolean> {
+    //订阅
+    const params = new HttpParams().append('username', username);
+    console.log(this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params}))
+    return this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params});
+  }
 }

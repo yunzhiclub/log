@@ -6,6 +6,9 @@ import {SettingComponent} from './setting.component';
 const routes: Routes = [
   {
     path: '',
+    data: {
+      title: ''
+    },
     component: SettingComponent
   }
 ];

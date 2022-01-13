@@ -5,6 +5,8 @@ import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../entity/user';
 import {UsernameValidator} from './username-validator';
+import {map} from "rxjs/operators";
+import {UserAsyncValidators} from "./user-async-validators";
 
 
 /**
@@ -17,12 +19,13 @@ import {UsernameValidator} from './username-validator';
   styleUrls: ['./add.component.scss']
 })
 export class AddComponent implements OnInit {
-
   constructor(private route: ActivatedRoute,
               private userService: UserService,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private userAsyncValidators: UserAsyncValidators) {
   }
 
+  beExit = false;
   formGroup = new FormGroup({});
   /**
    * form表单关键字
@@ -35,8 +38,10 @@ export class AddComponent implements OnInit {
   user = {} as User;
 
   initFormControl(): void {
+    const formControlUsername = new FormControl('',
+      [Validators.required, UsernameValidator.username], this.userAsyncValidators.userNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.username, new FormControl('', UsernameValidator.username));
+    this.formGroup.addControl(this.formKeys.username, formControlUsername);
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
   }
 
@@ -52,13 +57,16 @@ export class AddComponent implements OnInit {
     } as User;
     this.userService.save(user)
       .subscribe(string => {
-        console.log('密码是' + string);
-        this.commonService.success(() => {
-          this.commonService.back();
-        },'','操作成功，密码为' + string), error => {
-          console.log(error);
-        };
-      });
+          console.log(string);
+          this.commonService.success(() => {
+            this.commonService.back();
+          }, '', '操作成功，密码为' + string)
+        }, error => {
+          this.commonService.error(() => {
+          }, '数据更新失败')
+        },
+      );
   }
+
 }
 
