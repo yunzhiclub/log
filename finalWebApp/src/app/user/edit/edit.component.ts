@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user.service';
 import {CommonService} from '../../../service/common.service';
 import {Assert} from '@yunzhi/utils/build/src';
+import {UsernameValidator} from '../add/username-validator';
 
 
 /**
@@ -54,7 +55,7 @@ export class EditComponent implements OnInit {
 
   initFormControl(): void {
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.username, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.username, new FormControl('', UsernameValidator.username));
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
   }

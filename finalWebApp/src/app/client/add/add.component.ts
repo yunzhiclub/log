@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Client} from '../../../entity/client';
 import {ClientService} from '../../../service/client.service';
 import {CommonService} from '../../../service/common.service';
+import {tokenValidator} from './token-validator';
 
 @Component({
   selector: 'app-add',
@@ -35,7 +36,7 @@ export class AddComponent implements OnInit {
    */
   inItFormControl() {
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.token, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.token, new FormControl('', tokenValidator.token));
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));
   }
 

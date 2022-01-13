@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Assert} from '@yunzhi/utils';
 import {ClientService} from '../../../service/client.service';
 import {Client} from '../../../entity/client';
+import {tokenValidator} from '../add/token-validator';
 
 @Component({
   selector: 'app-edit',
@@ -33,7 +34,7 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.token, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.token, new FormControl('', tokenValidator.token));
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));
     // 获取id并找出对应client
     this.route.params.subscribe(param => {

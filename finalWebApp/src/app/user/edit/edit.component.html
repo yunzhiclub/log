@@ -11,6 +11,11 @@
       <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
     </div>
   </div>
+  <div class="col-7 offset-3">
+    <small class="text-danger" *ngIf="formGroup.get('username').invalid">
+      <span >{{formGroup.get('username').getError('username')}}</span>
+    </small>
+  </div>
   <div class="mb-3 row">
     <label class="col-3 text-right col-form-label" for="email">邮箱</label>
     <div class="col-7">
