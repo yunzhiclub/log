@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Assert} from '@yunzhi/utils';
 import {ClientService} from '../../../service/client.service';
 import {Client} from '../../../entity/client';
+import {tokenValidator} from '../add/token-validator';
 import {TokenAsyncValidators} from "../add/token-async-validators";
 
 @Component({
@@ -34,7 +35,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     const formControlToken = new FormControl('',
-      [Validators.required], this.tokenAsyncValidators.tokenNotExist());
+      [tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
