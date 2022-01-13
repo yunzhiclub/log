@@ -77,7 +77,7 @@ export class UserApi implements MockApiInterface {
         return {
           id,
           name: randomString('姓名'),
-          username: randomString('用户名'),
+          username: randomString('user'),
           password: randomString('密码'),
           email: randomString('邮箱'),
         } as User;
