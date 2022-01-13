@@ -8,7 +8,6 @@ import {UsernameValidator} from './username-validator';
 import {map} from "rxjs/operators";
 import {UserAsyncValidators} from "./user-async-validators";
 
-
 /**
  * 用户管理新增
  */

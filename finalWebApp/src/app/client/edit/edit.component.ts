@@ -32,6 +32,7 @@ export class EditComponent implements OnInit {
     url: 'url'
   };
   client = {} as Client;
+  token: string;
 
   ngOnInit(): void {
     const formControlToken = new FormControl('',
@@ -46,6 +47,14 @@ export class EditComponent implements OnInit {
       Assert.isNumber(id, 'id must be number');
       this.loadById(+id);
     });
+    this.formGroup.get(this.formKeys.token).valueChanges
+      .subscribe(token => {
+        if(token === this.client.token){
+          this.formGroup.get(this.formKeys.token).clearAsyncValidators();
+        }else {
+          this.formGroup.get(this.formKeys.token).setAsyncValidators(this.tokenAsyncValidators.tokenNotExist());
+        }
+      })
   }
 
   /**
