@@ -37,6 +37,10 @@ export class EditComponent implements OnInit {
     email: 'email'
   };
   user = {} as User;
+  /**
+   * 用户名是否变化
+   */
+  isUsernameChange = false;
 
   loadById(id: number): void {
     this.userService.getById(id)
@@ -57,7 +61,7 @@ export class EditComponent implements OnInit {
 
   initFormControl(): void {
     const formControlUsername = new FormControl('',
-      [Validators.required, UsernameValidator.username], this.userAsyncValidators.userNotExist());
+      [Validators.required, UsernameValidator.username],this.userAsyncValidators.userNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.username, formControlUsername);
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
@@ -66,6 +70,15 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFormControl();
+    // 检测用户名变化，判断是否改变
+    this.formGroup.get(this.formKeys.username).valueChanges
+      .subscribe(username => {
+        if (username === this.user.username) {
+          this.formGroup.get(this.formKeys.username).clearAsyncValidators();
+        } else {
+          this.formGroup.get(this.formKeys.username).setAsyncValidators(this.userAsyncValidators.userNotExist());
+        }
+      })
     this.route.params.subscribe(param => {
       const id = +param.id;
       Assert.isNumber(id, 'id must be number');
