@@ -62,32 +62,11 @@ export class AddComponent implements OnInit {
             this.commonService.back();
           }, '', '操作成功，密码为' + string)
         }, error => {
-          if (this.exit(user.username)) {
-            this.commonService.error(() => {
-            }, '用户名已存在')
-          }
           this.commonService.error(() => {
           }, '数据更新失败')
-        }, () => {
-        console.log(user.username)
-        if (this.exit(user.username)) {
-          this.commonService.error(() => {
-          }, '用户名已存在')
-        }
-        }
+        },
       );
   }
 
-  exit(username: string): boolean {
-    this.userService.existByUsername(username).subscribe(
-      exit => {
-        if (exit) {
-          this.beExit = exit;
-        }
-      }
-    )
-    console.log(this.beExit);
-    return this.beExit;
-  }
 }
 
