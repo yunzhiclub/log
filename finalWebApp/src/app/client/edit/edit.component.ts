@@ -33,7 +33,6 @@ export class EditComponent implements OnInit {
   };
   client = {} as Client;
   token: string;
-
   ngOnInit(): void {
     const formControlToken = new FormControl('',
       [tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
