@@ -67,9 +67,14 @@ public class UserController {
         pageable);
   }
 
-  @PostMapping("validateOldPassword")
+  @PostMapping("checkPasswordIsRight")
   public boolean validateOldPassword(@RequestBody VUser vUser) {
     return this.userService.validateOldPassword(vUser);
+  }
+
+  @GetMapping("existByUsername")
+  public boolean existByUsername(@RequestParam String username) {
+    return this.userService.existByUsername(username);
   }
 
   /**

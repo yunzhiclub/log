@@ -164,6 +164,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   @Override
+  public boolean existByUsername(String username) {
+    return this.userRepository.findByUsername(username).isPresent();
+  }
+
+  @Override
   public void updatePassword(VUser vUser) {
     logger.debug("获取当前用户");
     User currentUser = this.getCurrentLoginUser();

@@ -6,6 +6,7 @@ import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
+import club.yunzhi.log.repository.specs.ClientSpecs;
 import com.mengyunzhi.core.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,8 +51,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> page(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+    public Page<Client> page(String name, Pageable pageable) {
+        return clientRepository.findAll(ClientSpecs.containingName(name), pageable);
     }
 
     @Override

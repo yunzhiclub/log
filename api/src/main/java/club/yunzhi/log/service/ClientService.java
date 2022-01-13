@@ -15,7 +15,7 @@ import java.util.Random;
 public interface ClientService {
     Client getOneSavedClient();
     Client getOneUnsavedClient();
-    Page<Client> page(Pageable pageable);
+    Page<Client> page(String name, Pageable pageable);
 
     /**
      * 新增客户端

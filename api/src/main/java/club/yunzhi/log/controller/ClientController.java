@@ -43,8 +43,11 @@ public class ClientController {
 
   @GetMapping("page")
   @JsonView(page.class)
-  public Page<Client> page(final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-    return new PageImpl(this.clientService.page(pageable));
+  public Page<Client> page(
+      @RequestParam(required = false) String name,
+      final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    Page<Client> clients = new PageImpl(this.clientService.page(name, pageable));
+    return clients;
   }
 
   @GetMapping("getAll")

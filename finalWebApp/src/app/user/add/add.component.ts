@@ -52,7 +52,7 @@ export class AddComponent implements OnInit {
     } as User;
     this.userService.save(user)
       .subscribe(string => {
-        console.log(string);
+        console.log('密码是' + string);
         this.commonService.success(() => {
           this.commonService.back();
         },'','操作成功，密码为' + string), error => {
