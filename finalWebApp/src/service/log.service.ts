@@ -31,7 +31,7 @@ export class LogService {
       .append('page', page.toString())
       .append('size', size.toString())
       .append('clientId', isNotNullOrUndefined(param.clientId) ? param.clientId.toString() : '')
-      .append('level', isNotNullOrUndefined(param.level) ? param.level.toString() : 0)
+      .append('level', isNotNullOrUndefined(param.level) ? param.level.toString() : '')
       .append('message', isNotNullOrUndefined(param.message) ? param.message : '')
     // 返回根据相应链接订阅的数据，将数据中的每一个json对象转换为 User 对象。
     return this.httpClient.get<Page<Log>>(`${this.baseUrl}/page`, {params: httpParams})
