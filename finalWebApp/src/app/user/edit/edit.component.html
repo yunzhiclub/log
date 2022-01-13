@@ -11,7 +11,7 @@
       <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
       <small class="text-danger"
              *ngIf="formGroup.get(this.formKeys.username)!.touched && formGroup.get(this.formKeys.username)!.invalid">
-        <span *ngIf="formGroup.get(this.formKeys.username).errors.userExist">
+        <span *ngIf="user.username!==formGroup.get(this.formKeys.username).value && formGroup.get(this.formKeys.username).errors.userExist">
                       该用户已存在，请重新输入！
         </span>
       </small>

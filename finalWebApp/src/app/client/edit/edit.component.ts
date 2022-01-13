@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -47,14 +47,6 @@ export class EditComponent implements OnInit {
       Assert.isNumber(id, 'id must be number');
       this.loadById(+id);
     });
-    this.formGroup.get(this.formKeys.token).valueChanges
-      .subscribe(token => {
-        if(token === this.client.token){
-          this.formGroup.get(this.formKeys.token).clearAsyncValidators();
-        }else {
-          this.formGroup.get(this.formKeys.token).setAsyncValidators(this.tokenAsyncValidators.tokenNotExist());
-        }
-      })
   }
 
   /**
