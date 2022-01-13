@@ -4,6 +4,7 @@ import {Client} from '../../../entity/client';
 import {ClientService} from '../../../service/client.service';
 import {CommonService} from '../../../service/common.service';
 import {tokenValidator} from './token-validator';
+import {TokenAsyncValidators} from "./token-async-validators";
 
 @Component({
   selector: 'app-add',
@@ -24,7 +25,8 @@ export class AddComponent implements OnInit {
   formGroup = new FormGroup({});
 
   constructor(private clientService: ClientService,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private tokenAsyncValidators: TokenAsyncValidators) {
   }
 
   ngOnInit(): void {
@@ -35,8 +37,10 @@ export class AddComponent implements OnInit {
    * 初始化formGroup
    */
   inItFormControl() {
+    const formControlToken = new FormControl('',
+      [tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.token, new FormControl('', tokenValidator.token));
+    this.formGroup.addControl(this.formKeys.token, formControlToken);
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));
   }
 

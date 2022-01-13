@@ -1,4 +1,4 @@
-import {ApiInjector, Assert, MockApiInterface} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, RequestOptions} from '@yunzhi/ng-mock-api';
 import {User} from '../entity/user';
 import {randomNumber, randomString} from '@yunzhi/utils';
 import {Page} from '@yunzhi/ng-common';
@@ -210,6 +210,18 @@ export class UserApi implements MockApiInterface {
               subscriber.complete();
             });
           }
+        }
+      },
+      {
+        url: this.url + '/existByUsername',
+        description: '判断用户是否已经存在',
+        result: (urlMatches: any, options: RequestOptions): boolean => {
+          const params = options.params as HttpParams;
+          if (!params.has('username')) {
+            throw new Error('未接收到查询参数username');
+          }
+          const username = params.get('username') as string;
+          return username === 'liming';
         }
       },
     ];
