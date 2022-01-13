@@ -33,7 +33,7 @@ export class MenuService {
       icon: 'fa fa-user-alt'
     },
     {
-      name: '系统设置',
+      name: '推送设置',
       url: 'setting',
       icon: 'fa fa-cog'
     }
