@@ -5,6 +5,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user.service';
 import {CommonService} from '../../../service/common.service';
 import {Assert} from '@yunzhi/utils/build/src';
+import {UsernameValidator} from "../add/username-validator";
+import {UserAsyncValidators} from "../add/user-async-validators";
 
 
 /**
@@ -20,7 +22,8 @@ export class EditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
-              private commonService: CommonService) {
+              private commonService: CommonService,
+              private userAsyncValidators: UserAsyncValidators) {
   }
 
   formGroup = new FormGroup({});
@@ -53,8 +56,10 @@ export class EditComponent implements OnInit {
   }
 
   initFormControl(): void {
+    const formControlUsername = new FormControl('',
+      [Validators.required, UsernameValidator.username], this.userAsyncValidators.userNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.formKeys.username, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.username, formControlUsername);
     this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
   }
