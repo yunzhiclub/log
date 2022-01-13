@@ -9,7 +9,18 @@
     <label class="col-sm-2 col-form-label  text-right" for="token">Token<code>*</code></label>
     <div class="col-sm-10">
       <input type="text" [formControlName]="formKeys.token" class="form-control" name="pinyin" id="token">
+      <small class="text-danger"
+             *ngIf="formGroup.get(this.formKeys.token)!.touched && formGroup.get(this.formKeys.token)!.invalid">
+        <span *ngIf="formGroup.get(this.formKeys.token).errors.userExist">
+                      该Token已存在，请重新输入！
+        </span>
+      </small>
     </div>
+  </div>
+  <div class="col-7 offset-2">
+    <small class="text-danger" *ngIf="formGroup.get(formKeys.token).invalid">
+      <span >{{formGroup.get(formKeys.token).getError(formKeys.token)}}</span>
+    </small>
   </div>
   <div class="mb-3 row">
     <label class="col-sm-2 col-form-label  text-right" for="url">Url<code>*</code></label>
