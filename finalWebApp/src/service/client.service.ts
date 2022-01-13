@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {User} from '../entity/user';
 import {Assert} from '@yunzhi/utils';
+import {Token} from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +81,10 @@ export class ClientService {
     // 向后台请求,并通过管道返回User对象
     return this.httpClient.post<Client>(`${this.baseurl}`, client)
       .pipe(map(data => new Client(data)));
+  }
+  public existByToken(token: string): Observable<boolean> {
+    const params = new HttpParams().append('Token', token);
+    console.log(this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params}))
+    return this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params});
   }
 }
