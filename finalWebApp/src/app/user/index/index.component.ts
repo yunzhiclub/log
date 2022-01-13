@@ -26,6 +26,7 @@ export class IndexComponent implements OnInit {
     name: 'name',
     username: 'username'
   };
+  currentUserId: number;
   nameFormControl = new FormControl('');
   pageData = {} as Page<User>;
   params: Params;
@@ -39,6 +40,15 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.currentLoginUser$
+      .subscribe(user => {
+        if (user) {
+          Assert.isNotNullOrUndefined(user.name, 'name must be exist');
+          Assert.isNotNullOrUndefined(user.username, 'username must be exit');
+          this.currentUserId = user.id;
+        }
+      })
+    // this.currentUserId = this.userService.currentLoginUser$.;
     // 使用this.keys初始化FormControl，从而避免拼写错误
     this.queryForm!.addControl(this.keys.name, this.nameFormControl);
     this.queryForm!.addControl(this.keys.username, this.usernameFormControl);
