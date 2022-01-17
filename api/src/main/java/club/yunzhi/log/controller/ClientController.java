@@ -11,7 +11,6 @@ import club.yunzhi.log.utils.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,6 +54,11 @@ public class ClientController {
   public List<Client> getAll() {
     List<Client> clients = (List<Client>) this.clientRepository.findAll();
     return clients;
+  }
+
+  @GetMapping("existByToken")
+  public boolean existByToken(@RequestParam String token) {
+    return this.clientService.existByToken(token);
   }
 
   /**

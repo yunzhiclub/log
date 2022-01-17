@@ -37,8 +37,11 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>, Ordered
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    if (dingRepository.count() == 0 ) {
-      Ding ding = new Ding(webHook, secret);
+    Long count = dingRepository.count();
+    if (count == 0 ) {
+      Ding ding = new Ding();
+      ding.setSecret(secret);
+      ding.setWebHook(webHook);
       dingRepository.save(ding);
     }
 

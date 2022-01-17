@@ -47,14 +47,6 @@ export class EditComponent implements OnInit {
       Assert.isNumber(id, 'id must be number');
       this.loadById(+id);
     });
-    this.formGroup.get(this.formKeys.token).valueChanges
-      .subscribe(token => {
-        if(token === this.client.token){
-          this.formGroup.get(this.formKeys.token).clearAsyncValidators();
-        }else {
-          this.formGroup.get(this.formKeys.token).setAsyncValidators(this.tokenAsyncValidators.tokenNotExist());
-        }
-      })
   }
 
   /**
@@ -69,6 +61,7 @@ export class EditComponent implements OnInit {
         this.formGroup.get('name').setValue(client.name);
         this.formGroup.get('token').setValue(client.token);
         this.formGroup.get('url').setValue(client.url);
+        this.client = client;
       }, error => console.log(error))
   }
 

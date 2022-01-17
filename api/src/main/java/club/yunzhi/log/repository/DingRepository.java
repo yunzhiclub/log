@@ -1,10 +1,12 @@
 package club.yunzhi.log.repository;
 
 import club.yunzhi.log.entity.Ding;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * 钉钉
  */
-public interface DingRepository extends JpaRepository<Ding, Long> {
+@Repository("DingRepository")
+public interface DingRepository extends PagingAndSortingRepository<Ding, Long> {
 }

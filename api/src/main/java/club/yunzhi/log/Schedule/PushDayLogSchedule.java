@@ -3,7 +3,9 @@ package club.yunzhi.log.Schedule;
 
 import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.repository.DayLogRepository;
+import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.service.DingServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +26,7 @@ public class PushDayLogSchedule {
   private final DayLogRepository dayLogRepository;
 
   Date currentTime = new Date();
-  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
   String dateString = formatter.format(currentTime);
   Long INFOCount;
   Long ErrorCount;
@@ -39,7 +41,7 @@ public class PushDayLogSchedule {
     this.dayLogRepository = dayLogRepository;
   }
 
-      @Scheduled(cron = "${time.cron}")
+  @Scheduled(cron = "${time.cron}")
 //  @Scheduled(initialDelay = 1000, fixedRate = 50000)
   public void pushDayLogSchedule() throws ParseException {
       System.out.println("执行推送任务");

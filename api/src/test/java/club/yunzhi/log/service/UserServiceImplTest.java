@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -41,11 +42,14 @@ public class UserServiceImplTest {
     @Autowired
     AppProperties appProperties;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Before
     public void before(){
         this.userRepository = Mockito.mock(UserRepository.class);
         this.httpServletRequest = Mockito.mock(HttpServletRequest.class);
-        UserServiceImpl userService = new UserServiceImpl(this.userRepository,this.httpServletRequest, appProperties);
+        UserServiceImpl userService = new UserServiceImpl(this.userRepository,this.httpServletRequest, appProperties, passwordEncoder);
         this.userService = Mockito.spy(userService);
     }
 

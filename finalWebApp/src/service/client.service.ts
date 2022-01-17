@@ -83,7 +83,7 @@ export class ClientService {
       .pipe(map(data => new Client(data)));
   }
   public existByToken(token: string): Observable<boolean> {
-    const params = new HttpParams().append('Token', token);
+    const params = new HttpParams().append('token', token);
     console.log(this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params}))
     return this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params});
   }

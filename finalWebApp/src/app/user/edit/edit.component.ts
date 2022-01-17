@@ -71,14 +71,6 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     this.initFormControl();
     // 检测用户名变化，判断是否改变
-    this.formGroup.get(this.formKeys.username).valueChanges
-      .subscribe(username => {
-        if (username === this.user.username) {
-          this.formGroup.get(this.formKeys.username).clearAsyncValidators();
-        } else {
-          this.formGroup.get(this.formKeys.username).setAsyncValidators(this.userAsyncValidators.userNotExist());
-        }
-      })
     this.route.params.subscribe(param => {
       const id = +param.id;
       Assert.isNumber(id, 'id must be number');

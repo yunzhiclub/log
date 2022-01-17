@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -37,6 +38,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
   private UserRepository userRepository;
   private AppProperties appProperties;
+  private final PasswordEncoder passwordEncoder;
   private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
   /**
    * auth-token与teacherId的映射
@@ -48,10 +50,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   @Autowired
   public UserServiceImpl(UserRepository userRepository,
                          HttpServletRequest request,
-                         AppProperties appProperties) {
+                         AppProperties appProperties,
+                         PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.request = request;
     this.appProperties = appProperties;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -157,10 +161,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public boolean validateOldPassword(VUser vUser) {
-    if (this.getCurrentLoginUser() == null || this.getCurrentLoginUser().getPassword() == null || vUser.getPassword() == null) {
-      return false;
-    }
-    return this.getCurrentLoginUser().getPassword().equals(vUser.getPassword());
+    logger.debug("获取当前用户");
+    User user = this.getCurrentLoginUser();
+
+    logger.debug("比较密码是否正确");
+    return this.passwordEncoder.matches(vUser.getPassword(), user.getPassword());
   }
 
   @Override

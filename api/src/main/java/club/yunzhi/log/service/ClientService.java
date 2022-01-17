@@ -13,36 +13,44 @@ import java.util.Random;
  * 客户端
  */
 public interface ClientService {
-    Client getOneSavedClient();
-    Client getOneUnsavedClient();
-    Page<Client> page(String name, Pageable pageable);
+  Client getOneSavedClient();
 
-    /**
-     * 新增客户端
-     * @param client
-     * @return
-     */
-    Client save(Client client);
+  Client getOneUnsavedClient();
 
-    void update(List<Log> logs);
+  Page<Client> page(String name, Pageable pageable);
 
-    /**
-     * 更新一个客户端
-     * @param id
-     * @param client
-     */
-    Client update(Long id, Client client);
+  /**
+   * 新增客户端
+   *
+   * @param client
+   * @return
+   */
+  Client save(Client client);
 
-    /**
-     * 根据ID获取客户端
-     * @param id
-     * @return
-     */
-    Client findById(Long id);
+  void update(List<Log> logs);
 
-    /**
-     * 删除一个客户端
-     * @param id
-     */
-    void deleteById(Long id);
+  /**
+   * 更新一个客户端
+   *
+   * @param id
+   * @param client
+   */
+  Client update(Long id, Client client);
+
+  /**
+   * 根据ID获取客户端
+   *
+   * @param id
+   * @return
+   */
+  Client findById(Long id);
+
+  /**
+   * 删除一个客户端
+   *
+   * @param id
+   */
+  void deleteById(Long id);
+
+  boolean existByToken(String token);
 }
