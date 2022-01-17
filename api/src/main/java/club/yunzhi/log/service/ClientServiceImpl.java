@@ -2,10 +2,9 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
-import club.yunzhi.log.entity.Client;
-import club.yunzhi.log.entity.User;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
+import club.yunzhi.log.repository.specs.ClientSpecs;
 import com.mengyunzhi.core.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,12 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,8 +45,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> page(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+    public Page<Client> page(String name, Pageable pageable) {
+        return clientRepository.findAll(ClientSpecs.containingName(name), pageable);
     }
 
     @Override
@@ -79,6 +74,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteById(Long id) {
         this.clientRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existByToken(String token) {
+        Client client = this.clientRepository.findByToken(token);
+        if (client == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

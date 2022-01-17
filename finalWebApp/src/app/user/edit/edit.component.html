@@ -11,7 +11,7 @@
       <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
       <small class="text-danger"
              *ngIf="formGroup.get(this.formKeys.username)!.touched && formGroup.get(this.formKeys.username)!.invalid">
-        <span *ngIf="formGroup.get(this.formKeys.username).errors.userExist">
+        <span *ngIf="user.username!==formGroup.get(this.formKeys.username).value && formGroup.get(this.formKeys.username).errors.userExist">
                       该用户已存在，请重新输入！
         </span>
       </small>
@@ -32,7 +32,7 @@
 
   <div class="mb-3 row">
     <div class="col-10 offset-5">
-      <button [disabled]="formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.name).invalid"
+      <button [disabled]="user.username!==formGroup.get(this.formKeys.username).value && formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.name).invalid"
               class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
       </button>
     </div>

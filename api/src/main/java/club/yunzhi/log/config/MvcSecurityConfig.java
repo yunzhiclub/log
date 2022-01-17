@@ -38,6 +38,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests()
         // 开放端口
+        .antMatchers("/log/batchSave").permitAll()
         .antMatchers( "/favicon.ico").permitAll()
         .anyRequest().authenticated()
         .and()

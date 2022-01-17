@@ -1,37 +1,46 @@
 package club.yunzhi.log.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.mengyunzhi.core.entity.YunzhiEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * 钉钉
+ * @author hzl
+ */
 @Entity
-public class Ding implements YunzhiEntity<Long> {
+public class Ding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Log.base.class)
+    @JsonView(base.class)
     private Long id;
 
-    public String webHook;
-    public String secret;
+    private String webHook = "";
 
-    public Ding(String webHook, String secret){
+    private String secret = "";
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getWebHook() {
+        return webHook;
+    }
+
+    public void setWebHook(String webHook) {
         this.webHook = webHook;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
         this.secret = secret;
     }
 
-    public Ding() {}
-
-    @Override
-    public Long getId() {
-        return null;
-    }
-
-    @Override
-    public Boolean getDeleted() {
-        return null;
-    }
+    public interface base {}
 }
