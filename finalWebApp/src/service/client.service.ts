@@ -94,6 +94,6 @@ export class ClientService {
     Assert.isNumber(clientId, 'type of clientId must be number');
     Assert.isNumber(timeStamp, 'type of timeStamp must be number');
     // 向后台请求
-    return this.httpClient.post<Client>(`${this.baseurl}/clean/${clientId.toString()}`, timeStamp)
+    return this.httpClient.post<null>(`${this.baseurl}/clean/${clientId.toString()}`, timeStamp.toString())
   }
 }
