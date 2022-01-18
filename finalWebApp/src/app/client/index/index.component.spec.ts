@@ -7,6 +7,7 @@ import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {StatePipeModule} from "../state/state,pipe.module";
+import {TokenShowModule} from "../token-show/token-show.module";
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -22,7 +23,8 @@ describe('IndexComponent', () => {
         YzPageModule,
         YzSizeModule,
         ReactiveFormsModule,
-        StatePipeModule
+        StatePipeModule,
+        TokenShowModule
       ]
     })
       .compileComponents();
@@ -36,7 +38,7 @@ describe('IndexComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     // 发送数据，触发 C 层的订阅方法
     route.queryParamsSubject.next({});
 
