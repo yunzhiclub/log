@@ -1,0 +1,43 @@
+<form class="container-sm" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="name">名称<code>*</code></label>
+    <div class="col-7">
+      <input class="form-control" id="name" type="text" [formControlName]="keys.name">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label">客户端<code>*</code></label>
+    <div class="col-7">
+      <app-client-select [formControlName]="keys.clientId"></app-client-select>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="webhook">webhook<code>*</code></label>
+    <div class="col-7">
+      <input class="form-control" id="webhook" type="text" [formControlName]="keys.webhook">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label" for="secret">secret<code>*</code></label>
+    <div class="col-7">
+      <input class="form-control" id="secret" type="text" [formControlName]="keys.secret">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label">连接状态<code>*</code></label>
+    <div class="col-sm-7">
+      <select [formControlName]="keys.state" class="form-control">
+        <option [value]="1">启用</option>
+        <option [value]="0">停用</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <div class="col-10 offset-5">
+      <button [disabled]="formGroup.invalid"
+              class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
+      </button>
+    </div>
+  </div>
+</form>
