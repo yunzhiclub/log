@@ -143,10 +143,10 @@ export class ClientApi implements MockApiInterface {
         result: (urlMatches: any, options: RequestOptions): boolean => {
           const params = options.params as HttpParams;
           console.log(params);
-          if (!params.has('Token')) {
-            throw new Error('未接收到查询参数Token');
+          if (!params.has('token')) {
+            throw new Error('未接收到查询参数token');
           }
-          const Token = params.get('Token') as string;
+          const Token = params.get('token') as string;
           return Token === 'liming';
         }
       },
