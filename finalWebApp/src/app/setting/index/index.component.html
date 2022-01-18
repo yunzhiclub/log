@@ -43,8 +43,8 @@
     <td>{{ ding.client.name }}</td>
     <td>{{ ding.webHook}}</td>
     <td>{{ ding.secret}}</td>
-    <td>{{ ding.connectionStatus}}</td>
-    <td>{{ ding.start }}</td>
+    <td [innerHTML]="ding.connectionStatus | connectionStatus"></td>
+    <td [innerHTML]="ding.start | start"></td>
     <td>
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{ding.id}}">
         <i class="fas fa-pen"></i>编辑
