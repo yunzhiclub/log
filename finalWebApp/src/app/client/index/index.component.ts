@@ -4,7 +4,7 @@ import {Client} from '../../../entity/client';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CommonService} from '../../../service/common.service';
 import {Assert} from '@yunzhi/ng-mock-api';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {getDefaultWhenValueIsInValid} from '@yunzhi/utils';
 import {config} from '../../../conf/app.config';
 import {ClientService} from '../../../service/client.service';
@@ -21,13 +21,20 @@ import {ClientService} from '../../../service/client.service';
 export class IndexComponent implements OnInit {
 
   keys = {
+    id: 'id',
     name: 'name',
     page: 'page',
-    size: 'size'
+    size: 'size',
+    date: 'date'
   };
   params: Params;
+  /**
+   * 显示清理弹出框
+   */
+  showModal = false;
   pageData = {} as Page<Client>;
   formGroup = new FormGroup({});
+  formGroupClean = new FormGroup({});
 
   constructor(private route: ActivatedRoute,
               private commonService: CommonService,
@@ -60,6 +67,8 @@ export class IndexComponent implements OnInit {
 
   initFormGroup() {
     this.formGroup!.addControl(this.keys.name, new FormControl(''));
+    this.formGroupClean!.addControl(this.keys.id, new FormControl(null, Validators.required))
+    this.formGroupClean!.addControl(this.keys.date, new FormControl(null, Validators.required));
   }
 
   subscribeQueryParams() {
@@ -129,6 +138,29 @@ export class IndexComponent implements OnInit {
           });
       }
     }, '');
+  }
+
+  onCloseModal() {
+    this.showModal = false;
+    this.formGroupClean.get(this.keys.date).setValue(null);
+  }
+
+  onOpenModal(clientId: number) {
+    this.showModal = true;
+    this.formGroupClean.get(this.keys.id).setValue(clientId);
+  }
+
+  onSubmitModal(formGroupClean: FormGroup) {
+      // 要清理的客户端id
+     const clientId = formGroupClean.get(this.keys.id).value;
+     const timeStamp = formGroupClean.get(this.keys.date).value;
+    this.clientService.clean(clientId,timeStamp) .subscribe(() => {
+      this.commonService.success(() =>{
+        this.onCloseModal();
+      });
+    },() => {
+      this.commonService.error()
+    });
   }
 }
 

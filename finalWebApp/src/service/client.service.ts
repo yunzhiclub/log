@@ -84,4 +84,16 @@ export class ClientService {
     console.log(this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params}))
     return this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params});
   }
+
+  /**
+   * 清理客户端在时间戳之前产生的日志
+   * @param clientId 客户端id
+   * @param timeStamp 时间戳
+   */
+  public clean(clientId: number, timeStamp: number): Observable<any> {
+    Assert.isNumber(clientId, 'type of clientId must be number');
+    Assert.isNumber(timeStamp, 'type of timeStamp must be number');
+    // 向后台请求
+    return this.httpClient.post<null>(`${this.baseurl}/clean/${clientId.toString()}`, timeStamp.toString())
+  }
 }
