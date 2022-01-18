@@ -20,16 +20,16 @@ export class Ding {
   /**
    * 链接状态
    */
-  connectionStatus: boolean;
+  connectionStatus?: boolean;
 
   /**
    * 启用，停用
    */
-  start: boolean
+  start?: boolean
 
   constructor(param = {} as
     {
-      id: number,
+      id?: number,
       webHook?: string,
       secret?: string,
       name?: string,

@@ -3,10 +3,12 @@ import {IndexComponent} from './index.component';
 import {ApiTestingModule} from '../../../api/api.testing.module';
 import {ActivatedRouteStub, RouterTestingModule} from '@yunzhi/ng-router-testing';
 import {getTestScheduler} from 'jasmine-marbles';
-import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
+import {YzModalModule, YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {StatePipeModule} from "../state/state,pipe.module";
+import {TokenShowModule} from "../token-show/token-show.module";
+import {DateModule} from '../../share/component/date/date.module';
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -22,7 +24,10 @@ describe('IndexComponent', () => {
         YzPageModule,
         YzSizeModule,
         ReactiveFormsModule,
-        StatePipeModule
+        StatePipeModule,
+        TokenShowModule,
+        YzModalModule,
+        DateModule
       ]
     })
       .compileComponents();
