@@ -36,7 +36,7 @@
   <tr *ngFor="let client of pageData.content; index as i">
     <td>{{pageData.size * pageData.number + i + 1}}</td>
     <td>{{client?.name}}</td>
-    <td>{{client?.token}}</td>
+    <td><app-token-show [client]="client"></app-token-show></td>
     <td><a href="{{client.url}}" target="view_window">{{client.url}}</a></td>
     <td>{{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>

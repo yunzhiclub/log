@@ -8,6 +8,7 @@ import {YzModalModule, YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StatePipeModule} from "./state/state,pipe.module";
 import {DateModule} from '../share/component/date/date.module';
+import {TokenShowModule} from "./token-show/token-show.module";
 
 
 
@@ -23,6 +24,7 @@ import {DateModule} from '../share/component/date/date.module';
     ReactiveFormsModule,
     FormsModule,
     StatePipeModule,
+    TokenShowModule,
     YzModalModule,
     DateModule
   ]
