@@ -5,7 +5,6 @@ import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../entity/user';
 import {UsernameValidator} from './username-validator';
-import {map} from "rxjs/operators";
 import {UserAsyncValidators} from "./user-async-validators";
 
 /**
@@ -41,7 +40,7 @@ export class AddComponent implements OnInit {
       [Validators.required, UsernameValidator.username], this.userAsyncValidators.userNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.username, formControlUsername);
-    this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.email));
   }
 
   ngOnInit(): void {
@@ -56,7 +55,6 @@ export class AddComponent implements OnInit {
     } as User;
     this.userService.save(user)
       .subscribe(string => {
-          console.log(string);
           this.commonService.success(() => {
             this.commonService.back();
           }, '', '操作成功，密码为' + string)

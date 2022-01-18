@@ -64,7 +64,7 @@ export class EditComponent implements OnInit {
       [Validators.required, UsernameValidator.username],this.userAsyncValidators.userNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.username, formControlUsername);
-    this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.formKeys.email, new FormControl('', Validators.email));
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
   }
 
