@@ -15,7 +15,6 @@ export class AddComponent implements OnInit {
     clientId: 'clientId',
     webhook: 'webhook',
     secret: 'secret',
-    state: 'state',
   }
   formGroup = new FormGroup({});
 
@@ -30,7 +29,6 @@ export class AddComponent implements OnInit {
   initFormGroup() {
     this.formGroup.addControl(this.keys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.keys.clientId, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.keys.state, new FormControl('', Validators.required));
     this.formGroup.addControl(this.keys.webhook, new FormControl('', Validators.required));
     this.formGroup.addControl(this.keys.secret, new FormControl('', Validators.required));
   }
@@ -41,7 +39,6 @@ export class AddComponent implements OnInit {
       clientId: formGroup.get(this.keys.clientId).value,
       webHook: formGroup.get(this.keys.webhook).value,
       secret: formGroup.get(this.keys.secret).value,
-      state: formGroup.get(this.keys.state).value
     })
     this.settingService.save(newDing)
       .subscribe(() => {

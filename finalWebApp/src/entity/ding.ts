@@ -1,12 +1,11 @@
-import {Client} from "./client";
 
 export class Ding {
   name: string;
   clientId: number;
   webHook: string;
   secret: string;
-  state: boolean;
-  constructor(data = {} as {name: string,clientId: number,webHook: string, secret: string, state:boolean}) {
+  state?: boolean;
+  constructor(data = {} as {name: string,clientId: number,webHook: string, secret: string, state?:boolean}) {
     if (data) {
       this.name = data.name;
       this.clientId = data.clientId;

@@ -48,7 +48,6 @@ export class DingApi implements MockApiInterface {
           Assert.isNumber(body.clientId, 'clientId must be set');
           Assert.isString(body.webHook, 'webHook must be set');
           Assert.isString(body.secret, 'secret must be set');
-          Assert.isDefined(body.state, 'state must be set')
           // 构造返回数据
           return {
             id: randomNumber(),
@@ -56,7 +55,6 @@ export class DingApi implements MockApiInterface {
             clientId: body.clientId,
             webHook: body.webHook,
             secret: body.secret,
-            state: body.state
           } as Ding;
         }
       }]
