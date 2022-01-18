@@ -29,7 +29,7 @@
     <th>今日warning数</th>
     <th>今日error数</th>
     <th>状态</th>
-    <th>操作</th>
+    <th class="text-center">操作</th>
   </tr>
   </thead>
   <tbody>
@@ -44,10 +44,13 @@
     <td>{{client.todayLog?.warnCount}}</td>
     <td>{{client.todayLog?.errorCount}}</td>
     <td [innerHTML]="client.state | statePipe"></td>
-    <td>
+    <td class="text-right">
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑
       </a>
+      <span (click)="onOpenModal(client.id)"  class="btn btn-outline-success btn-sm">
+        <i class="fas fa-broom"></i>清理
+      </span>
       <span (click)="onDelete(client)" class="btn btn-sm btn-outline-danger">
         <i class="far fa-trash-alt"></i>删除
       </span>
@@ -59,3 +62,28 @@
          [page]="pageData.number"
          [size]="pageData.size"
          [totalElements]="pageData.totalElements"></yz-page>
+
+<yz-modal *ngIf="showModal" width="50%">
+  <form (ngSubmit)="onSubmitModal(formGroupClean)" [formGroup]="formGroupClean" class="container-fluid p-2">
+    <div class="modal-header">
+      <h5 class="modal-title offset-5">清理日志</h5>
+      <button (click)="onCloseModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="mt-2 mb-2 row">
+      <label class="col-2 text-right col-form-label">选择时间</label>
+      <div class="col-10">
+        <yz-date [formControlName]="keys.date" [setMaxToday]="true"></yz-date>
+        <small class="text-muted form-text p-md-2">
+          <span>选择日期，以清理该日期之前的日志(不包括该日期)</span>
+        </small>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button (click)="onCloseModal()" class="btn btn-default" type="button">取消</button>
+      <button [disabled]="formGroupClean.invalid" class="btn btn-primary" type="submit">确认</button>
+    </div>
+  </form>
+</yz-modal>

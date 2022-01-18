@@ -150,6 +150,22 @@ export class ClientApi implements MockApiInterface {
           return Token === 'liming';
         }
       },
+      {
+        method: 'POST',
+        description: 'clean: 清理日志',
+        url: this.url+'/clean/(\\d+)',
+        result: (urlMatches: (string)[], options: { body: number; }) => {
+          let timeStamp: number;
+          let id;
+          if (urlMatches) {
+            id = +urlMatches[1];
+          }
+          if(options){
+            timeStamp = +options.body;
+          }
+          console.log('id',id,'time',timeStamp)
+        }
+      }
     ];
   }
 }
