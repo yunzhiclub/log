@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CommonService} from '../../../service/common.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -33,6 +33,7 @@ export class EditComponent implements OnInit {
   };
   client = {} as Client;
   token: string;
+
   ngOnInit(): void {
     const formControlToken = new FormControl('',
       [tokenValidator.token, Validators.required], this.tokenAsyncValidators.tokenNotExist());

@@ -11,11 +11,7 @@
       <input type="text" [formControlName]="formKeys.token" class="form-control" name="pinyin" id="token">
       <small class="text-danger"
              *ngIf="formGroup.get(this.formKeys.token)!.touched && formGroup.get(this.formKeys.token)!.invalid">
-<<<<<<< HEAD
-        <span *ngIf=" client.token!==formGroup.get(this.formKeys.token).value &&formGroup.get(this.formKeys.token).errors.userExist">
-=======
         <span *ngIf=" client.token!==formGroup.get(this.formKeys.token).value && formGroup.get(this.formKeys.token).errors.userExist">
->>>>>>> 652ee514d4904ec1b5c0bc393ef0f85370fbf494
                       该Token已存在，请重新输入！
         </span>
       </small>
