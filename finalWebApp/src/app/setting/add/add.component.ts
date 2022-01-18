@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Ding} from "../../../entity/ding";
 import {SettingService} from "../../../service/settingService";
 import {CommonService} from "../../../service/common.service";
+import {Client} from "../../../entity/client";
 
 @Component({
   selector: 'app-add',
@@ -36,7 +37,7 @@ export class AddComponent implements OnInit {
   onSubmit(formGroup: FormGroup) {
     const newDing = new Ding({
       name: formGroup.get(this.keys.name).value,
-      clientId: formGroup.get(this.keys.clientId).value,
+      client: { id: formGroup.get(this.keys.clientId).value} as Client,
       webHook: formGroup.get(this.keys.webhook).value,
       secret: formGroup.get(this.keys.secret).value,
     })
