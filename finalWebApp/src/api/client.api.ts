@@ -34,7 +34,7 @@ export class ClientApi implements MockApiInterface {
           clients.push({
             id: beginId + i + 1,
             name: randomString('名字'),
-            token: randomString('token'),
+            token: randomString('token****'),
             url: 'http://' + randomString(),
             lastStartTime: time,
             lastSendTime: time,
