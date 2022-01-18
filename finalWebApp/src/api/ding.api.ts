@@ -1,6 +1,5 @@
-import {ApiInjector, Assert, MockApiInterface, randomString} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, randomNumber, randomString} from '@yunzhi/ng-mock-api';
 import {Ding} from '../entity/ding';
-import {Client} from '../entity/client';
 
 export class DingApi implements MockApiInterface {
   protected url = 'setting';
@@ -33,6 +32,30 @@ export class DingApi implements MockApiInterface {
             webHook: body.webHook,
             secret: body.secret
           } as Ding
+        }
+      },
+      {
+        method: "POST",
+        description: "addDing",
+        url: this.url,
+        result: (urlMatches: any, options: {body: Ding}) => {
+          let body = {} as Ding;
+          if (options) {
+            body = options.body;
+          }
+          // 断言传入的数据不为空
+          Assert.isString(body.name, 'name must be set');
+          Assert.isNumber(body.clientId, 'clientId must be set');
+          Assert.isString(body.webHook, 'webHook must be set');
+          Assert.isString(body.secret, 'secret must be set');
+          // 构造返回数据
+          return {
+            id: randomNumber(),
+            name: body.name,
+            clientId: body.clientId,
+            webHook: body.webHook,
+            secret: body.secret,
+          } as Ding;
         }
       }]
   }

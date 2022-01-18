@@ -1,12 +1,17 @@
-export class Ding {
 
+export class Ding {
+  name: string;
+  clientId: number;
   webHook: string;
   secret: string;
-
-  constructor(param?: {webHook: string, secret: string}) {
-    if (!param) {
-      this.webHook = param.webHook ? param.webHook : null;
-      this.secret = param.secret ? param.secret : null;
+  state?: boolean;
+  constructor(data = {} as {name: string,clientId: number,webHook: string, secret: string, state?:boolean}) {
+    if (data) {
+      this.name = data.name;
+      this.clientId = data.clientId;
+      this.webHook = data.webHook;
+      this.secret = data.secret;
+      this.state = data.state;
     }
   }
 }
