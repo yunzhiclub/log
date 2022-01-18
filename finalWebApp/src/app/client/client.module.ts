@@ -6,6 +6,7 @@ import {ClientRoutingModule} from './client-routing.module';
 import {IndexComponent} from './index/index.component';
 import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {StatePipeModule} from "./state/state,pipe.module";
 
 
 
@@ -19,7 +20,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     YzSizeModule,
     YzPageModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    StatePipeModule
   ]
 })
 export class ClientModule { }

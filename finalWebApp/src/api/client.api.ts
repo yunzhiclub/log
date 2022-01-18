@@ -1,4 +1,4 @@
-import {ApiInjector, Assert, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, randomBoolean, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {HttpParams} from '@angular/common/http';
 import {Client} from '../entity/client';
 import {randomString} from '@yunzhi/utils';
@@ -38,7 +38,8 @@ export class ClientApi implements MockApiInterface {
             url: 'http://' + randomString(),
             lastStartTime: time,
             lastSendTime: time,
-            todayLog: todayLog
+            todayLog: todayLog,
+            state: randomBoolean()
           } as Client);
         }
         return {
@@ -141,6 +142,7 @@ export class ClientApi implements MockApiInterface {
         description: '判断Token是否已经存在',
         result: (urlMatches: any, options: RequestOptions): boolean => {
           const params = options.params as HttpParams;
+          console.log(params);
           if (!params.has('Token')) {
             throw new Error('未接收到查询参数Token');
           }
