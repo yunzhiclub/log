@@ -6,7 +6,6 @@ import {getTestScheduler} from 'jasmine-marbles';
 import {YzPageModule, YzSizeModule} from '@yunzhi/ng-common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {StatePipe} from "../state/state.pipe";
 import {StatePipeModule} from "../state/state,pipe.module";
 
 describe('IndexComponent', () => {
