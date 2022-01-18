@@ -3,6 +3,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.repository.DingRepository;
+import club.yunzhi.log.task.ApplicationContextUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -12,7 +13,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -22,20 +22,17 @@ import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.List;
 
-@Service
+@Service("DingServiceImpl")
 public class DingServiceImpl implements DingService {
 
     //请求地址以及access_token
 //    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
 
-    @Autowired
-    DingRepository dingRepository;
-
     @Override
     public String encode() throws Exception {
         Ding ding = getDing();
-        String webHook = ding.webHook;
-        String secret = ding.secret;
+        String webHook = ding.getWebHook();
+        String secret = ding.getSecret();
 
         //获取时间戳
         Long timestamp = System.currentTimeMillis();
@@ -64,8 +61,10 @@ public class DingServiceImpl implements DingService {
     @Override
     public void dingRequest(String message){
         Ding ding = getDing();
-        String webHook = ding.webHook;
-        String secret = ding.secret;
+        String webHook = ding.getWebHook();
+        String secret = ding.getSecret();
+        System.out.println(secret);
+        System.out.println(webHook);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         String url = null;
         try {
@@ -119,26 +118,30 @@ public class DingServiceImpl implements DingService {
 
     @Override
     public Ding setDing (Ding ding) {
-        List<Ding> dings = dingRepository.findAll();
+        DingRepository dingRepository= (DingRepository) ApplicationContextUtil.getBean("DingRepository");
+
+        List<Ding> dings = (List<Ding>) dingRepository.findAll();
 
         if (dings.size() != 0) {
             Ding ding1 = dings.get(0);
-            ding1.webHook = ding.webHook;
-            ding1.secret = ding.secret;
+            ding1.setWebHook(ding.getWebHook());
+            ding1.setSecret(ding.getSecret());
             return dingRepository.save(ding1);
         } else {
-            Ding ding1 = new Ding("", "");
-            ding1.webHook = ding.webHook;
-            ding1.secret = ding.secret;
+            Ding ding1 = new Ding();
+            ding1.setWebHook(ding.getWebHook());
+            ding1.setSecret(ding.getSecret());
             return dingRepository.save(ding1);
         }
     }
 
     @Override
     public Ding getDing () {
-        List<Ding> dings = dingRepository.findAll();
+        DingRepository dingRepository= (DingRepository) ApplicationContextUtil.getBean("DingRepository");
+
+        List<Ding> dings = (List<Ding>) dingRepository.findAll();
         if (dings.size() == 0) {
-            return new Ding("", "");
+            return new Ding();
         } else {
             return dings.get(0);
         }

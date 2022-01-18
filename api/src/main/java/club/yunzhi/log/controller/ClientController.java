@@ -11,7 +11,6 @@ import club.yunzhi.log.utils.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +42,11 @@ public class ClientController {
 
   @GetMapping("page")
   @JsonView(page.class)
-  public Page<Client> page(final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-    return new PageImpl(this.clientService.page(pageable));
+  public Page<Client> page(
+      @RequestParam(required = false) String name,
+      final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    Page<Client> clients = new PageImpl(this.clientService.page(name, pageable));
+    return clients;
   }
 
   @GetMapping("getAll")
@@ -52,6 +54,11 @@ public class ClientController {
   public List<Client> getAll() {
     List<Client> clients = (List<Client>) this.clientRepository.findAll();
     return clients;
+  }
+
+  @GetMapping("existByToken")
+  public boolean existByToken(@RequestParam String token) {
+    return this.clientService.existByToken(token);
   }
 
   /**

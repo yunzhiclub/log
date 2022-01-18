@@ -108,5 +108,7 @@ public interface UserService {
   void updatePassword(VUser vUser);
 
   boolean validateOldPassword(VUser vUser);
+
+  boolean existByUsername(String username);
 }
 

@@ -1,9 +1,11 @@
 package club.yunzhi.log.Schedule;
 
+import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.LogRepository;
 import club.yunzhi.log.service.DayLogService;
 import club.yunzhi.log.service.DingServiceImpl;
 import club.yunzhi.log.service.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class DeleteDayLogSchedule {
     private final LogService logService;
     private String message;
     Date currentTime = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = formatter.format(currentTime);
     DingServiceImpl dingService = new DingServiceImpl();
 

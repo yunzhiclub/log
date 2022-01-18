@@ -11,28 +11,29 @@
       <input [formControlName]="formKeys.username" class="form-control" id="username" type="text">
       <small class="text-danger"
              *ngIf="formGroup.get(this.formKeys.username)!.touched && formGroup.get(this.formKeys.username)!.invalid">
-        <span *ngIf="formGroup.get(this.formKeys.username).errors.userExist">
+        <span *ngIf="user.username!==formGroup.get(this.formKeys.username).value && formGroup.get(this.formKeys.username).errors.userExist">
                       该用户已存在，请重新输入！
         </span>
       </small>
     </div>
   </div>
-
-
   <div class="col-7 offset-3">
-    <small class="text-danger" *ngIf="formGroup.get('username').invalid">
+    <small class="text-danger" *ngIf="formGroup.get(this.formKeys.username)!.touched &&formGroup.get(this.formKeys.username).invalid">
       <span>{{formGroup.get('username').getError('username')}}</span>
     </small>
   </div>
   <div class="mb-3 row">
     <label class="col-3 text-right col-form-label" for="email">邮箱</label>
     <div class="col-7">
-      <input [formControlName]="formKeys.email" class="form-control" id="email" type="text">
+      <input [formControlName]="formKeys.email" class="form-control" id="email" type="email">
+      <small class="text-danger" *ngIf="formGroup.get(this.formKeys.email)!.touched &&formGroup.get(this.formKeys.email).invalid">
+        <span>邮箱格式错误，请重新输入</span>
+      </small>
     </div>
   </div>
   <div class="mb-3 row">
     <div class="col-10 offset-5">
-      <button [disabled]="formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.name).invalid"
+      <button [disabled]="formGroup.get(formKeys.username).invalid || formGroup.get(formKeys.name).invalid || formGroup.get(formKeys.email).invalid"
               class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
       </button>
     </div>

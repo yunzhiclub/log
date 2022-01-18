@@ -121,10 +121,9 @@ export class UserService {
   /**
    * 用户新增
    */
-  public save(user: User): Observable<User> {
+  public save(user: User): Observable<string> {
     // 向后台请求,并通过管道返回User对象
-    return this.httpClient.post<User>(`${this.baseUrl}`, user)
-      .pipe(map(data => new User(data)));
+    return this.httpClient.post<string>(`${this.baseUrl}`, user);
   }
 
   /**
@@ -212,7 +211,6 @@ export class UserService {
   public existByUsername(username: string): Observable<boolean> {
     //订阅
     const params = new HttpParams().append('username', username);
-    console.log(this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params}))
     return this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params});
   }
 }

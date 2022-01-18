@@ -4,12 +4,9 @@ import {Observable} from 'rxjs';
 import {Page} from '@yunzhi/ng-common';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {isNotNullOrUndefined} from '@yunzhi/ng-mock-api';
-import {CommonService} from './common.service';
-import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {User} from '../entity/user';
 import {Assert} from '@yunzhi/utils';
-import {Token} from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +80,7 @@ export class ClientService {
       .pipe(map(data => new Client(data)));
   }
   public existByToken(token: string): Observable<boolean> {
-    const params = new HttpParams().append('Token', token);
+    const params = new HttpParams().append('token', token);
     console.log(this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params}))
     return this.httpClient.get<boolean>(this.baseurl + '/existByToken', {params});
   }

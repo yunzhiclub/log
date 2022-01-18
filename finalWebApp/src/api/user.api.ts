@@ -79,7 +79,7 @@ export class UserApi implements MockApiInterface {
           name: randomString('姓名'),
           username: randomString('user'),
           password: randomString('密码'),
-          email: randomString('邮箱'),
+          email: '1234567891@163.com',
         } as User;
       }
     },
@@ -118,7 +118,7 @@ export class UserApi implements MockApiInterface {
               id: beginId + i + 1,
               name: randomString('名字'),
               username: randomString('电话'),
-              email: randomString('email')
+              email: '1234567891@163.com'
             } as User);
           }
           return {

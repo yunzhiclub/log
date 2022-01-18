@@ -5,14 +5,13 @@ import com.mengyunzhi.core.entity.YunzhiEntity;
 import com.mengyunzhi.core.service.CommonService;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.context.annotation.Lazy;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * @author panjie
@@ -20,6 +19,9 @@ import java.util.List;
  */
 @Entity
 @ApiModel(value = "Client", description = "项目")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"token", "deleteAt"}))
+@SQLDelete(sql = "update `client` set deleted = 1, delete_at = UNIX_TIMESTAMP() where id = ?")
+@Where(clause = "deleted = false")
 public class Client implements YunzhiEntity<Long>, Serializable {
     private static final long serialVersionUID = 8945942012064094435L;
     @Id
@@ -27,7 +29,7 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 40)
+    @Column(nullable = false, length = 40)
     @JsonView(base.class)
     private String token = CommonService.getRandomStringByLength(40);
 
@@ -53,6 +55,13 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @CreationTimestamp
     @JsonView(base.class)
     private Date deployDate;
+
+    @JsonView(DeleteAtJsonView.class)
+    @Column(nullable = false)
+    protected Long deleteAt = 0L;
+
+    @JsonView(DeletedJsonView.class)
+    private Boolean deleted = false;
 
 
     public Client() {
@@ -144,4 +153,10 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     }
 
     public interface todayLog extends DayLog.base{}
+
+    public interface DeleteAtJsonView {
+    }
+
+    public interface DeletedJsonView {
+    }
 }

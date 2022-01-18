@@ -35,7 +35,7 @@ export class EditComponent implements OnInit {
   token: string;
   ngOnInit(): void {
     const formControlToken = new FormControl('',
-      [tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
+      [tokenValidator.token, Validators.required], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
@@ -60,6 +60,7 @@ export class EditComponent implements OnInit {
         this.formGroup.get('name').setValue(client.name);
         this.formGroup.get('token').setValue(client.token);
         this.formGroup.get('url').setValue(client.url);
+        this.client = client;
       }, error => console.log(error))
   }
 

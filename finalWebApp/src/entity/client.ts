@@ -11,6 +11,7 @@ export class Client {
   name: string;
   /**
    * token
+   * token长度只能为32位
    */
   token: string;
   /**
@@ -30,7 +31,12 @@ export class Client {
    */
   todayLog: DayLog;
 
-  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: number; lastStartTime?: number; todayLog?: DayLog; }) {
+  /**
+   * @param state 状态
+   */
+  state: boolean;
+
+  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: number; lastStartTime?: number; todayLog?: DayLog; state?: boolean;}) {
 
     if (!param) {
       return;
@@ -43,5 +49,6 @@ export class Client {
     this.lastSendTime = param.lastSendTime ? param.lastSendTime : null;
     this.lastStartTime = param.lastStartTime ? param.lastStartTime : null;
     this.todayLog = param.todayLog ? param.todayLog : null;
+    this.state = param.state ? param.state : false;
   }
 }

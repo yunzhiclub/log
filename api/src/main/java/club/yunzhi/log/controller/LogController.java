@@ -1,23 +1,15 @@
 package club.yunzhi.log.controller;
 
-//import club.yunzhi.log.config.WebConfig;
 import club.yunzhi.log.entity.Log;
-import club.yunzhi.log.entity.Client;
-import club.yunzhi.log.filter.TokenFilter;
 import club.yunzhi.log.service.LogService;
 import club.yunzhi.log.utils.PageImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
