@@ -28,6 +28,7 @@
     <th>今日info数</th>
     <th>今日warning数</th>
     <th>今日error数</th>
+    <th>状态</th>
     <th>操作</th>
   </tr>
   </thead>
@@ -36,12 +37,13 @@
     <td>{{pageData.size * pageData.number + i + 1}}</td>
     <td>{{client?.name}}</td>
     <td>{{client?.token}}</td>
-    <td><label class="btu" (click)="location(client.url)">{{client?.url}}</label></td>
+    <td><a href="{{client.url}}" target="view_window">{{client.url}}</a></td>
     <td>{{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>{{client.todayLog?.infoCount}}</td>
     <td>{{client.todayLog?.warnCount}}</td>
     <td>{{client.todayLog?.errorCount}}</td>
+    <td [innerHTML]="client.state | statePipe"></td>
     <td>
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑
