@@ -43,7 +43,7 @@ const routes: Routes = [
       {
         path: 'setting',
         data: {
-          title: '推送设置'
+          title: '机器人设置'
         },
         loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule)
       }
