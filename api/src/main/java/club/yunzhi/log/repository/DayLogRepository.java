@@ -21,7 +21,7 @@ public interface DayLogRepository extends JpaRepository<DayLog, Long> {
      *
      * @return
      */
-    default List<DayLog> getLogOfYesterday() throws ParseException {
+    default DayLog getLogOfYesterdayWithClientId(Long clientId) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         Calendar calendar1 = Calendar.getInstance();
@@ -33,9 +33,9 @@ public interface DayLogRepository extends JpaRepository<DayLog, Long> {
         long startTimeStamp = calendar.getTimeInMillis();
         String startTime = formatter.format(startTimeStamp);
         Date startDate = formatter.parse(startTime);
-        return this.findAllByDayBetween(startDate,endDate);
+        return this.findTopByDayBetweenAndClientId(startDate,endDate, clientId);
     };
 
-    List<DayLog> findAllByDayBetween(Date startTime ,Date endTime);
+    DayLog findTopByDayBetweenAndClientId(Date startTime ,Date endTime, Long clientId);
 
 }

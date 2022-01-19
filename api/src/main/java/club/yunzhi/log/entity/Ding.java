@@ -1,11 +1,11 @@
 package club.yunzhi.log.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.hibernate.annotations.NotFound;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 钉钉
@@ -18,16 +18,29 @@ public class Ding {
     @JsonView(base.class)
     private Long id;
 
+    @JsonView(base.class)
     private String webHook = "";
 
+    @JsonView(base.class)
     private String secret = "";
 
     /**
      * 连接状态，默认为正常
      */
-    private Short status = 0;
+    @JsonView(base.class)
+    private Boolean connectionStatus = true;
 
+    @ApiModelProperty("客户端")
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    @JsonView(ClientJsonView.class)
     private Client client;
+
+    /**
+     * 启用状态，默认为启用
+     */
+    @JsonView(base.class)
+    private Boolean start = true;
 
     public Long getId() {
         return id;
@@ -49,14 +62,6 @@ public class Ding {
         this.secret = secret;
     }
 
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
     public Client getClient() {
         return client;
     }
@@ -65,5 +70,22 @@ public class Ding {
         this.client = client;
     }
 
+    public Boolean getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    public void setConnectionStatus(Boolean connectionStatus) {
+        this.connectionStatus = connectionStatus;
+    }
+
+    public Boolean getStart() {
+        return start;
+    }
+
+    public void setStart(Boolean start) {
+        this.start = start;
+    }
+
     public interface base {}
+    public interface ClientJsonView {}
 }

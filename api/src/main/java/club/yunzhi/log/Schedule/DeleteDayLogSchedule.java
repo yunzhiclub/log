@@ -34,7 +34,7 @@ public class DeleteDayLogSchedule {
 //    @Scheduled(cron = "${time.cron}")
     public void deleteLogSchedule() throws ParseException {
         this.message = "成功";
-        dingService.dingRequest("日志系统首次连接" + "\n" + dateString + "\n" + message);
+        dingService.dingRequest(null, "日志系统首次连接" + "\n" + dateString + "\n" + message);
         System.out.println("执行定时删除任务" + "\n" + dateString + "\n" + message);
     }
 }
