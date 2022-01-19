@@ -23,7 +23,7 @@ export class AddComponent implements OnInit {
   };
 
   formGroup = new FormGroup({});
-
+console = console;
   constructor(private clientService: ClientService,
               private commonService: CommonService,
               private tokenAsyncValidators: TokenAsyncValidators) {
@@ -38,7 +38,7 @@ export class AddComponent implements OnInit {
    */
   inItFormControl() {
     const formControlToken = new FormControl('',
-      [ Validators.required, tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
+      [ Validators.required, tokenValidator.tokenLength, tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));

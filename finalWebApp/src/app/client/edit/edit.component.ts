@@ -36,7 +36,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     const formControlToken = new FormControl('',
-      [tokenValidator.token, Validators.required], this.tokenAsyncValidators.tokenNotExist());
+      [tokenValidator.token, Validators.required, tokenValidator.tokenLength], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.id, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
