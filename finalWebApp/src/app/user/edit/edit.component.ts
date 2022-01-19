@@ -37,10 +37,6 @@ export class EditComponent implements OnInit {
     email: 'email'
   };
   user = {} as User;
-  /**
-   * 用户名是否变化
-   */
-  isUsernameChange = false;
 
   loadById(id: number): void {
     this.userService.getById(id)
