@@ -5,7 +5,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {isNotNullOrUndefined} from "@yunzhi/ng-mock-api";
 import {map} from "rxjs/operators";
 import {Ding} from "../entity/ding";
-import {User} from "../entity/user";
+import {Client} from "../entity/client";
 
 /**
  * 机器人管理service
@@ -43,5 +43,13 @@ export class DingService {
    */
   public startOrEnd(id: number): Observable<null> {
     return this.httpClient.delete<null>(`${this.baseUrl}/${id.toString()}`);
+  }
+
+  /**
+   * 根据id获取Ding
+   * @param dingId 机器人Id
+   */
+  public getById(dingId: number): Observable<Ding> {
+    return this.httpClient.get<Ding>(`${this.baseUrl}/${dingId.toString()}`);
   }
 }

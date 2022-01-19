@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Page} from "@yunzhi/ng-common";
-import {User} from "../../../entity/user";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {CommonService} from "../../../service/common.service";
 import {Assert, getDefaultWhenValueIsInValid} from "@yunzhi/utils";
@@ -31,7 +30,7 @@ export class IndexComponent implements OnInit {
   queryForm = new FormGroup({});
 
   constructor(private commonService: CommonService,
-              private dingRobotService: DingService,
+              private dingService: DingService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -55,7 +54,7 @@ export class IndexComponent implements OnInit {
       getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString());
 
       // 发起查询
-      this.dingRobotService.page(
+      this.dingService.page(
         // 调用stringToIntegerNumber将查询的字符串转为number
         getDefaultWhenValueIsInValid(params[this.keys.page], '0'),
         getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString()),
@@ -140,7 +139,7 @@ export class IndexComponent implements OnInit {
     Assert.isNotNullOrUndefined(ding.id, 'id未定义');
     this.commonService.confirm((confirm = false) => {
       if (confirm) {
-        this.dingRobotService.startOrEnd(ding.id)
+        this.dingService.startOrEnd(ding.id)
           .subscribe(() => {
             this.commonService.success(() => ding.start = !ding.start);
           });
@@ -148,5 +147,26 @@ export class IndexComponent implements OnInit {
     }, '');
   }
 
+  /**
+   * 点击小眼睛获取webHook
+   * @param ding
+   */
+  getWebHook(ding: Ding) {
+    this.dingService.getById(ding.id)
+      .subscribe(value => {
+        this.commonService.show(value.webHook, 'wenHook为')
+      })
+  }
+
+  /**
+   * 点击小眼睛获取secret
+   * @param ding
+   */
+  getSecret(ding: Ding) {
+    this.dingService.getById(ding.id)
+      .subscribe(value => {
+        this.commonService.show(value.secret, 'secret为')
+      })
+  }
 }
 
