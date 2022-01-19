@@ -4,6 +4,7 @@ import {Client} from '../entity/client';
 import {HttpParams} from "@angular/common/http";
 import {randomBoolean} from "@yunzhi/utils";
 import {Page} from "@yunzhi/ng-common";
+import {User} from "../entity/user";
 
 export class DingApi implements MockApiInterface {
   protected url = 'setting';
@@ -112,8 +113,26 @@ export class DingApi implements MockApiInterface {
             id,
             name: randomString('客户端'),
             webHook: randomString('webHook'),
-            secret: randomString('secret')
+            secret: randomString('secret'),
+            client: {
+              id: randomNumber()
+            } as Client,
           } as Ding;
+        }
+      },
+      {
+        method: 'PUT',
+        description: '更新ding',
+        url: `${this.url}/(\\d+)`,
+        result: (urlMatches: (string)[], option: {
+          body: Ding
+        }) => {
+          const body = option.body;
+          Assert.isString(
+            body.webHook,
+            body.name,
+            body.secret
+          );
         }
       },
     ]
