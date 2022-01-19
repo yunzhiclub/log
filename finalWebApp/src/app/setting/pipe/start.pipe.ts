@@ -13,11 +13,11 @@ export class StartPipe implements PipeTransform {
       return '-';
     }
 
-    let clazz = 'primary';
+    let clazz = 'success';
     let value = '启用';
 
     if (!connectionStatus) {
-      clazz = 'info';
+      clazz = 'danger';
       value = '停用'
     }
 

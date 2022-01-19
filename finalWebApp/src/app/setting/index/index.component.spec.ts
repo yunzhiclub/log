@@ -31,7 +31,7 @@ describe('IndexComponent', () => {
     route = TestBed.inject(ActivatedRoute) as unknown as ActivatedRouteStub;
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     route.queryParamsSubject.next({});
     expect(component).toBeTruthy();
     getTestScheduler().flush();
