@@ -23,7 +23,7 @@ public class DeleteDayLogSchedule {
     private final LogService logService;
     private String message;
     Date currentTime = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     String dateString = formatter.format(currentTime);
     DingServiceImpl dingService = new DingServiceImpl();
 
@@ -31,15 +31,10 @@ public class DeleteDayLogSchedule {
         this.logService = logService;
     }
 
-    @Scheduled(cron = "${time.cron}")
+//    @Scheduled(cron = "${time.cron}")
     public void deleteLogSchedule() throws ParseException {
-        if (logService.getLogOfThreeMonth().isEmpty()) {
-            this.message = "今日没有要删除的日志信息";
-        } else {
-            logService.deleteLogOfThreeMonth();
-            this.message = "今日要删除的日志信息删除完成";
-        }
-        dingService.dingRequest("执行定时删除任务" + "\n" + dateString + "\n" + message);
+        this.message = "成功";
+        dingService.dingRequest("日志系统首次连接" + "\n" + dateString + "\n" + message);
         System.out.println("执行定时删除任务" + "\n" + dateString + "\n" + message);
     }
 }

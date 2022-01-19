@@ -22,6 +22,13 @@ public class Ding {
 
     private String secret = "";
 
+    /**
+     * 连接状态，默认为正常
+     */
+    private Short status = 0;
+
+    private Client client;
+
     public Long getId() {
         return id;
     }
@@ -40,6 +47,22 @@ public class Ding {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public interface base {}

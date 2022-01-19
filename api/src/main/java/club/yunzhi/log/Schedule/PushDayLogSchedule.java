@@ -41,8 +41,8 @@ public class PushDayLogSchedule {
     this.dayLogRepository = dayLogRepository;
   }
 
-  @Scheduled(cron = "${time.cron}")
-//  @Scheduled(initialDelay = 1000, fixedRate = 50000)
+//  @Scheduled(cron = "${time.cron}")
+  @Scheduled(initialDelay = 1000, fixedRate = 50000)
   public void pushDayLogSchedule() throws ParseException {
       System.out.println("执行推送任务");
     List<DayLog> dayLogs = dayLogRepository.getLogOfYesterday();

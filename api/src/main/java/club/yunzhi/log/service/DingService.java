@@ -7,7 +7,7 @@ import club.yunzhi.log.entity.Ding;
  * 钉钉推送
  */
 public interface DingService {
-    String encode() throws Exception;
+    String encode(String secret) throws Exception;
     void dingRequest(String message);
     Ding setDing(Ding ding);
     Ding getDing();

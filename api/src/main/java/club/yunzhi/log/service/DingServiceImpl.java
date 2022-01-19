@@ -20,6 +20,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Service("DingServiceImpl")
@@ -29,11 +30,7 @@ public class DingServiceImpl implements DingService {
 //    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
 
     @Override
-    public String encode() throws Exception {
-        Ding ding = getDing();
-        String webHook = ding.getWebHook();
-        String secret = ding.getSecret();
-
+    public String encode(String secret) throws Exception {
         //获取时间戳
         Long timestamp = System.currentTimeMillis();
         //把时间戳和密钥拼接成字符串，中间加入一个换行符
@@ -63,12 +60,10 @@ public class DingServiceImpl implements DingService {
         Ding ding = getDing();
         String webHook = ding.getWebHook();
         String secret = ding.getSecret();
-        System.out.println(secret);
-        System.out.println(webHook);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         String url = null;
         try {
-            url = webHook + this.encode();
+            url = webHook + this.encode(secret);
         } catch (Exception e) {
             e.printStackTrace();
         }
