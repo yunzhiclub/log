@@ -211,7 +211,6 @@ export class UserService {
   public existByUsername(username: string): Observable<boolean> {
     //订阅
     const params = new HttpParams().append('username', username);
-    console.log(this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params}))
     return this.httpClient.get<boolean>(this.baseUrl + '/existByUsername', {params});
   }
 }

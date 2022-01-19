@@ -73,6 +73,21 @@ export class CommonService {
   }
 
   /**
+   * Token显示框
+   */
+  show(description: string = '', title: string = 'Token为：', options = {confirmButtonText: '确定'}): void {
+    swal.fire({
+      titleText: title,
+      text: description,
+      background: '#F7F8FA',
+      allowOutsideClick: false,
+      confirmButtonText: options.confirmButtonText,
+      confirmButtonColor: '#007BFF',
+      showCancelButton: false
+    })
+  }
+
+  /**
    * 清空当前路由信息
    */
   clearCurrentRoute(): void {

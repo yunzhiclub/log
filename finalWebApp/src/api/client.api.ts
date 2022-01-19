@@ -1,4 +1,4 @@
-import {ApiInjector, Assert, MockApiInterface, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
+import {ApiInjector, Assert, MockApiInterface, randomBoolean, randomNumber, RequestOptions} from '@yunzhi/ng-mock-api';
 import {HttpParams} from '@angular/common/http';
 import {Client} from '../entity/client';
 import {randomString} from '@yunzhi/utils';
@@ -34,11 +34,12 @@ export class ClientApi implements MockApiInterface {
           clients.push({
             id: beginId + i + 1,
             name: randomString('名字'),
-            token: randomString('token'),
+            token: randomString('token****'),
             url: 'http://' + randomString(),
             lastStartTime: time,
             lastSendTime: time,
-            todayLog: todayLog
+            todayLog: todayLog,
+            state: randomBoolean()
           } as Client);
         }
         return {
@@ -141,13 +142,30 @@ export class ClientApi implements MockApiInterface {
         description: '判断Token是否已经存在',
         result: (urlMatches: any, options: RequestOptions): boolean => {
           const params = options.params as HttpParams;
-          if (!params.has('Token')) {
-            throw new Error('未接收到查询参数Token');
+          console.log(params);
+          if (!params.has('token')) {
+            throw new Error('未接收到查询参数token');
           }
-          const Token = params.get('Token') as string;
+          const Token = params.get('token') as string;
           return Token === 'liming';
         }
       },
+      {
+        method: 'POST',
+        description: 'clean: 清理日志',
+        url: this.url+'/clean/(\\d+)',
+        result: (urlMatches: (string)[], options: { body: number; }) => {
+          let timeStamp: number;
+          let id;
+          if (urlMatches) {
+            id = +urlMatches[1];
+          }
+          if(options){
+            timeStamp = +options.body;
+          }
+          console.log('id',id,'time',timeStamp)
+        }
+      }
     ];
   }
 }
