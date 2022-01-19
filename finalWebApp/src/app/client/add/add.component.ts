@@ -38,7 +38,7 @@ export class AddComponent implements OnInit {
    */
   inItFormControl() {
     const formControlToken = new FormControl('',
-      [tokenValidator.token, Validators.required], this.tokenAsyncValidators.tokenNotExist());
+      [ Validators.required, tokenValidator.token], this.tokenAsyncValidators.tokenNotExist());
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));

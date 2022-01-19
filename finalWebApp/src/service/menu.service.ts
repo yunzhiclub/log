@@ -12,11 +12,7 @@ import {UserService} from './user.service';
 })
 export class MenuService {
   private static readonly menus = [
-    {
-      name: '用户管理',
-      url: 'user',
-      icon: 'fa fa-user-cog',
-    },
+
     {
       name: '日志管理',
       url: 'log',
@@ -28,15 +24,20 @@ export class MenuService {
       icon: 'fa fa-house-user'
     },
     {
+      name: '机器人设置',
+      url: 'setting',
+      icon: 'fa fa-cog'
+    },
+    {
+      name: '用户管理',
+      url: 'user',
+      icon: 'fa fa-user-cog',
+    },
+    {
       name: '个人中心',
       url: 'personal',
       icon: 'fa fa-user-alt'
     },
-    {
-      name: '推送设置',
-      url: 'setting',
-      icon: 'fa fa-cog'
-    }
   ] as Menu[];
 
   constructor(private userService: UserService) {
