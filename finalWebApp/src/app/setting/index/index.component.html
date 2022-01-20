@@ -10,7 +10,11 @@
     </div>
     <div class="form-group col-md-3">
       <label>连接状态</label>
-      <input class="form-control" [formControlName]="keys.connectionStatus" type="text">
+      <select class="form-control" [formControlName]="keys.connectionStatus"  >
+        <option [ngValue]="null">请选择</option>
+        <option [ngValue]="true">成功</option>
+        <option [ngValue]="true">失败</option>
+      </select>
     </div>
     <div class="form-group col-md-3 text-left align-self-end search">
       <button class="btn btn-info" type="submit"><i class="fas fa-search"></i> 查询</button>
