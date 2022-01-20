@@ -24,6 +24,8 @@ public class Ding {
     @JsonView(base.class)
     private String secret = "";
 
+    private String name;
+
     /**
      * 连接状态，默认为正常
      */
@@ -84,6 +86,14 @@ public class Ding {
 
     public void setStart(Boolean start) {
         this.start = start;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public interface base {}

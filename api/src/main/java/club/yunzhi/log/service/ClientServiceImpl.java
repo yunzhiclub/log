@@ -6,6 +6,8 @@ import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.specs.ClientSpecs;
 import com.mengyunzhi.core.service.CommonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,116 +24,133 @@ import java.util.List;
  */
 @Service
 public class ClientServiceImpl implements ClientService {
-    @Autowired
-    private final ClientRepository clientRepository;
+  private final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
+  @Autowired
+  private final ClientRepository clientRepository;
 
-    @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+  @Autowired
+  public ClientServiceImpl(ClientRepository clientRepository) {
+    this.clientRepository = clientRepository;
+  }
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Client getOneSavedClient() {
-        return clientRepository.save(this.getOneUnsavedClient());
-    }
+  @Override
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public Client getOneSavedClient() {
+    return clientRepository.save(this.getOneUnsavedClient());
+  }
 
-    @Override
-    public Client getOneUnsavedClient() {
-        Client client = new Client();
-        client.setName("test");
-        client.setToken(CommonService.getRandomStringByLength(40));
-        return client;
-    }
+  @Override
+  public Client getOneUnsavedClient() {
+    Client client = new Client();
+    client.setName("test");
+    client.setToken(CommonService.getRandomStringByLength(40));
+    return client;
+  }
 
-    @Override
-    public Page<Client> page(String name, Pageable pageable) {
-        return clientRepository.findAll(ClientSpecs.containingName(name), pageable);
-    }
-
-    @Override
-    public Client findById(Long id) {
-        return this.clientRepository.findById(id).get();
-    }
-
-    @Override
-    public Client save(Client client) {
-        client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
-        client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
-        return clientRepository.save(client);
-    }
-
-    @Override
-    public Client update(Long id, Client client) {
-        Client oldClient = this.clientRepository.findById(id).get();
-        oldClient.setName(client.getName());
-        oldClient.setToken(client.getToken());
-        oldClient.setDescription(client.getDescription());
-        oldClient.setUrl(client.getUrl());
-        return this.clientRepository.save(oldClient);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        this.clientRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean existByToken(String token) {
-        Client client = this.clientRepository.findByToken(token);
-        if (client == null) {
-            return false;
-        } else {
-            return true;
+  @Override
+  public Page<Client> page(String name, Pageable pageable) {
+    Page<Client> clients = clientRepository.findAll(ClientSpecs.containingName(name), pageable);
+    for (Client client : clients.getContent()
+    ) {
+      logger.debug("判断状态是否是离线");
+      if (client.getLastSendTime() != null) {
+        Long timestamp = client.getLastSendTime().getTime();
+        Long currentTime = System.currentTimeMillis();
+        if (currentTime - timestamp > 330000) {
+          logger.debug("上一次响应时间超过5分半钟，更改状态为离线");
+          client.setState(false);
+          clientRepository.save(client);
         }
+      }
+
+      client.setToken(ClientService.encodeToken(client.getToken()));
     }
+    return clients;
+  }
 
-    @Override
-    @Async
-    public void update(List<Log> logs) {
-        if (logs.size() > 0) {
-            Timestamp lastStartTime = null;
+  @Override
+  public Client findById(Long id) {
+    return this.clientRepository.findById(id).get();
+  }
 
-            int infoCount = 0;
-            int warnCount = 0;
-            int errorCount = 0;
-            for (Log log : logs) {
-                if (log.getLevelCode().equals(LogLevelEnum.INFO.getValue())) {
-                    infoCount++;
-                    Timestamp lastStartTimeTmp = this.getLastStartTime(log);
-                    if (lastStartTimeTmp != null) {
-                        lastStartTime = lastStartTimeTmp;
-                    }
-                } else if (log.getLevelCode().equals(LogLevelEnum.WARN.getValue())) {
-                    warnCount++;
-                } else if (log.getLevelCode().equals(LogLevelEnum.ERROR.getValue())) {
-                    errorCount++;
-                }
-            }
+  @Override
+  public Client save(Client client) {
+    client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+    client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
+    return clientRepository.save(client);
+  }
 
-            Client client1 = clientRepository.findById(logs.get(0).getClient().getId()).get();
-            client1.setLastSendTime(new Timestamp(System.currentTimeMillis()));
-            client1.getTodayLog().addErrorCount(errorCount);
-            client1.getTodayLog().addWarnCount(warnCount);
-            client1.getTodayLog().addInfoCount(infoCount);
-            if (lastStartTime != null) {
-                client1.setLastStartTime(lastStartTime);
-            }
-            clientRepository.save(client1);
+  @Override
+  public Client update(Long id, Client client) {
+    Client oldClient = this.clientRepository.findById(id).get();
+    oldClient.setName(client.getName());
+    oldClient.setToken(client.getToken());
+    oldClient.setDescription(client.getDescription());
+    oldClient.setUrl(client.getUrl());
+    return this.clientRepository.save(oldClient);
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    this.clientRepository.deleteById(id);
+  }
+
+  @Override
+  public boolean existByToken(String token) {
+    Client client = this.clientRepository.findByToken(token);
+    if (client == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  @Async
+  public void update(List<Log> logs) {
+    if (logs.size() > 0) {
+      Timestamp lastStartTime = null;
+
+      int infoCount = 0;
+      int warnCount = 0;
+      int errorCount = 0;
+      for (Log log : logs) {
+        if (log.getLevelCode().equals(LogLevelEnum.INFO.getValue())) {
+          infoCount++;
+          Timestamp lastStartTimeTmp = this.getLastStartTime(log);
+          if (lastStartTimeTmp != null) {
+            lastStartTime = lastStartTimeTmp;
+          }
+        } else if (log.getLevelCode().equals(LogLevelEnum.WARN.getValue())) {
+          warnCount++;
+        } else if (log.getLevelCode().equals(LogLevelEnum.ERROR.getValue())) {
+          errorCount++;
         }
-    }
+      }
 
-    /**
-     * 获取最后的启动时间
-     *
-     * @param log 日志
-     * @return
-     */
-    private Timestamp getLastStartTime(Log log) {
-        if (log.getMessage().startsWith("Starting Servlet engine")) {
-            System.out.println(log.getTimestamp());
-            return log.getTimestamp();
-        }
-        return null;
+      Client client1 = clientRepository.findById(logs.get(0).getClient().getId()).get();
+      client1.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+      client1.getTodayLog().addErrorCount(errorCount);
+      client1.getTodayLog().addWarnCount(warnCount);
+      client1.getTodayLog().addInfoCount(infoCount);
+      if (lastStartTime != null) {
+        client1.setLastStartTime(lastStartTime);
+      }
+      clientRepository.save(client1);
     }
+  }
+
+  /**
+   * 获取最后的启动时间
+   *
+   * @param log 日志
+   * @return
+   */
+  private Timestamp getLastStartTime(Log log) {
+    if (log.getMessage().startsWith("Starting Servlet engine")) {
+      System.out.println(log.getTimestamp());
+      return log.getTimestamp();
+    }
+    return null;
+  }
 }

@@ -17,8 +17,5 @@ import {ClientSelectModule} from "../../log/client-select/client-select.module";
     ReactiveFormsModule,
     ClientSelectModule
   ],
-  exports: [
-    EditComponent
-  ]
 })
 export class EditModule { }

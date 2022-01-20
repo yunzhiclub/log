@@ -99,8 +99,15 @@ public class DingServiceImpl implements DingService {
 
       System.out.println("响应状态为:" + response.getStatusLine());
       if (responseEntity != null) {
-        System.out.println("响应内容长度为:" + responseEntity.getContentLength());
-        System.out.println("响应内容为:" + EntityUtils.toString(responseEntity));
+        if (EntityUtils.toString(responseEntity).substring(11, 12).equals("0")) {
+          ding.setConnectionStatus(true);
+        } else {
+          ding.setConnectionStatus(false);
+        }
+
+        DingRepository dingRepository = (DingRepository) ApplicationContextUtil.getBean("DingRepository");
+        dingRepository.save(ding);
+
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -121,21 +128,16 @@ public class DingServiceImpl implements DingService {
 
   @Override
   public Ding save(Ding ding) {
-    DingRepository dingRepository = (DingRepository) ApplicationContextUtil.getBean("DingRepository");
+    logger.debug("首先获取钉钉实体");
+    Ding ding1 = new Ding();
+    ding1.setName(ding.getName());
+    ding1.setSecret(ding.getSecret());
+    ding1.setWebHook(ding.getWebHook());
+    ding1.setClient(ding.getClient());
 
-    List<Ding> dings = (List<Ding>) dingRepository.findAll();
-
-    if (dings.size() != 0) {
-      Ding ding1 = dings.get(0);
-      ding1.setWebHook(ding.getWebHook());
-      ding1.setSecret(ding.getSecret());
-      return dingRepository.save(ding1);
-    } else {
-      Ding ding1 = new Ding();
-      ding1.setWebHook(ding.getWebHook());
-      ding1.setSecret(ding.getSecret());
-      return dingRepository.save(ding1);
-    }
+    logger.debug("更改后需要判断是否与钉钉连接成功");
+    dingRequest(ding1, ding.getName() + "机器人首次连接请求成功");
+    return dingRepository.save(ding1);
   }
 
   @Override
@@ -149,13 +151,46 @@ public class DingServiceImpl implements DingService {
 
   @Override
   public Page<Ding> findAll(String name, Boolean connectStatus, Long clientId, Pageable pageable) {
-    return dingRepository.findAll(DingSpecs.isClientId(clientId)
+    Page<Ding> dingPage = dingRepository.findAll(DingSpecs.isClientId(clientId)
         .and(DingSpecs.containingName(name))
         .and(DingSpecs.isStart(connectStatus)), pageable);
+    for (Ding ding : dingPage.getContent()) {
+      ding.setWebHook(DingService.encodeWebhookOrSecret(ding.getWebHook()));
+      ding.setSecret(DingService.encodeWebhookOrSecret(ding.getSecret()));
+    }
+    return dingPage;
   }
 
   @Override
   public Ding update(Long id, Ding ding) {
-    return null;
+    logger.debug("首先获取钉钉实体");
+    Ding ding1 = this.findById(id);
+    ding1.setName(ding.getName());
+    ding1.setSecret(ding.getSecret());
+    ding1.setWebHook(ding.getWebHook());
+    ding1.setClient(ding.getClient());
+
+    logger.debug("更改后需要判断是否与钉钉连接成功");
+    dingRequest(ding1, ding1.getName() + "机器人信息更改，重连成功");
+    return dingRepository.save(ding1);
+  }
+
+  @Override
+  public Ding findById(Long id) {
+    return this.dingRepository.findById(id).get();
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    logger.debug("改变钉钉的启用状态");
+    Ding ding = this.findById(id);
+    if (!ding.getStart()) {
+      ding.setStart(!ding.getStart());
+      logger.debug("启用之后重新执行连接测试");
+      dingRequest(ding, ding.getName() + "机器人重新启用连接测试");
+    } else {
+      ding.setStart(false);
+    }
+      dingRepository.save(ding);
   }
 }

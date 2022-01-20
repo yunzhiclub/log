@@ -29,9 +29,9 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Long id;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 32)
     @JsonView(base.class)
-    private String token = CommonService.getRandomStringByLength(40);
+    private String token = CommonService.getRandomStringByLength(32);
 
     @JsonView(base.class)
     private String name;
@@ -63,6 +63,8 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(DeletedJsonView.class)
     private Boolean deleted = false;
 
+    @JsonView(base.class)
+    private Boolean state = false;
 
     public Client() {
     }
@@ -147,6 +149,14 @@ public class Client implements YunzhiEntity<Long>, Serializable {
 
     public void setTodayLog(DayLog todayLog) {
         this.todayLog = todayLog;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public interface base {

@@ -22,4 +22,18 @@ public interface DingService {
   Page<Ding> findAll(String name, Boolean connectStatus, Long clientId, Pageable pageable);
 
   Ding update(Long id, Ding ding);
+
+  static String encodeWebhookOrSecret(String webhook) {
+    if (webhook.length() > 4) {
+      String first = webhook.substring(0, 4);
+      String result = first + "*****";
+      return result;
+    } else {
+      return webhook;
+    }
+  }
+
+  Ding findById(Long id);
+
+  void deleteById(Long id);
 }

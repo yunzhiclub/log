@@ -17,24 +17,22 @@ const routes: Routes = [
     component: BasicComponent,
     children: [
       {
-        path: 'user',
-        loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+        path: 'log',
+        loadChildren: () => import('./log/log.module').then(m => m.LogModule),
         data: {
-          title: '用户管理'
+          title: '日志管理'
         }
-      },
-      {
+      }, {
         path: 'client',
         loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
         data: {
           title: '客户端管理'
         }
-      },
-      {
-        path: 'log',
-        loadChildren: () => import('./log/log.module').then(m => m.LogModule),
+      }, {
+        path: 'user',
+        loadChildren: () => import('./user/user.module').then(m => m.UserModule),
         data: {
-          title: '日志管理'
+          title: '用户管理'
         }
       },{
       path: 'personal',

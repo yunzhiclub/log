@@ -53,4 +53,10 @@ public interface ClientService {
   void deleteById(Long id);
 
   boolean existByToken(String token);
+
+  static String encodeToken(String token) {
+    String first = token.substring(0, 3);
+    String result = first + "***";
+    return result;
+  }
 }

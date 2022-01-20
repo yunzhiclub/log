@@ -61,6 +61,7 @@ export class DingService {
    */
   public update(dingId: number, ding: Ding): Observable<Ding> {
     Assert.isNumber(dingId, 'type of id must be number');
+    console.log(ding.client);
     return this.httpClient.put<Ding>(`${this.baseUrl}/${dingId}`, ding);
   }
 }

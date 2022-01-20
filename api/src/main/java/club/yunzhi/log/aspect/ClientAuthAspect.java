@@ -52,6 +52,13 @@ public class ClientAuthAspect {
       throw new club.yunzhi.log.exception.AuthException("auth token incorrect");
     }
     logs.forEach(log -> log.setClient(client));
+
+    logger.debug("设置客户端的状态为在线");
+    if (!client.getState()) {
+      client.setState(true);
+      clientRepository.save(client);
+    }
+
     joinPoint.proceed();
   }
 }
