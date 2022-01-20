@@ -39,8 +39,9 @@ export class IndexComponent implements OnInit {
 
     // 使用this.keys初始化queryForm，从而避免拼写错误
     this.queryForm.addControl(this.keys.name, new FormControl());
-    this.queryForm.addControl(this.keys.client, new FormControl());
-    this.queryForm.addControl(this.keys.connectionStatus, new FormControl());
+    this.queryForm.addControl(this.keys.client, new FormControl(null));
+    this.queryForm.addControl(this.keys.connectionStatus, new FormControl(null));
+
     // 订阅参数变化
     this.route.queryParams.subscribe((params: { page?: string, size?: string }) => {
       // 缓存查询参数
