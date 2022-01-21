@@ -15,6 +15,11 @@
     <label class="col-3 text-right col-form-label" for="webhook">webhook<code>*</code></label>
     <div class="col-7">
       <input class="form-control" id="webhook" type="text" [formControlName]="keys.webhook">
+      <small
+        *ngIf="formGroup.get(this.keys.webhook).errors && formGroup.get(this.keys.webhook).errors.isRightWebhook"
+        class="text-danger">
+        webhook格式不正确,必须是https或http开头
+      </small>
     </div>
   </div>
   <div class="mb-3 row">

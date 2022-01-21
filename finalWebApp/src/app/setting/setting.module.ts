@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {IndexComponent} from "./index/index.component";
 import {AddModule} from "./add/add.module";
 import {IndexModule} from "./index/index.module";
+import {EditModule} from "./edit/edit.module";
 
 
 
@@ -18,7 +19,8 @@ import {IndexModule} from "./index/index.module";
     SettingRoutingModule,
     ReactiveFormsModule,
     AddModule,
-    IndexModule
+    IndexModule,
+    EditModule
   ]
 })
 export class SettingModule { }
