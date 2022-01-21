@@ -21,8 +21,8 @@ import {ApiProModule} from "../api/api.pro.module";
     BasicModule.forRoot({
       basicService: ThemeService
     }),
-    // ApiDemoModule
-    ApiProModule
+    ApiDemoModule
+    // ApiProModule
   ],
   providers: [],
   bootstrap: [AppComponent]
