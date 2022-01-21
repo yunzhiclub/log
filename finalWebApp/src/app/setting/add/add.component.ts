@@ -4,6 +4,7 @@ import {Ding} from "../../../entity/ding";
 import {SettingService} from "../../../service/settingService";
 import {CommonService} from "../../../service/common.service";
 import {Client} from "../../../entity/client";
+import {SettingValidators} from "../setting-validators";
 
 @Component({
   selector: 'app-add',
@@ -30,7 +31,7 @@ export class AddComponent implements OnInit {
   initFormGroup() {
     this.formGroup.addControl(this.keys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.keys.clientId, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.keys.webhook, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.keys.webhook, new FormControl('',[Validators.required, SettingValidators.isRightWebhook]));
     this.formGroup.addControl(this.keys.secret, new FormControl('', Validators.required));
   }
 

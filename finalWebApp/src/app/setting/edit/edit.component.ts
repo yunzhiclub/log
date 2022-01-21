@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {DingService} from "../../../service/ding.service";
 import {Ding} from "../../../entity/ding";
 import {CommonService} from "../../../service/common.service";
+import {SettingValidators} from "../setting-validators";
 import {Client} from "../../../entity/client";
 
 @Component({
@@ -45,7 +46,7 @@ export class EditComponent implements OnInit {
   initFromGroup() {
     this.formGroup.addControl(this.keys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.keys.clientId, new FormControl('', Validators.required));
-    this.formGroup.addControl(this.keys.webhook, new FormControl('', Validators.required));
+    this.formGroup.addControl(this.keys.webhook, new FormControl('', [Validators.required, SettingValidators.isRightWebhook]));
     this.formGroup.addControl(this.keys.secret, new FormControl('', Validators.required));
   }
 
