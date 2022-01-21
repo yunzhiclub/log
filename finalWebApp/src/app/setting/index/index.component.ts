@@ -46,10 +46,6 @@ export class IndexComponent implements OnInit {
     this.route.queryParams.subscribe((params: { page?: string, size?: string }) => {
       // 缓存查询参数
       this.params = params;
-      // 使用参数中的数据设置formGroup
-      this.queryForm.get(this.keys.name).setValue(params[this.keys.name]);
-      this.queryForm.get(this.keys.connectionStatus).setValue(params[this.keys.connectionStatus]);
-      this.queryForm.get(this.keys.client).setValue(params[this.keys.client]);
 
       getDefaultWhenValueIsInValid(params[this.keys.page], '0');
       getDefaultWhenValueIsInValid(params[this.keys.size], config.size.toString());

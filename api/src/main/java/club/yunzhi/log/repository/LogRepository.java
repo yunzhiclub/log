@@ -57,6 +57,10 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
 
     @Modifying
     @Transactional
+    void deleteAllByClient(Client client);
+
+    @Modifying
+    @Transactional
     void deleteAllByTimestampIsLessThanAndClient(Date date, Client client);
 
     default Page getAll(Long clientId, String level, String message, Pageable pageable) {

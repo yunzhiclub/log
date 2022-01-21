@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModelProperty;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -12,6 +15,8 @@ import javax.persistence.*;
  * @author hzl
  */
 @Entity
+@SQLDelete(sql = "update `ding` set deleted = 1 where id = ?")
+@Where(clause = "deleted = false")
 public class Ding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +39,7 @@ public class Ding {
 
     @ApiModelProperty("客户端")
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonView(ClientJsonView.class)
     private Client client;
 
@@ -43,6 +48,9 @@ public class Ding {
      */
     @JsonView(base.class)
     private Boolean start = true;
+
+    @JsonView(DayLog.DeletedJsonView.class)
+    protected Boolean deleted = false;
 
     public Long getId() {
         return id;
@@ -98,4 +106,6 @@ public class Ding {
 
     public interface base {}
     public interface ClientJsonView {}
+    public interface DeleteAtJsonView {}
+    public interface DeletedJsonView {}
 }

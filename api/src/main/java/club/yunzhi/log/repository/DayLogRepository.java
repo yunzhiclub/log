@@ -1,10 +1,12 @@
 package club.yunzhi.log.repository;
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,4 +40,11 @@ public interface DayLogRepository extends JpaRepository<DayLog, Long> {
 
     DayLog findTopByDayBetweenAndClientId(Date startTime ,Date endTime, Long clientId);
 
+    @Modifying
+    @Transactional
+    void deleteAllByDayIsLessThanAndClient(Date day, Client client);
+
+    @Modifying
+    @Transactional
+    void deleteAllByClient(Client client);
 }

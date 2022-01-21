@@ -43,10 +43,10 @@
   <tbody>
   <tr *ngFor="let ding of pageData.content; index as i">
     <td>{{ pageData.size * pageData.number + i + 1 }}</td>
-    <td>{{ ding.name }}</td>
-    <td>{{ ding.client.name }}</td>
-    <td>{{ ding.webHook}}<i class="fa fa-eye text-success" (click)="getWebHook(ding)"></i></td>
-    <td>{{ ding.secret}}<i class="fa fa-eye text-success" (click)="getSecret(ding)"></i></td>
+    <td>{{ ding?.name }}</td>
+    <td>{{ ding?.client.name }}</td>
+    <td>{{ ding?.webHook}}<i class="fa fa-eye text-success" (click)="getWebHook(ding)"></i></td>
+    <td>{{ ding?.secret}}<i class="fa fa-eye text-success" (click)="getSecret(ding)"></i></td>
     <td [innerHTML]="ding.connectionStatus | connectionStatus"></td>
     <td [innerHTML]="ding.start | start"></td>
     <td>
@@ -54,7 +54,7 @@
         <i class="fas fa-pen"></i>编辑
       </a>
       <button *ngIf="!ding.start" (click)="startOrEnd(ding)" class="btn btn-sm btn-outline-warning">
-        <i class="fas fa-key"></i> 启用
+        <i class="fas fa-key"></i>启用
       </button>
       <button *ngIf="ding.start" (click)="startOrEnd(ding)" class="btn btn-sm btn-outline-danger">
         <i class="far fa-trash-alt"></i>停用

@@ -1,6 +1,11 @@
 package club.yunzhi.log.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -10,13 +15,17 @@ import java.util.Calendar;
  * 每天的日志
  */
 @Entity
+@SQLDelete(sql = "update `day_log` set deleted = 1 where id = ?")
+@Where(clause = "deleted = false")
 public class DayLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ApiModelProperty("客户端")
     @ManyToOne
+    @NotFound
     @JsonView(client.class)
     private Client client;
 
@@ -31,6 +40,9 @@ public class DayLog {
 
     @JsonView(base.class)
     private Long errorCount = 0L;
+
+    @JsonView(DeletedJsonView.class)
+    protected Boolean deleted = false;
 
     public DayLog(Client client) {
         this.client = client;
@@ -113,5 +125,7 @@ public class DayLog {
     }
 
     public interface base {}
+    public interface DeleteAtJsonView {}
+    public interface DeletedJsonView {}
     public interface client extends Client.base {}
 }

@@ -56,9 +56,13 @@ public interface ClientService {
   boolean existByToken(String token);
 
   static String encodeToken(String token) {
-    String first = token.substring(0, 3);
-    String result = first + "***";
-    return result;
+    if (token.length() > 3) {
+      String first = token.substring(0, 3);
+      String result = first + "***";
+      return result;
+    } else {
+      return token;
+    }
   }
 
   void clean(Long clientId, Timestamp timestamp);

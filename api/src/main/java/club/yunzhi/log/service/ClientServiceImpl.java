@@ -1,9 +1,12 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
+import club.yunzhi.log.repository.DayLogRepository;
+import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.LogRepository;
 import club.yunzhi.log.repository.specs.ClientSpecs;
 import com.mengyunzhi.core.service.CommonService;
@@ -31,6 +34,12 @@ public class ClientServiceImpl implements ClientService {
 
   @Autowired
   LogRepository logRepository;
+
+  @Autowired
+  DayLogRepository dayLogRepository;
+
+  @Autowired
+  DingRepository dingRepository;
 
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
@@ -66,9 +75,12 @@ public class ClientServiceImpl implements ClientService {
           clientRepository.save(client);
         }
       }
+    }
 
+    for (Client client : clients.getContent()) {
       client.setToken(ClientService.encodeToken(client.getToken()));
     }
+
     return clients;
   }
 
@@ -81,7 +93,15 @@ public class ClientServiceImpl implements ClientService {
   public Client save(Client client) {
     client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
     client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
-    return clientRepository.save(client);
+
+    Client client1 = clientRepository.save(client);
+
+    DayLog dayLog = new DayLog(client1);
+    DayLog dayLog1 = dayLogRepository.save(dayLog);
+
+    client1.setTodayLog(dayLog1);
+    clientRepository.save(client1);
+    return client1;
   }
 
   @Override
@@ -96,6 +116,15 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public void deleteById(Long id) {
+    logger.debug("首先获取对应的客户端");
+    Client client = findById(id);
+
+    logger.debug("删除该客户端的日志和机器人和dayLog");
+    dayLogRepository.deleteAllByClient(client);
+    dingRepository.deleteAllByClient(client);
+    logRepository.deleteAllByClient(client);
+
+    logger.debug("删除客户端");
     this.clientRepository.deleteById(id);
   }
 
@@ -115,6 +144,9 @@ public class ClientServiceImpl implements ClientService {
     Client client = this.findById(clientId);
     logger.debug("首先获取日志");
     logRepository.deleteAllByTimestampIsLessThanAndClient(timestamp, client);
+
+    logger.debug("删除今日日志");
+    dayLogRepository.deleteAllByDayIsLessThanAndClient(timestamp, client);
   }
 
   @Override
