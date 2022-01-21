@@ -5,6 +5,7 @@ import club.yunzhi.log.entity.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
@@ -59,4 +60,6 @@ public interface ClientService {
     String result = first + "***";
     return result;
   }
+
+  void clean(Long clientId, Timestamp timestamp);
 }

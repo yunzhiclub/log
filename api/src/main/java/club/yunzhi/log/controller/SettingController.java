@@ -22,12 +22,12 @@ public class SettingController {
   @GetMapping("page")
   @JsonView(GetAllJsonView.class)
   public Page<Ding> getAll(@RequestParam(required = false) String name,
-                           @RequestParam(required = false) Boolean connectStatus,
+                           @RequestParam(required = false) Boolean connectionStatus,
                            @RequestParam(required = false) Long clientId,
                            Pageable pageable) {
     Page<Ding> dings = this.dingService.findAll(
         name,
-        connectStatus,
+        connectionStatus,
         clientId,
         pageable);
     return dings;

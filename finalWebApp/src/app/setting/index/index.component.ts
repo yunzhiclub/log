@@ -100,6 +100,8 @@ export class IndexComponent implements OnInit {
   reload(params: Params): void {
     // 将参数转换为路由参数
     const queryParams = CommonService.convertToRouteParams(params);
+    console.log(queryParams);
+    console.log(params);
     this.router.navigate(['./'],
       {
         relativeTo: this.route,

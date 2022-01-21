@@ -4,6 +4,7 @@ import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
+import club.yunzhi.log.repository.LogRepository;
 import club.yunzhi.log.repository.specs.ClientSpecs;
 import com.mengyunzhi.core.service.CommonService;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class ClientServiceImpl implements ClientService {
   private final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
   @Autowired
   private final ClientRepository clientRepository;
+
+  @Autowired
+  LogRepository logRepository;
 
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
@@ -103,6 +107,14 @@ public class ClientServiceImpl implements ClientService {
     } else {
       return true;
     }
+  }
+
+  @Override
+  public void clean(Long clientId, Timestamp timestamp) {
+    logger.debug("首先获取客户端");
+    Client client = this.findById(clientId);
+    logger.debug("首先获取日志");
+    logRepository.deleteAllByTimestampIsLessThanAndClient(timestamp, client);
   }
 
   @Override

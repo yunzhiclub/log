@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -54,6 +55,12 @@ public class ClientController {
   public List<Client> getAll() {
     List<Client> clients = (List<Client>) this.clientRepository.findAll();
     return clients;
+  }
+
+  @PostMapping("clean/{clientId}")
+  public void clean(@PathVariable Long clientId,
+                    @RequestBody Timestamp timestamp) {
+    this.clientService.clean(clientId, timestamp);
   }
 
   @GetMapping("existByToken")
