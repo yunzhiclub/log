@@ -50,7 +50,7 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Timestamp lastStartTime;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonView(todayLog.class)
     private DayLog todayLog = new DayLog(this);
 
@@ -67,6 +67,9 @@ public class Client implements YunzhiEntity<Long>, Serializable {
 
     @JsonView(base.class)
     private Boolean state = false;
+
+    @OneToMany(mappedBy = "client")
+    private List<Log> logs = new ArrayList<>();
 
     public Client() {
     }

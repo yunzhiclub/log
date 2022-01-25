@@ -63,14 +63,15 @@ public class Log implements YunzhiEntity<Long> {
     @JsonView(base.class)
     private Timestamp timestamp;
 
+    @JsonView(DayLog.DeletedJsonView.class)
+    protected Boolean deleted = false;
+
     @ApiModelProperty("客户端")
     @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(nullable = false)
     @JsonView(client.class)
     private Client client;
 
-    @JsonView(DayLog.DeletedJsonView.class)
-    protected Boolean deleted = false;
 
     @Override
     public Long getId() {

@@ -93,14 +93,14 @@ public class ClientServiceImpl implements ClientService {
   public Client save(Client client) {
     client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
     client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
-
+    DayLog dayLog = new DayLog();
+    client.setTodayLog(dayLog);
+    client.getTodayLog().setClient(client);
     Client client1 = clientRepository.save(client);
-
-    DayLog dayLog = new DayLog(client1);
-    DayLog dayLog1 = dayLogRepository.save(dayLog);
-
-    client1.setTodayLog(dayLog1);
-    clientRepository.save(client1);
+//    DayLog dayLog1 = dayLogRepository.save(dayLog);
+//
+//    client1.setTodayLog(dayLog1);
+//    clientRepository.save(client1);
     return client1;
   }
 
@@ -118,11 +118,11 @@ public class ClientServiceImpl implements ClientService {
   public void deleteById(Long id) {
     logger.debug("首先获取对应的客户端");
     Client client = findById(id);
-
-    logger.debug("删除该客户端的日志和机器人和dayLog");
-    dayLogRepository.deleteAllByClient(client);
-    dingRepository.deleteAllByClient(client);
-    logRepository.deleteAllByClient(client);
+//
+//    logger.debug("删除该客户端的日志和机器人和dayLog");
+//    dayLogRepository.deleteAllByClient(client);
+//    dingRepository.deleteAllByClient(client);
+//    logRepository.deleteAllByClient(client);
 
     logger.debug("删除客户端");
     this.clientRepository.deleteById(id);

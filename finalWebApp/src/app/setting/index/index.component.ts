@@ -61,9 +61,8 @@ export class IndexComponent implements OnInit {
           connectionStatus: params[this.keys.connectionStatus]
         },
       ).subscribe(page => {
-        console.log(page.content);
+        console.log("钉钉测试数据为")
         this.validateData(page);
-        console.log(page.content[0].client);
         this.pageData = page;
       });
     });

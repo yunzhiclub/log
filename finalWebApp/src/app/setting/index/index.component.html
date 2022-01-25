@@ -44,7 +44,7 @@
   <tr *ngFor="let ding of pageData.content; index as i">
     <td>{{ pageData.size * pageData.number + i + 1 }}</td>
     <td>{{ ding?.name }}</td>
-    <td>{{ ding?.client.name }}</td>
+    <td>{{ ding?.client?.name }}</td>
     <td>{{ ding?.webHook}}<i class="fa fa-eye text-success" (click)="getWebHook(ding)"></i></td>
     <td>{{ ding?.secret}}<i class="fa fa-eye text-success" (click)="getSecret(ding)"></i></td>
     <td [innerHTML]="ding.connectionStatus | connectionStatus"></td>
