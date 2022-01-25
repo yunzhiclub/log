@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.mengyunzhi.core.entity.YunzhiEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +22,8 @@ import java.util.HashMap;
  * @author panjie
  */
 @Entity
+@SQLDelete(sql = "update `log` set deleted = 1 where id = ?")
+@Where(clause = "deleted = false")
 @ApiModel(value = "Log", description = "日志")
 public class Log implements YunzhiEntity<Long> {
     private final static Logger logger1 = LoggerFactory.getLogger(Log.class);
@@ -57,11 +63,15 @@ public class Log implements YunzhiEntity<Long> {
     @JsonView(base.class)
     private Timestamp timestamp;
 
+    @JsonView(DayLog.DeletedJsonView.class)
+    protected Boolean deleted = false;
+
     @ApiModelProperty("客户端")
     @ManyToOne
     @JoinColumn(nullable = false)
     @JsonView(client.class)
     private Client client;
+
 
     @Override
     public Long getId() {
@@ -176,4 +186,6 @@ public class Log implements YunzhiEntity<Long> {
 
     public interface base {}
     public interface client extends Client.base {}
+    public interface DeleteAtJsonView {}
+    public interface DeletedJsonView {}
 }

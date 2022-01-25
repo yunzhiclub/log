@@ -33,6 +33,7 @@ export class DingService {
       .append('name', isNotNullOrUndefined(param.name) ? param.name : '')
       .append('clientId', isNotNullOrUndefined(param.clientId) ? param.clientId : '')
       .append('connectionStatus', isNotNullOrUndefined(param.connectionStatus) ? param.connectionStatus : '');
+    console.log(httpParams.get("connectionStatus"));
     // 返回根据相应链接订阅的数据，将数据中的每一个json对象转换为 User 对象。
     return this.httpClient.get<Page<Ding>>(`${this.baseUrl}/page`, {params: httpParams})
       .pipe(map(data => new Page<Ding>(data).toObject(o => new Ding(o))));
@@ -61,6 +62,7 @@ export class DingService {
    */
   public update(dingId: number, ding: Ding): Observable<Ding> {
     Assert.isNumber(dingId, 'type of id must be number');
+    console.log(ding.client);
     return this.httpClient.put<Ding>(`${this.baseUrl}/${dingId}`, ding);
   }
 }

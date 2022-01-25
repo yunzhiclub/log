@@ -56,6 +56,7 @@ export class LogComponent implements OnInit {
           message: params[this.keys.message]
         },
       ).subscribe(page => {
+        console.log(page.content);
         this.validateData(page);
         this.pageData = page;
       });

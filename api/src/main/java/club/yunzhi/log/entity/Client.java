@@ -12,6 +12,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author panjie
@@ -29,9 +31,9 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Long id;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 32)
     @JsonView(base.class)
-    private String token = CommonService.getRandomStringByLength(40);
+    private String token = CommonService.getRandomStringByLength(32);
 
     @JsonView(base.class)
     private String name;
@@ -48,7 +50,7 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Timestamp lastStartTime;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonView(todayLog.class)
     private DayLog todayLog = new DayLog(this);
 
@@ -63,6 +65,11 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(DeletedJsonView.class)
     private Boolean deleted = false;
 
+    @JsonView(base.class)
+    private Boolean state = false;
+
+    @OneToMany(mappedBy = "client")
+    private List<Log> logs = new ArrayList<>();
 
     public Client() {
     }
@@ -147,6 +154,14 @@ public class Client implements YunzhiEntity<Long>, Serializable {
 
     public void setTodayLog(DayLog todayLog) {
         this.todayLog = todayLog;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public interface base {

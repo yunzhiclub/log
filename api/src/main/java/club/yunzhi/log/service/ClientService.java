@@ -5,6 +5,7 @@ import club.yunzhi.log.entity.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
@@ -53,4 +54,16 @@ public interface ClientService {
   void deleteById(Long id);
 
   boolean existByToken(String token);
+
+  static String encodeToken(String token) {
+    if (token.length() > 3) {
+      String first = token.substring(0, 3);
+      String result = first + "***";
+      return result;
+    } else {
+      return token;
+    }
+  }
+
+  void clean(Long clientId, Timestamp timestamp);
 }

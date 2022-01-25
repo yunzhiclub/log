@@ -6,6 +6,7 @@ import {DingService} from "../../../service/ding.service";
 import {Ding} from "../../../entity/ding";
 import {CommonService} from "../../../service/common.service";
 import {SettingValidators} from "../setting-validators";
+import {Client} from "../../../entity/client";
 
 @Component({
   selector: 'app-edit',
@@ -78,7 +79,8 @@ export class EditComponent implements OnInit {
       id: this.ding.id,
       name: formGroup.get(this.keys.name).value as string,
       secret: formGroup.get(this.keys.secret).value as String,
-      webHook: formGroup.get(this.keys.webhook).value as String
+      webHook: formGroup.get(this.keys.webhook).value as String,
+      client: { id: formGroup.get(this.keys.clientId).value} as Client,
     } as Ding;
     this.dingService.update(this.ding.id, ding)
       .subscribe(() => {

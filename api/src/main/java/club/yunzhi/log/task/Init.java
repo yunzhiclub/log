@@ -38,10 +38,21 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>, Ordered
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     Long count = dingRepository.count();
+
+    if (clientRepository.count() == 0) {
+      Client client = new Client();
+      client.setName("测试");
+      client.setToken("gJ1bH9dE2zF7zO7nH1fE3gJ4iF5sW5aP");
+      clientRepository.save(client);
+    }
+
+
     if (count == 0 ) {
       Ding ding = new Ding();
       ding.setSecret(secret);
       ding.setWebHook(webHook);
+      List<Client> clients = (List<Client>) clientRepository.findAll();
+      ding.setClient(clients.get(0));
       dingRepository.save(ding);
     }
 

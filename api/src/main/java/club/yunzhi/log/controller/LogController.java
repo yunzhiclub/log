@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("log")
 @Api(value = "LogController 日志控制")
-public class LogController {
+public class  LogController {
     private final static Logger logger = LoggerFactory.getLogger(LogController.class);
     private final LogService logService;        // 日志服务
 

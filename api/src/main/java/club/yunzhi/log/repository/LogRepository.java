@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
@@ -53,6 +54,14 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
     };
 
     void deleteAllByTimestampIsLessThan(Date date);
+
+    @Modifying
+    @Transactional
+    void deleteAllByClient(Client client);
+
+    @Modifying
+    @Transactional
+    void deleteAllByTimestampIsLessThanAndClient(Date date, Client client);
 
     default Page getAll(Long clientId, String level, String message, Pageable pageable) {
         Client _client = new Client();

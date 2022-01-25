@@ -17,7 +17,7 @@ import {EditModule} from "./edit/edit.module";
     ReactiveFormsModule,
     AddModule,
     IndexModule,
-    EditModule
+    EditModule,
   ]
 })
 export class SettingModule { }
