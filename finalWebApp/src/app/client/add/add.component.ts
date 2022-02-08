@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Client} from '../../../entity/client';
 import {ClientService} from '../../../service/client.service';
 import {CommonService} from '../../../service/common.service';
 import {tokenValidator} from './token-validator';
 import {TokenAsyncValidators} from "./token-async-validators";
+import {randomString} from '@yunzhi/ng-mock-api';
+
 
 @Component({
   selector: 'app-add',
@@ -26,7 +28,8 @@ export class AddComponent implements OnInit {
 console = console;
   constructor(private clientService: ClientService,
               private commonService: CommonService,
-              private tokenAsyncValidators: TokenAsyncValidators) {
+              private tokenAsyncValidators: TokenAsyncValidators,
+              private elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -42,6 +45,10 @@ console = console;
     this.formGroup.addControl(this.formKeys.name, new FormControl('', Validators.required));
     this.formGroup.addControl(this.formKeys.token, formControlToken);
     this.formGroup.addControl(this.formKeys.url, new FormControl('', Validators.required));
+
+    // 生成随机32位token
+    const randomToken = randomString('',32);
+    this.formGroup.get(this.formKeys.token).setValue(randomToken);
   }
 
   /**
@@ -61,5 +68,14 @@ console = console;
           this.commonService.back();
         });
       })
+  }
+
+  copyText() {
+    const input = this.elementRef.nativeElement.querySelector('#token');
+    input.value = this.formGroup.get(this.formKeys.token).value;
+    input.select();
+    document.execCommand('copy');
+    this.commonService.success(() => {
+    },'','复制成功');
   }
 }
