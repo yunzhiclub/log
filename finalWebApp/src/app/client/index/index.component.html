@@ -36,10 +36,18 @@
   <tr *ngFor="let client of pageData.content; index as i">
     <td>{{pageData.size * pageData.number + i + 1}}</td>
     <td>{{client?.name}}</td>
-    <td><app-token-show [client]="client"></app-token-show></td>
+    <td>
+      <app-token-show [client]="client"></app-token-show>
+    </td>
     <td><a href="{{client.url}}" target="view_window">{{client.url}}</a></td>
-    <td>{{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}</td>
-    <td>{{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td *ngIf="client?.lastSendTime">
+      {{client?.lastSendTime | date:'yyyy-MM-dd HH:mm'}}
+    </td>
+    <td *ngIf="!client?.lastSendTime" class="text-center">-</td>
+    <td *ngIf="client?.lastStartTime">
+      {{client?.lastStartTime | date:'yyyy-MM-dd HH:mm'}}
+    </td>
+    <td *ngIf="!client?.lastStartTime" class="text-center">-</td>
     <td>{{client.todayLog?.infoCount}}</td>
     <td>{{client.todayLog?.warnCount}}</td>
     <td>{{client.todayLog?.errorCount}}</td>
@@ -48,7 +56,7 @@
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑
       </a>
-      <span (click)="onOpenModal(client.id)"  class="btn btn-outline-success btn-sm">
+      <span (click)="onOpenModal(client.id)" class="btn btn-outline-success btn-sm">
         <i class="fas fa-broom"></i>清理
       </span>
       <span (click)="onDelete(client)" class="btn btn-sm btn-outline-danger">
