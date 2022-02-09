@@ -91,8 +91,8 @@ public class ClientServiceImpl implements ClientService {
 
   @Override
   public Client save(Client client) {
-    client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
-    client.setLastStartTime(new Timestamp(System.currentTimeMillis()));
+    client.setLastSendTime(null);
+    client.setLastStartTime(null);
     DayLog dayLog = new DayLog();
     client.setTodayLog(dayLog);
     client.getTodayLog().setClient(client);
