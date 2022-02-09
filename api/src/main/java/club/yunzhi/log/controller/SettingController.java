@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ public class SettingController {
   public Page<Ding> getAll(@RequestParam(required = false) String name,
                            @RequestParam(required = false) Boolean connectionStatus,
                            @RequestParam(required = false) Long clientId,
-                           Pageable pageable) {
+                           final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
     Page<Ding> dings = this.dingService.findAll(
         name,
         connectionStatus,

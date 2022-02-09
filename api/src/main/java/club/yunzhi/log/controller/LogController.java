@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class  LogController {
     public Page<Log> page(@RequestParam(required = false) String clientId,
                           @RequestParam(required = false) String message,
                           @RequestParam(required = false) String level,
-                          Pageable pageable) {
+                          final @SortDefault(value = "timestamp", direction = Sort.Direction.DESC) Pageable pageable) {
         logger.info(message+""+level);
         Long _clientId = null;
         if (clientId != null && !clientId.equals("null")) {
