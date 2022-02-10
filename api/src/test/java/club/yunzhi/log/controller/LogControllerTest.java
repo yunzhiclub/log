@@ -30,12 +30,5 @@ public class LogControllerTest {
     private MockMvc mockMvc;
     @Test
     public void saveAll() throws Exception {
-        Client client = clientService.getOneSavedClient();
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/log/batchSave")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content("[{}, {}]")
-                        .param("token", client.getToken()))
-                .andExpect(MockMvcResultMatchers.status().is(200));
     }
 }
