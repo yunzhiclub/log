@@ -28,9 +28,7 @@ public class LogListener {
             System.out.println("执行推送任务");
             logger.debug("首先获取所有的钉钉");
             List<Ding> dings = dingService.getAllStartDing();
-            System.out.println(dings.size());
             for (Ding ding : dings) {
-                System.out.println("执行推送任务");
                 System.out.println(log.getClient().getId());
                 System.out.println(ding.getClient().getId());
                 if(ding.getClient().getId().equals(log.getClient().getId())) {
@@ -43,7 +41,6 @@ public class LogListener {
                     System.out.println("执行推送任务" + dateString + messageOfLog);
                 }
             }
-            System.out.println("执行完推送任务");
         }
     }
 }
