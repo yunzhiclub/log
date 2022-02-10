@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +62,7 @@ public class UserController {
   @JsonView(GetAllJsonView.class)
   public Page<User> getAll(@RequestParam(required = false) String name,
                            @RequestParam(required = false) String username,
-                           Pageable pageable) {
+                           final @SortDefault(value = "id", direction = Sort.Direction.DESC) Pageable pageable) {
     return this.userService.findAll(
         name,
         username,
