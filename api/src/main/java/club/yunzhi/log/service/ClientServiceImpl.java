@@ -68,36 +68,6 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public Page<Client> page(String name, Pageable pageable) {
     Page<Client> clients = clientRepository.findAll(ClientSpecs.containingName(name), pageable);
-    for (Client client : clients.getContent()
-    ) {
-      logger.debug("判断状态是否是离线");
-
-      if (client.getLastSendTime() != null) {
-        Long timestamp = client.getLastSendTime().getTime();
-        Long currentTime = System.currentTimeMillis();
-        if (currentTime - timestamp > 330000) {
-          logger.debug("上一次响应时间超过5分半钟，更改状态为离线");
-          client.setState(false);
-
-          logger.debug("如果该客户端离线未提醒,向钉钉发送离线信息");
-          if (!client.getRemind()) {
-            logger.debug("根据客户端id找到对应连接成功的钉机器人,可能有多个连接成功的机器人,一般只有一个");
-            List<Ding> dings = dingRepository.findAllByClientIdAndConnectionStatus(client.getId(), true);
-            if (!dings.isEmpty()) {
-              Ding ding = dings.get(0);
-              client.setRemind(true);
-              Date currentTime1 = new Date();
-              SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-              String dateString = formatter.format(currentTime1);
-              dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
-                      + ding.getName() + "机器人提示: 客户端" + client.getName() + "已经离线" );
-            }
-          }
-          clientRepository.save(client);
-        }
-      }
-    }
-
     for (Client client : clients.getContent()) {
       client.setToken(ClientService.encodeToken(client.getToken()));
     }

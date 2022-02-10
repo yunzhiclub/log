@@ -20,6 +20,4 @@ public interface DingRepository extends JpaRepository<Ding , Long>, JpaSpecifica
   @Modifying
   @Transactional
   void deleteAllByClient(Client client);
-
-  List<Ding> findAllByClientIdAndConnectionStatus(Number clientId,Boolean status);
 }
