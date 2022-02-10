@@ -59,7 +59,7 @@ spring:
     #    数据库名称关系到数据库迁移
     url: jdbc:mysql://${datasource.url:127.0.0.1}:${datasource.port:3306}/${datasource.dbname:log}?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: ${datasource.username:root}
-    password: ${datasource.password:000000}
+    password: ${datasource.password:}
     separator: //
   flyway:
     enabled: true # 禁用baseline
