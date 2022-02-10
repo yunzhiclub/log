@@ -49,11 +49,11 @@ class LogListenerTest {
         logs.add(log);
         logs.add(newLog);
         logService.save(logs);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
