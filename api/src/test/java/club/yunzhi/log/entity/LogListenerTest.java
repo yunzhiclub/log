@@ -29,6 +29,8 @@ class LogListenerTest {
     void prePersistAndUpdate() {
         Byte errorCode = 4;
         Client client = new Client();
+        Long id = new Long(1);
+        client.setId(id);
         client.setToken(RandomString.make(32));
         client.setName(RandomString.make(4));
         clientService.save(client);
