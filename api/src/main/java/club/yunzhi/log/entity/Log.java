@@ -22,6 +22,7 @@ import java.util.HashMap;
  * @author panjie
  */
 @Entity
+@EntityListeners(LogListener.class)
 @SQLDelete(sql = "update `log` set deleted = 1 where id = ?")
 @Where(clause = "deleted = false")
 @ApiModel(value = "Log", description = "日志")
