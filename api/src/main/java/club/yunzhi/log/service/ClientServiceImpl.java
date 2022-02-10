@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,7 +86,11 @@ public class ClientServiceImpl implements ClientService {
             if (!dings.isEmpty()) {
               Ding ding = dings.get(0);
               client.setRemind(true);
-              dingService.dingRequest(ding, ding.getName() + "机器人提示 " + client.getName() + " 客户端已经离线");
+              Date currentTime1 = new Date();
+              SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+              String dateString = formatter.format(currentTime1);
+              dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
+                      + ding.getName() + "机器人提示: 客户端" + client.getName() + "已经离线" );
             }
           }
           clientRepository.save(client);
