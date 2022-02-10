@@ -26,29 +26,29 @@ class LogListenerTest {
 
     @Test
     void prePersistAndUpdate() {
-//        Byte errorCode = 4;
-//        Client client = new Client();
-//        Long id = new Long(1);
-//        client.setId(id);
-//        client.setToken(RandomString.make(32));
-//        client.setName(RandomString.make(4));
-//        clientService.save(client);
-//        Log log = new Log();
-//        log.setMessage(RandomString.make(6));
-//        log.setLevelCode(errorCode);
-//        log.setClient(client);
-//        Log newLog = new Log();
-//        newLog.setLevelCode(errorCode);
-//        newLog.setClient(client);
-//        List<Log> logs = new ArrayList<Log>();
-//        logs.add(log);
-//        logs.add(newLog);
-//        logService.save(logs);
-//        try {
-//            Thread.sleep(500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        Byte errorCode = 4;
+        Client client = new Client();
+        Long id = new Long(1);
+        client.setId(id);
+        client.setToken(RandomString.make(32));
+        client.setName(RandomString.make(4));
+        clientService.save(client);
+        Log log = new Log();
+        log.setMessage(RandomString.make(6));
+        log.setLevelCode(errorCode);
+        log.setClient(client);
+        Log newLog = new Log();
+        newLog.setLevelCode(errorCode);
+        newLog.setClient(client);
+        List<Log> logs = new ArrayList<Log>();
+        logs.add(log);
+        logs.add(newLog);
+        logService.save(logs);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
