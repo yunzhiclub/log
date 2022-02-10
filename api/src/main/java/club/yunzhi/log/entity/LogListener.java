@@ -27,14 +27,19 @@ public class LogListener {
             System.out.println("执行推送任务");
             logger.debug("首先获取所有的钉钉");
             List<Ding> dings = dingService.getAllStartDing();
+            System.out.println("执行推送任务");
             for (Ding ding : dings) {
-                this.message = "客户端: " + this.client.getName() + "  出现了ERROR";
-                StringBuffer resultBuffer = new StringBuffer();
-                String result = message;
-                resultBuffer.append(result);
-                String messageOfLog = resultBuffer.toString();
-                dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n" + messageOfLog);
-                System.out.println("执行推送任务" + dateString + messageOfLog);
+                System.out.println(log.getClient().getId());
+                System.out.println(ding.getClient().getId());
+                if(ding.getClient().getId().equals(log.getClient().getId())) {
+                    this.message = "客户端: " + this.client.getName() + "  出现了ERROR";
+                    StringBuffer resultBuffer = new StringBuffer();
+                    String result = message;
+                    resultBuffer.append(result);
+                    String messageOfLog = resultBuffer.toString();
+                    dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n" + messageOfLog);
+                    System.out.println("执行推送任务" + dateString + messageOfLog);
+                }
             }
         }
     }
