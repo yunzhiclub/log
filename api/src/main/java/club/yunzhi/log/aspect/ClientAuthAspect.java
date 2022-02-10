@@ -56,6 +56,7 @@ public class ClientAuthAspect {
     logger.debug("设置客户端的状态为在线");
     if (!client.getState()) {
       client.setState(true);
+      client.setRemind(false);
       clientRepository.save(client);
     }
 

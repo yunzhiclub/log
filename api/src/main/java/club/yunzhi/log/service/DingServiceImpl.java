@@ -111,6 +111,10 @@ public class DingServiceImpl implements DingService {
       }
     } catch (Exception e) {
       e.printStackTrace();
+      logger.debug("异常，设置连接状态为失败");
+      ding.setConnectionStatus(false);
+      DingRepository dingRepository = (DingRepository) ApplicationContextUtil.getBean("DingRepository");
+      dingRepository.save(ding);
     } finally {
       try {
         // 释放资源

@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
+import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
@@ -41,6 +42,8 @@ public class ClientServiceImpl implements ClientService {
   @Autowired
   DingRepository dingRepository;
 
+  DingServiceImpl dingService = new DingServiceImpl();
+
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
     this.clientRepository = clientRepository;
@@ -66,12 +69,24 @@ public class ClientServiceImpl implements ClientService {
     for (Client client : clients.getContent()
     ) {
       logger.debug("判断状态是否是离线");
+
       if (client.getLastSendTime() != null) {
         Long timestamp = client.getLastSendTime().getTime();
         Long currentTime = System.currentTimeMillis();
         if (currentTime - timestamp > 330000) {
           logger.debug("上一次响应时间超过5分半钟，更改状态为离线");
           client.setState(false);
+
+          logger.debug("如果该客户端离线未提醒,向钉钉发送离线信息");
+          if (!client.getRemind()) {
+            logger.debug("根据客户端id找到对应连接成功的钉机器人,可能有多个连接成功的机器人,一般只有一个");
+            List<Ding> dings = dingRepository.findAllByClientIdAndConnectionStatus(client.getId(), true);
+            if (!dings.isEmpty()) {
+              Ding ding = dings.get(0);
+              client.setRemind(true);
+              dingService.dingRequest(ding, ding.getName() + "机器人提示 " + client.getName() + " 客户端已经离线");
+            }
+          }
           clientRepository.save(client);
         }
       }

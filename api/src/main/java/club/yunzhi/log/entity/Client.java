@@ -68,6 +68,12 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(base.class)
     private Boolean state = false;
 
+    /**
+     * 已提醒客户端离线变量，为true则不提醒
+     */
+    @JsonView(base.class)
+    private Boolean remind = false;
+
     @OneToMany(mappedBy = "client")
     private List<Log> logs = new ArrayList<>();
 
@@ -162,6 +168,14 @@ public class Client implements YunzhiEntity<Long>, Serializable {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public  void setRemind(Boolean remind) {
+        this.remind = remind;
+    }
+
+    public Boolean getRemind(){
+        return this.remind;
     }
 
     public interface base {
