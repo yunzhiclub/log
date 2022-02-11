@@ -44,7 +44,8 @@ public class ClientServiceImpl implements ClientService {
   @Autowired
   DingRepository dingRepository;
 
-  DingServiceImpl dingService = new DingServiceImpl();
+  @Autowired
+  DingServiceImpl dingService;
 
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
