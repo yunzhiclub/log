@@ -1,7 +1,6 @@
 package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.Client;
-import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.service.ClientService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
