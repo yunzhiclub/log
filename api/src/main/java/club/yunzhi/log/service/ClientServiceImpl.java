@@ -42,6 +42,9 @@ public class ClientServiceImpl implements ClientService {
   DingRepository dingRepository;
 
   @Autowired
+  DingService dingService;
+
+  @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
     this.clientRepository = clientRepository;
   }
@@ -63,20 +66,6 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public Page<Client> page(String name, Pageable pageable) {
     Page<Client> clients = clientRepository.findAll(ClientSpecs.containingName(name), pageable);
-    for (Client client : clients.getContent()
-    ) {
-      logger.debug("判断状态是否是离线");
-      if (client.getLastSendTime() != null) {
-        Long timestamp = client.getLastSendTime().getTime();
-        Long currentTime = System.currentTimeMillis();
-        if (currentTime - timestamp > 330000) {
-          logger.debug("上一次响应时间超过5分半钟，更改状态为离线");
-          client.setState(false);
-          clientRepository.save(client);
-        }
-      }
-    }
-
     for (Client client : clients.getContent()) {
       client.setToken(ClientService.encodeToken(client.getToken()));
     }
