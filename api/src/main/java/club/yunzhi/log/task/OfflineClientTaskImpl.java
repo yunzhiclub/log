@@ -50,7 +50,7 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
           logger.debug("如果该客户端离线未提醒,向钉钉发送离线信息");
           if (!client.getRemind()) {
             List<Ding> dings = dingService.getAllStartDing();
-            System.out.println("执行推送任务");
+            logger.debug("执行推送任务");
             for (Ding ding : dings) {
               if (ding.getClient().getId().equals(client.getId())) {
                 client.setRemind(true);
