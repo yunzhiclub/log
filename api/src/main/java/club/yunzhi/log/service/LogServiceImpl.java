@@ -77,7 +77,7 @@ public class LogServiceImpl implements LogService {
     @Override
     public Log save(Log log, Client client) {
         if (log.getMessage() == null) {
-            System.out.println("移除心跳包");
+            logger.debug("移除心跳包");
             return null;
         }
         log.setClient(client);
@@ -109,7 +109,7 @@ public class LogServiceImpl implements LogService {
                 logIterator.remove();
             } else if (log.getMessage() == null) {
                 //移除心跳包
-                logger.info("移除心跳包");
+                logger.debug("移除心跳包");
                 logIterator.remove();
             } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
                 // 移除一些系统启动信息
