@@ -1,5 +1,6 @@
 package club.yunzhi.log.entity;
 
+import club.yunzhi.log.service.DingService;
 import club.yunzhi.log.service.DingServiceImpl;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogListener {
     @Autowired
-    DingServiceImpl dingService;
+    DingService dingService;
     private final Logger logger = (Logger) LoggerFactory.getLogger(LogListener.class);
     Date currentTime = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
