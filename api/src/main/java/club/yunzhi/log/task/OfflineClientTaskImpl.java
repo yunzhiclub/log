@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class OfflineClientTaskImpl implements OfflineClientTask{
+public class OfflineClientTaskImpl implements OfflineClientTask {
   private final Logger logger = LoggerFactory.getLogger(OfflineClientTaskImpl.class);
 
   @Autowired
@@ -28,7 +28,8 @@ public class OfflineClientTaskImpl implements OfflineClientTask{
   @Autowired
   DingRepository dingRepository;
 
-  DingServiceImpl dingService = new DingServiceImpl();
+  @Autowired
+  DingServiceImpl dingService;
 
   /**
    * 每隔5分钟检测一次客户端是否掉线
