@@ -2,7 +2,6 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
-import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
@@ -22,8 +21,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
   DingRepository dingRepository;
 
   @Autowired
-  DingServiceImpl dingService;
+  DingService dingService;
 
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {

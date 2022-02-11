@@ -1,13 +1,10 @@
 package club.yunzhi.log.task;
 
 import club.yunzhi.log.entity.Client;
-import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.repository.ClientRepository;
-import club.yunzhi.log.repository.DayLogRepository;
 import club.yunzhi.log.repository.DingRepository;
-import club.yunzhi.log.service.ClientServiceImpl;
-import club.yunzhi.log.service.DingServiceImpl;
+import club.yunzhi.log.service.DingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,7 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
   DingRepository dingRepository;
 
   @Autowired
-  DingServiceImpl dingService;
+  DingService dingService;
 
   /**
    * 每隔5分钟检测一次客户端是否掉线
