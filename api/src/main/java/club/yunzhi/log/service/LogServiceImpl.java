@@ -27,7 +27,8 @@ import java.util.List;
 public class LogServiceImpl implements LogService {
     private final
     LogRepository logRepository;
-    @Autowired ClientService clientService;
+    @Autowired
+    ClientService clientService;
 
     private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
@@ -68,18 +69,24 @@ public class LogServiceImpl implements LogService {
 
     /**
      * 保存
-     * @param log 日志
+     *
+     * @param log    日志
      * @param client 客户端
      * @return 日志
      */
     @Override
     public Log save(Log log, Client client) {
+        if (log.getMessage() == null) {
+            logger.debug("移除心跳包");
+            return null;
+        }
         log.setClient(client);
         return logRepository.save(log);
     }
 
     /**
      * 批量保存
+     *
      * @param logs 日志list
      */
     @Override
@@ -96,20 +103,24 @@ public class LogServiceImpl implements LogService {
     private void filter(List<Log> logs) {
         Iterator<Log> logIterator = logs.iterator();
         while (logIterator.hasNext()) {
-           Log log = logIterator.next();
-           if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
-               // 移除日志等级为info或debug的
-               logIterator.remove();
-           } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
-               // 移除一些系统启动信息
-               for (String excludeSuffix :
-                       excludeSuffixes) {
-                   if (log.getLogger().startsWith(excludeSuffix)) {
-                       logIterator.remove();
-                       break;
-                   }
-               }
-           }
+            Log log = logIterator.next();
+            if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
+                // 移除日志等级为info或debug的
+                logIterator.remove();
+            } else if (log.getMessage() == null) {
+                //移除心跳包
+                logger.debug("移除心跳包");
+                logIterator.remove();
+            } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
+                // 移除一些系统启动信息
+                for (String excludeSuffix :
+                        excludeSuffixes) {
+                    if (log.getLogger().startsWith(excludeSuffix)) {
+                        logIterator.remove();
+                        break;
+                    }
+                }
+            }
         }
     }
 
