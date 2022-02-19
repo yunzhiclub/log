@@ -29,10 +29,10 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
   DingService dingService;
 
   /**
-   * 每隔5分钟检测一次客户端是否掉线
+   * 每隔1分钟检测一次客户端是否掉线
    */
   @Override
-  @Scheduled(cron = "0 */5 * * * *")
+  @Scheduled(cron = "0 */1 * * * *")
   public void offlineReminder() {
 
     List<Client> clients = (List<Client>) clientRepository.findAll();
