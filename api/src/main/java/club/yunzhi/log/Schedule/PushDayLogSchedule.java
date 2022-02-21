@@ -26,8 +26,8 @@ import java.util.List;
 //执行定时推送任务
 @Component
 public class PushDayLogSchedule {
-    private final DayLogRepository dayLogRepository;
-    private final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
+  private final DayLogRepository dayLogRepository;
+  private final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
 
     Date currentTime = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,7 +46,7 @@ public class PushDayLogSchedule {
       this.dayLogRepository = dayLogRepository;
     }
 
-    @Scheduled(cron = "${time.cron}")
+  @Scheduled(cron = "${time.cron}")
     public void pushDayLogSchedule() throws ParseException {
       System.out.println("执行推送任务");
       logger.debug("首先获取所有的钉钉");
