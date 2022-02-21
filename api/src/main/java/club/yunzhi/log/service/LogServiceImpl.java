@@ -76,7 +76,7 @@ public class LogServiceImpl implements LogService {
      */
     @Override
     public Log save(Log log, Client client) {
-        if (log.getMessage() == null) {
+        if (log.getMessage() == null || log.getMessage() == "") {
             logger.debug("移除心跳包");
             return null;
         }
@@ -107,7 +107,7 @@ public class LogServiceImpl implements LogService {
             if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
                 // 移除日志等级为info或debug的
                 logIterator.remove();
-            } else if (log.getMessage() == null) {
+            } else if (log.getMessage() == null || log.getMessage() == "") {
                 //移除心跳包
                 logger.debug("移除心跳包");
                 logIterator.remove();
