@@ -118,6 +118,7 @@ public class UserController {
     return userService.resetPassword(id);
   }
 
+
   public class LoginJsonView {
   }
 
