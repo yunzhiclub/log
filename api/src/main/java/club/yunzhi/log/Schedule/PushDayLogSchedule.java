@@ -43,7 +43,7 @@ public class PushDayLogSchedule {
     DingServiceImpl dingService = new DingServiceImpl();
 
     public PushDayLogSchedule(DayLogRepository dayLogRepository) {
-        this.dayLogRepository = dayLogRepository;
+      this.dayLogRepository = dayLogRepository;
     }
 
     @Scheduled(cron = "${time.cron}")
