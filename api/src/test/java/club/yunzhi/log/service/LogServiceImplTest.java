@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
+import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.DayLogRepository;
 import club.yunzhi.log.repository.LogRepository;
 import org.assertj.core.api.Assertions;
@@ -19,7 +20,8 @@ import java.util.List;
 public class LogServiceImplTest {
     @Autowired
     LogService logService;
-
+    @Autowired
+    ClientRepository clientRepository;
     @MockBean
     LogRepository logRepository;
     HttpServletRequest httpServletRequest;
@@ -29,7 +31,7 @@ public class LogServiceImplTest {
     public void before(){
         this.logRepository = Mockito.mock(LogRepository.class);
         this.httpServletRequest = Mockito.mock(HttpServletRequest.class);
-        LogServiceImpl logService = new LogServiceImpl(this.logRepository);
+        LogServiceImpl logService = new LogServiceImpl(this.logRepository, this.clientRepository);
         this.logService = Mockito.spy(logService);
     }
     @Test
