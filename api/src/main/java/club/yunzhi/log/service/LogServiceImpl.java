@@ -118,7 +118,6 @@ public class LogServiceImpl implements LogService {
                 //移除心跳包
                 Client client = clientRepository.findById(log.getClient().getId()).get();
                 client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
-                logger.debug("当前时间为" + new Timestamp(System.currentTimeMillis()));
                 clientRepository.save(client);
                 logger.debug("更新最后交互时间为" + client.getLastSendTime());
                 logIterator.remove();
