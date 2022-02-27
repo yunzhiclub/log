@@ -29,31 +29,30 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
   DingService dingService;
 
   /**
-   * 每隔1分钟检测一次客户端是否掉线
+   * 每隔5分钟检测一次客户端是否掉线
    */
   @Override
-  @Scheduled(cron = "0 */1 * * * *")
+  @Scheduled(cron = "0 */5 * * * *")
   public void offlineReminder() {
 
     List<Client> clients = (List<Client>) clientRepository.findAll();
 
     for (Client client : clients) {
       logger.debug("判断状态是否是离线");
-
       if (client.getLastSendTime() != null) {
         Long timestamp = client.getLastSendTime().getTime();
         Long currentTime = System.currentTimeMillis();
         if (currentTime - timestamp > 300000) {
           logger.debug("上一次响应时间超过5分钟，更改状态为离线");
           client.setState(false);
-
-          logger.debug("如果该客户端离线未提醒,向钉钉发送离线信息");
-          if (!client.getRemind()) {
+          if (client.getRemind() != null && !client.getRemind()) {
+            logger.debug("客户端离线未提醒,向钉钉发送离线信息");
+            client.setRemind(true);
             List<Ding> dings = dingService.getAllStartDing();
             logger.debug("执行推送任务");
+            logger.debug("客户端"+ client.getName() + "上次时间" + timestamp + "现在时间" + currentTime);
             for (Ding ding : dings) {
               if (ding.getClient().getId().equals(client.getId())) {
-                client.setRemind(true);
                 Date currentTime1 = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String dateString = formatter.format(currentTime1);
@@ -62,11 +61,12 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
               }
             }
           }
+          // 可能在循环的过程中 最后交互时间 已更改,故在保存前获取最新的交互时间
+          Client clientOfNew = clientRepository.findById(client.getId()).get();
+          client.setLastSendTime(clientOfNew.getLastSendTime());
           clientRepository.save(client);
         }
       }
     }
-
-    clientRepository.saveAll(clients);
   }
 }
