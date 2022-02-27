@@ -39,6 +39,7 @@ public class PushDayLogSchedule {
   List messages = new ArrayList<String>();
   String message;
   String ClientName;
+  String ClientState;
   DingServiceImpl dingService = new DingServiceImpl();
 
   public PushDayLogSchedule(DayLogRepository dayLogRepository) {
@@ -55,11 +56,17 @@ public class PushDayLogSchedule {
       DayLog dayLog = dayLogRepository.getLogOfYesterdayWithClientId(ding.getClient().getId());
       if (dayLog != null) {
         this.ClientName = dayLog.getClient().getName();
+        if (dayLog.getClient().getState().equals(true)) {
+          this.ClientState = "在线";
+        } else {
+          this.ClientState = "离线";
+        }
         this.LastSendTime = dayLog.getClient().getLastSendTime();
         this.INFOCount = dayLog.getInfoCount();
         this.ErrorCount = dayLog.getErrorCount();
         this.WARNCount = dayLog.getWarnCount();
         this.message = "客户端: " + this.ClientName + "\n"
+            + "客户端状态:  " + this.ClientState + "\n"
             + "最后交互时间:  " + this.LastSendTime + "\n"
             + "昨日INFO数:   " + this.INFOCount + "\n"
             + "昨日ERROR数:  " + this.ErrorCount + "\n"

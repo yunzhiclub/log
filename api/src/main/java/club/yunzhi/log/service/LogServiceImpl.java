@@ -4,6 +4,7 @@ import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
+import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.LogRepository;
 import com.mengyunzhi.core.service.CommonService;
 import com.mengyunzhi.core.service.YunzhiService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
@@ -27,8 +29,9 @@ import java.util.List;
 public class LogServiceImpl implements LogService {
     private final
     LogRepository logRepository;
-    @Autowired ClientService clientService;
-
+    @Autowired
+    ClientService clientService;
+    private final ClientRepository clientRepository;
     private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
     private final static String[] excludeSuffixes = {
@@ -61,25 +64,36 @@ public class LogServiceImpl implements LogService {
     private YunzhiService<Log> yunzhiService;
 
     @Autowired
-    public LogServiceImpl(LogRepository logRepository) {
+    public LogServiceImpl(LogRepository logRepository, ClientRepository clientRepository) {
         this.logRepository = logRepository;
         this.yunzhiService = new YunzhiServiceImpl();
+        this.clientRepository = clientRepository;
     }
 
     /**
      * 保存
-     * @param log 日志
+     *
+     * @param log    日志
      * @param client 客户端
      * @return 日志
      */
     @Override
     public Log save(Log log, Client client) {
+        if (log.getMessage() == null || log.getMessage() == "") {
+            Client client1 = clientRepository.findById(log.getClient().getId()).get();
+            client1.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+            logger.debug("更新最后交互时间");
+            clientRepository.save(client1);
+            logger.debug("移除心跳包");
+            return null;
+        }
         log.setClient(client);
         return logRepository.save(log);
     }
 
     /**
      * 批量保存
+     *
      * @param logs 日志list
      */
     @Override
@@ -96,20 +110,28 @@ public class LogServiceImpl implements LogService {
     private void filter(List<Log> logs) {
         Iterator<Log> logIterator = logs.iterator();
         while (logIterator.hasNext()) {
-           Log log = logIterator.next();
-           if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
-               // 移除日志等级为info或debug的
-               logIterator.remove();
-           } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
-               // 移除一些系统启动信息
-               for (String excludeSuffix :
-                       excludeSuffixes) {
-                   if (log.getLogger().startsWith(excludeSuffix)) {
-                       logIterator.remove();
-                       break;
-                   }
-               }
-           }
+            Log log = logIterator.next();
+            if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
+                // 移除日志等级为info或debug的
+                logIterator.remove();
+            } else if (log.getMessage() == null || log.getMessage() == "") {
+                //移除心跳包
+                Client client = clientRepository.findById(log.getClient().getId()).get();
+                client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+                clientRepository.save(client);
+                logger.debug("更新最后交互时间为" + client.getLastSendTime());
+                logIterator.remove();
+                logger.debug("移除心跳包");
+            } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
+                // 移除一些系统启动信息
+                for (String excludeSuffix :
+                        excludeSuffixes) {
+                    if (log.getLogger().startsWith(excludeSuffix)) {
+                        logIterator.remove();
+                        break;
+                    }
+                }
+            }
         }
     }
 

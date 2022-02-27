@@ -72,6 +72,17 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>, Ordered
         client.setTodayLog(dayLog);
         dayLogRepository.save(dayLog);
       }
+      logger.debug("判断客户端状态是否正确");
+      if (client.getLastSendTime() == null) {
+        client.setState(false);
+      } else {
+        Long timestamp = client.getLastSendTime().getTime();
+        Long currentTime = System.currentTimeMillis();
+        if(currentTime - timestamp > 300000) {
+          logger.debug("上一次响应时间超过5分钟，更改状态为离线");
+          client.setState(false);
+        }
+      }
     }
 
     clientRepository.saveAll(clients);
