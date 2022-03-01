@@ -94,14 +94,14 @@ public interface LogRepository extends JpaRepository<Log , Long>, JpaSpecificati
         String dateString = formatter.format(TimeStamp);
         Date currentDate = formatter.parse(dateString);
         List<Log> logs =  this.findAllByTimestampGreaterThanAndClient(currentDate, client);
-        // num: 10分钟内error的数据
-        int num = 0;
+        // 10分钟内error的数据
+        int numOfErrorInTenMin = 0;
         for (Log log: logs) {
-            if (log.getLevelCode().equals(LogLevelEnum.ERROR.getValue())) {
-                num++;
+            if (LogLevelEnum.ERROR.getValue().equals(log.getLevelCode())) {
+                numOfErrorInTenMin++;
             }
         }
-        return num;
+        return numOfErrorInTenMin;
     }
 
     List<Log> findAllByTimestampGreaterThanAndClient(Date date, Client client);
