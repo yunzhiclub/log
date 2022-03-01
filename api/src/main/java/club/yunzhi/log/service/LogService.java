@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface LogService {
     Log save(Log log, Client client);
-    void save(List<Log> logs);
+    void save(List<Log> logs) throws ParseException;
 
     /**
      * 分页数据
@@ -30,4 +30,10 @@ public interface LogService {
      * 删除三个月前的日志信息
      */
     void deleteLogOfThreeMonth() throws ParseException;
+
+    /**
+     * 获取该客户端10分钟内error日志的数量
+     * @return
+     */
+    int getNumOfErrorLogInTenMinutes(Client client) throws ParseException;
 }

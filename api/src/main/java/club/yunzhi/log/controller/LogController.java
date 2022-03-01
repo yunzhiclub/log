@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class  LogController {
      * @param logs 日志
      */
     @PostMapping("batchSave")
-    public void batchSave(@RequestBody List<Log> logs) {
+    public void batchSave(@RequestBody List<Log> logs) throws ParseException {
         logService.save(logs);
     }
 

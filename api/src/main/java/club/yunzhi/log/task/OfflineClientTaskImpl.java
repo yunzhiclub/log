@@ -61,9 +61,6 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
               }
             }
           }
-          // 可能在循环的过程中 最后交互时间 已更改,故在保存前获取最新的交互时间
-          Client clientOfNew = clientRepository.findById(client.getId()).get();
-          client.setLastSendTime(clientOfNew.getLastSendTime());
           clientRepository.save(client);
         }
       }
