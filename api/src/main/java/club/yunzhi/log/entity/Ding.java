@@ -9,103 +9,123 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * 钉钉
+ *
  * @author hzl
  */
 @Entity
 @SQLDelete(sql = "update `ding` set deleted = 1 where id = ?")
 @Where(clause = "deleted = false")
 public class Ding {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(base.class)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonView(base.class)
+  private Long id;
 
-    @JsonView(base.class)
-    private String webHook = "";
+  @JsonView(base.class)
+  private String webHook = "";
 
-    @JsonView(base.class)
-    private String secret = "";
+  @JsonView(base.class)
+  private String secret = "";
 
-    private String name;
+  private String name;
 
-    /**
-     * 连接状态，默认为正常
-     */
-    @JsonView(base.class)
-    private Boolean connectionStatus = true;
+  /**
+   * 上次向钉钉推送发送error的时间
+   */
+  @JsonView(base.class)
+  private Timestamp lastRemindErrorTime;
 
-    @ApiModelProperty("客户端")
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JsonView(ClientJsonView.class)
-    private Client client;
+  /**
+   * 连接状态，默认为正常
+   */
+  @JsonView(base.class)
+  private Boolean connectionStatus = true;
 
-    /**
-     * 启用状态，默认为启用
-     */
-    @JsonView(base.class)
-    private Boolean start = true;
+  @ApiModelProperty("客户端")
+  @ManyToOne
+  @NotFound(action = NotFoundAction.IGNORE)
+  @JsonView(ClientJsonView.class)
+  private Client client;
 
-    @JsonView(DayLog.DeletedJsonView.class)
-    protected Boolean deleted = false;
+  /**
+   * 启用状态，默认为启用
+   */
+  @JsonView(base.class)
+  private Boolean start = true;
 
-    public Long getId() {
-        return id;
-    }
+  @JsonView(DayLog.DeletedJsonView.class)
+  protected Boolean deleted = false;
 
-    public String getWebHook() {
-        return webHook;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setWebHook(String webHook) {
-        this.webHook = webHook;
-    }
+  public String getWebHook() {
+    return webHook;
+  }
 
-    public String getSecret() {
-        return secret;
-    }
+  public void setWebHook(String webHook) {
+    this.webHook = webHook;
+  }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
+  public String getSecret() {
+    return secret;
+  }
 
-    public Client getClient() {
-        return client;
-    }
+  public void setSecret(String secret) {
+    this.secret = secret;
+  }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
+  public Client getClient() {
+    return client;
+  }
 
-    public Boolean getConnectionStatus() {
-        return connectionStatus;
-    }
+  public void setClient(Client client) {
+    this.client = client;
+  }
 
-    public void setConnectionStatus(Boolean connectionStatus) {
-        this.connectionStatus = connectionStatus;
-    }
+  public Boolean getConnectionStatus() {
+    return connectionStatus;
+  }
 
-    public Boolean getStart() {
-        return start;
-    }
+  public void setConnectionStatus(Boolean connectionStatus) {
+    this.connectionStatus = connectionStatus;
+  }
 
-    public void setStart(Boolean start) {
-        this.start = start;
-    }
+  public Boolean getStart() {
+    return start;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setStart(Boolean start) {
+    this.start = start;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public interface base {}
-    public interface ClientJsonView {}
-    public interface DeleteAtJsonView {}
-    public interface DeletedJsonView {}
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setLastRemindErrorTime(final Timestamp lastRemindErrorTime) { this.lastRemindErrorTime = lastRemindErrorTime; }
+
+  public Timestamp getLastRemindErrorTime() { return lastRemindErrorTime; }
+
+
+  public interface base {
+  }
+
+  public interface ClientJsonView {
+  }
+
+  public interface DeleteAtJsonView {
+  }
+
+  public interface DeletedJsonView {
+  }
 }

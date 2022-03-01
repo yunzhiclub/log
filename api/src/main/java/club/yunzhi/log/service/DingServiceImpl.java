@@ -157,7 +157,7 @@ public class DingServiceImpl implements DingService {
   public Page<Ding> findAll(String name, Boolean connectStatus, Long clientId, Pageable pageable) {
     Page<Ding> dingPage = dingRepository.findAll(DingSpecs.isClientId(clientId)
         .and(DingSpecs.containingName(name))
-        .and(DingSpecs.isStart(connectStatus)), pageable);
+        .and(DingSpecs.isConnectStatus(connectStatus)), pageable);
     for (Ding ding : dingPage.getContent()) {
       ding.setWebHook(DingService.encodeWebhookOrSecret(ding.getWebHook()));
       ding.setSecret(DingService.encodeWebhookOrSecret(ding.getSecret()));

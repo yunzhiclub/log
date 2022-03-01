@@ -12,14 +12,14 @@ public class DingSpecs {
     if (startStatus == null) {
       return Specification.where(null);
     }
-    return (Specification<Ding>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("connectionStatus").as(Boolean.class),  startStatus);
+    return (Specification<Ding>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("start").as(Boolean.class),  startStatus);
   }
 
   public static Specification<Ding> isConnectStatus(Boolean status) {
     if (status == null) {
       return Specification.where(null);
     }
-    return (Specification<Ding>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("connectStatus").as(Boolean.class),  status);
+    return (Specification<Ding>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("connectionStatus").as(Boolean.class),  status);
   }
 
   public static Specification<Ding> isClientId(Long clientId) {
