@@ -42,8 +42,8 @@ public class OfflineClientTaskImpl implements OfflineClientTask {
       if (client.getLastSendTime() != null) {
         Long timestamp = client.getLastSendTime().getTime();
         Long currentTime = System.currentTimeMillis();
-        if (currentTime - timestamp > 300000) {
-          logger.debug("上一次响应时间超过5分钟，更改状态为离线");
+        if (currentTime - timestamp > 300000 && client.getState()) {
+          logger.debug("上一次响应时间超过5分钟并且为在线状态，更改状态为离线");
           client.setState(false);
           if (client.getRemind() != null && !client.getRemind()) {
             logger.debug("客户端离线未提醒,向钉钉发送离线信息");

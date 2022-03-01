@@ -65,7 +65,8 @@ public class ClientAuthAspect {
     logger.debug("设置客户端的状态为在线");
     if (!client.getState()) {
       client.setState(true);
-      List<Ding> dings = dingService.getAllStartDing();
+      List<Ding> dings = this.dingService.getAllStartDing();
+
       logger.debug("执行推送任务");
       for (Ding ding : dings) {
         if (ding.getClient().getId().equals(client.getId())) {
@@ -79,7 +80,6 @@ public class ClientAuthAspect {
       client.setRemind(false);
       clientRepository.save(client);
     }
-
     joinPoint.proceed();
   }
 }

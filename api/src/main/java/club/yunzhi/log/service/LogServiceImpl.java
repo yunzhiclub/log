@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
+import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class LogServiceImpl implements LogService {
     LogRepository logRepository;
     @Autowired
     ClientService clientService;
+    @Autowired
+    private DingService dingService;
     private final ClientRepository clientRepository;
     private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
@@ -112,7 +117,7 @@ public class LogServiceImpl implements LogService {
         while (logIterator.hasNext()) {
             Log log = logIterator.next();
             if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) < 0) {
-                // 移除日志等级为info或debug的
+                // 移除日志等级为trace或debug的
                 logIterator.remove();
             } else if (log.getMessage() == null || log.getMessage() == "") {
                 //移除心跳包
@@ -129,6 +134,18 @@ public class LogServiceImpl implements LogService {
                     if (log.getLogger().startsWith(excludeSuffix)) {
                         logIterator.remove();
                         break;
+                    }
+                }
+            } else if (log.getLevelCode().equals(LogLevelEnum.ERROR.getValue())) {
+                // 提醒客户端出现了error
+                Client client = log.getClient();
+                logger.debug("提醒客户端出现了error");
+                List<Ding> dings = this.dingService.getAllStartDing();
+                for (Ding ding : dings) {
+                    if(ding.getClient().getId().equals(log.getClient().getId())) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateString = formatter.format(new Date());
+                        dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n" + ("客户端: " + client.getName() + "  出现了ERROR"));
                     }
                 }
             }

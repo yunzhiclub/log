@@ -28,7 +28,7 @@ import java.net.URLEncoder;
 import java.util.Base64;
 import java.util.List;
 
-@Service("DingServiceImpl")
+@Service()
 public class DingServiceImpl implements DingService {
   private final Logger logger = LoggerFactory.getLogger(DingServiceImpl.class);
 
