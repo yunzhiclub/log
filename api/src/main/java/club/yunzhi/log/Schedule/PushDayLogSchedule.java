@@ -29,9 +29,6 @@ public class PushDayLogSchedule {
   private final DayLogRepository dayLogRepository;
   private final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
 
-  Date currentTime = new Date();
-  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-  String dateString = formatter.format(currentTime);
   Long INFOCount;
   Long ErrorCount;
   Long WARNCount;
@@ -69,12 +66,16 @@ public class PushDayLogSchedule {
             + "客户端状态:  " + this.ClientState + "\n"
             + "最后交互时间:  " + this.LastSendTime + "\n"
             + "昨日INFO数:   " + this.INFOCount + "\n"
-            + "昨日ERROR数:  " + this.ErrorCount + "\n"
-            + "昨日WARN数:   " + this.WARNCount + "\n";
+            + "昨日WARN数:   " + this.WARNCount + "\n"
+            + "昨日ERROR数:  " + this.ErrorCount + "\n";
         StringBuffer resultBuffer = new StringBuffer();
         String result = message;
         resultBuffer.append(result);
         String messageOfLog = resultBuffer.toString();
+        // 之前放在定时任务外面，导致只在初始化时获取时间，时间错误
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
         dingService.dingRequest(ding, "执行定时推送任务" + "\n" + dateString + "\n" + messageOfLog);
         System.out.println("执行定时推送任务" + dateString + messageOfLog);
       }
