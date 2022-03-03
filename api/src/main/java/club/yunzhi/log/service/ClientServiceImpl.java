@@ -199,6 +199,7 @@ public class ClientServiceImpl implements ClientService {
     if (dayLog == null) {
       dayLog = new DayLog(client);
       dayLogRepository.save(dayLog);
+      dayLog = dayLogRepository.findByClientId(client.getId());
     }
     return dayLog;
   }
