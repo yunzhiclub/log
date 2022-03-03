@@ -40,6 +40,8 @@ public interface DayLogRepository extends JpaRepository<DayLog, Long> {
 
     DayLog findTopByDayBetweenAndClientId(Date startTime ,Date endTime, Long clientId);
 
+    DayLog findByClientId(Long clientId);
+
     @Modifying
     @Transactional
     void deleteAllByDayIsLessThanAndClient(Date day, Client client);

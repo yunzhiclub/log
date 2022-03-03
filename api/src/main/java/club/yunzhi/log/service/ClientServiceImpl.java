@@ -160,9 +160,11 @@ public class ClientServiceImpl implements ClientService {
           errorCount++;
         }
       }
-
       Client client1 = clientRepository.findById(logs.get(0).getClient().getId()).get();
       client1.setLastSendTime(new Timestamp(System.currentTimeMillis()));
+      if (client1.getTodayLog() == null || !client1.getTodayLog().isToday()) {
+        client1.setTodayLog(this.getDayLog(client1));
+      }
       client1.getTodayLog().addErrorCount(errorCount);
       client1.getTodayLog().addWarnCount(warnCount);
       client1.getTodayLog().addInfoCount(infoCount);
@@ -185,5 +187,19 @@ public class ClientServiceImpl implements ClientService {
       return log.getTimestamp();
     }
     return null;
+  }
+
+  /**
+   * 返回客户端的今日日志
+   * 如果不存在则新建
+   * @param client client
+   */
+  private DayLog getDayLog(Client client) {
+    DayLog dayLog = dayLogRepository.findByClientId(client.getId());
+    if (dayLog == null) {
+      dayLog = new DayLog(client);
+      dayLogRepository.save(dayLog);
+    }
+    return dayLog;
   }
 }
