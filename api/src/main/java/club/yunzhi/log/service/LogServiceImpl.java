@@ -124,7 +124,7 @@ public class LogServiceImpl implements LogService {
         // 移除日志等级为trace或debug的
         logIterator.remove();
       } else if (log.getMessage() == null || log.getMessage() == "") {
-        // 更新在线状态，离线已提醒字段，加上悲观锁，防止与心跳服务造成数据覆盖
+        // 更新最后交互日期，加上悲观锁，防止与离线任务冲突造成数据覆盖
         transactionalService.setClientLastSendTimeWithPessimisticLock(log.getClient().getId());
 
         logIterator.remove();
