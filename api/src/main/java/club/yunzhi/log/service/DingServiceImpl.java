@@ -1,7 +1,9 @@
 package club.yunzhi.log.service;
 
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Ding;
+import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.specs.DingSpecs;
 import club.yunzhi.log.task.ApplicationContextUtil;
@@ -20,12 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Service()
@@ -34,6 +39,8 @@ public class DingServiceImpl implements DingService {
 
   @Autowired
   DingRepository dingRepository;
+  @Autowired
+  ClientRepository clientRepository;
 
   //请求地址以及access_token
 //    private static String webHook = "https://oapi.dingtalk.com/robot/send?access_token=8081de0fdfcda55f8d70c168d03e73728ef36abea63c3c10048cbd054913cfeb";
@@ -197,4 +204,41 @@ public class DingServiceImpl implements DingService {
     }
       dingRepository.save(ding);
   }
+
+  @Override
+  public void pushOnlineMessage(Client client) {
+    client.setState(true);
+    List<Ding> dings = this.getAllStartDing();
+
+    logger.debug("执行推送任务");
+    for (Ding ding : dings) {
+      if (ding.getClient().getId().equals(client.getId())) {
+        Date currentTime1 = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime1);
+        this.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
+                + ding.getName() + "机器人提示: 客户端" + client.getName() + " "+ "已上线");
+      }
+    }
+    client.setRemind(false);
+    // 由于上线提醒触发冲突很少，暂不使用悲观锁
+    clientRepository.save(client);
+  }
+
+  @Override
+  public void pushOffLineMessage(Client client) {
+    logger.debug("客户端离线未提醒,向钉钉发送离线信息");
+    List<Ding> dings = this.getAllStartDing();
+    logger.debug("执行推送任务");
+    for (Ding ding : dings) {
+      if (ding.getClient().getId().equals(client.getId())) {
+        Date currentTime1 = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime1);
+        this.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
+                + ding.getName() + "机器人提示: 客户端" + client.getName() + " "+ "已经离线");
+      }
+    }
+  }
+
 }

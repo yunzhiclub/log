@@ -1,5 +1,6 @@
 package club.yunzhi.log.service;
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Ding;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,16 @@ public interface DingService {
   Ding findById(Long id);
 
   void deleteById(Long id);
+
+  /**
+   * 向推送该client已经上线
+   * @param client 客户端
+   */
+  void pushOnlineMessage(Client client);
+
+  /**
+   * 向推送该client已经离线
+   * @param client 客户端
+   */
+  void pushOffLineMessage(Client client);
 }
