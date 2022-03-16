@@ -125,7 +125,8 @@ public class LogServiceImpl implements LogService {
         logIterator.remove();
       } else if (log.getMessage() == null || log.getMessage() == "") {
         // 更新最后交互日期，加上悲观锁，防止与离线任务冲突造成数据覆盖
-        transactionalService.setClientLastSendTimeWithPessimisticLock(log.getClient().getId());
+        Client client = transactionalService.setClientLastSendTimeWithPessimisticLock(log.getClient().getId());
+        logger.debug("更新最后交互时间为" + client.getLastSendTime());
 
         logIterator.remove();
         logger.debug("移除心跳包");
