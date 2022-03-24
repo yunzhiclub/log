@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 
 @Service
-public class TransactionalServiceIml implements TransactionalService {
+public class TransactionalServiceImpl implements TransactionalService {
   @Autowired
   private ClientRepository clientRepository;
 
-  private final Logger logger = LoggerFactory.getLogger(TransactionalServiceIml.class);
+  private final Logger logger = LoggerFactory.getLogger(TransactionalServiceImpl.class);
 
   @Override
   @Transactional(rollbackFor = Exception.class)
