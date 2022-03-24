@@ -33,7 +33,6 @@ public class PushDayLogSchedule {
   Long ErrorCount;
   Long WARNCount;
   Timestamp LastSendTime;
-  List messages = new ArrayList<String>();
   String message;
   String ClientName;
   String ClientState;
@@ -62,12 +61,18 @@ public class PushDayLogSchedule {
         this.INFOCount = dayLog.getInfoCount();
         this.ErrorCount = dayLog.getErrorCount();
         this.WARNCount = dayLog.getWarnCount();
-        this.message = "客户端: " + this.ClientName + "\n"
-            + "客户端状态:  " + this.ClientState + "\n"
-            + "最后交互时间:  " + this.LastSendTime + "\n"
-            + "昨日INFO数:   " + this.INFOCount + "\n"
-            + "昨日WARN数:   " + this.WARNCount + "\n"
-            + "昨日ERROR数:  " + this.ErrorCount + "\n";
+        if (this.ClientState == "在线") {
+          this.message = "客户端: " + this.ClientName + "  " + this.ClientState  +  "\uD83D\uDCF6" + "\n"
+                  + "昨日INFO数:   " + this.INFOCount + "\n"
+                  + "昨日WARN数:   " + this.WARNCount + "\n"
+                  + "昨日ERROR数:  " + this.ErrorCount + "\n";
+        } else  {
+          this.message = "客户端: " + this.ClientName + "  " + this.ClientState + "❗" + "\n"
+                  + "最后交互时间:  " + this.LastSendTime + "\n"
+                  + "昨日INFO数:   " + this.INFOCount + "\n"
+                  + "昨日WARN数:   " + this.WARNCount + "\n"
+                  + "昨日ERROR数:  " + this.ErrorCount + "\n";
+        }
         StringBuffer resultBuffer = new StringBuffer();
         String result = message;
         resultBuffer.append(result);
@@ -76,7 +81,7 @@ public class PushDayLogSchedule {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
-        dingService.dingRequest(ding, "执行定时推送任务" + "\n" + dateString + "\n" + messageOfLog);
+        dingService.dingRequest(ding, messageOfLog);
         System.out.println("执行定时推送任务" + dateString + messageOfLog);
       }
     }

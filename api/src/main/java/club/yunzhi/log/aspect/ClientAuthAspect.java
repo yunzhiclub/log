@@ -32,8 +32,6 @@ public class ClientAuthAspect {
   HttpServletRequest httpServletRequest;
   private final ClientRepository clientRepository;
 
-
-
   private final DingService dingService;
 
   @Autowired
@@ -62,23 +60,9 @@ public class ClientAuthAspect {
     }
     logs.forEach(log -> log.setClient(client));
 
-    logger.debug("设置客户端的状态为在线");
+    logger.debug("如果不在线，设置客户端的状态为在线");
     if (!client.getState()) {
-      client.setState(true);
-      List<Ding> dings = this.dingService.getAllStartDing();
-
-      logger.debug("执行推送任务");
-      for (Ding ding : dings) {
-        if (ding.getClient().getId().equals(client.getId())) {
-          Date currentTime1 = new Date();
-          SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-          String dateString = formatter.format(currentTime1);
-          dingService.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
-                  + ding.getName() + "机器人提示: 客户端" + client.getName() + "已上线");
-        }
-      }
-      client.setRemind(false);
-      clientRepository.save(client);
+       dingService.pushOnlineMessage(client);
     }
     joinPoint.proceed();
   }

@@ -1,14 +1,12 @@
 package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
-import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
 import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.LogRepository;
-import com.mengyunzhi.core.service.CommonService;
 import com.mengyunzhi.core.service.YunzhiService;
 import com.mengyunzhi.core.service.YunzhiServiceImpl;
 import org.slf4j.Logger;
@@ -39,6 +37,9 @@ public class LogServiceImpl implements LogService {
   private DingService dingService;
   @Autowired
   private DingRepository dingRepository;
+  @Autowired
+  private TransactionalService transactionalService;
+
   private final ClientRepository clientRepository;
   private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
@@ -115,7 +116,7 @@ public class LogServiceImpl implements LogService {
     clientService.update(logs);
   }
 
-  private void filter(List<Log> logs) throws ParseException {
+  void filter(List<Log> logs) throws ParseException {
     Iterator<Log> logIterator = logs.iterator();
     while (logIterator.hasNext()) {
       Log log = logIterator.next();
@@ -123,11 +124,10 @@ public class LogServiceImpl implements LogService {
         // 移除日志等级为trace或debug的
         logIterator.remove();
       } else if (log.getMessage() == null || log.getMessage() == "") {
-        //移除心跳包
-        Client client = clientRepository.findById(log.getClient().getId()).get();
-        client.setLastSendTime(new Timestamp(System.currentTimeMillis()));
-        clientRepository.save(client);
+        // 更新最后交互日期，加上悲观锁，防止与离线任务冲突造成数据覆盖
+        Client client = transactionalService.setClientLastSendTimeWithPessimisticLock(log.getClient().getId());
         logger.debug("更新最后交互时间为" + client.getLastSendTime());
+
         logIterator.remove();
         logger.debug("移除心跳包");
       } else if (log.getLevelCode().compareTo(LogLevelEnum.INFO.getValue()) == 0) {
@@ -148,15 +148,15 @@ public class LogServiceImpl implements LogService {
             Long currentTime = System.currentTimeMillis();
             int number = this.getNumOfErrorLogInTenMinutes(ding.getClient());
             logger.debug("发送error频率间隔为10分钟");
-            if (ding.getLastRemindErrorTime() == null || (currentTime - (Long)ding.getLastRemindErrorTime().getTime() > 600000)) {
+            if (ding.getLastRemindErrorTime() == null || (currentTime - (Long) ding.getLastRemindErrorTime().getTime() > 600000)) {
               logger.debug("提醒客户端出现了error");
               SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
               String dateString = formatter.format(new Date());
               String message = "执行推送任务" + "\n" + dateString + "\n"
                       + ("客户端: " + client.getName() + "  出现了ERROR") + "\n"
-                      + "内容：" + log.getMessage() + "\n" ;
-              if (number > 0){
-                message =  message.concat("该客户端10分钟内的error数: " + number);
+                      + "内容：" + log.getMessage() + "\n";
+              if (number > 0) {
+                message = message.concat("该客户端10分钟内的error数: " + number);
               }
               dingService.dingRequest(ding, message);
               // 设置当前推送error的时间
