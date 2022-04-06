@@ -1,0 +1,16 @@
+<form class="container-sm"  *ngIf="user" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
+  <div class="mb-3 row">
+    <label class="col-3 text-right col-form-label">ding<code>*</code></label>
+    <div class="col-7">
+      <app-ding-select [formControlName]="keys.dingId"></app-ding-select>
+      <small>设置您所需要推送所有状态为启用的客户端信息的钉钉</small>
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <div class="col-10 offset-5">
+      <button [disabled]="formGroup.invalid"
+              class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
+      </button>
+    </div>
+  </div>
+</form>

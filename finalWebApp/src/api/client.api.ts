@@ -39,7 +39,8 @@ export class ClientApi implements MockApiInterface {
             lastStartTime: time,
             lastSendTime: time,
             todayLog: todayLog,
-            state: randomBoolean()
+            state: randomBoolean(),
+            start: randomBoolean()
           } as Client);
         }
         return {
@@ -96,6 +97,11 @@ export class ClientApi implements MockApiInterface {
         method: 'DELETE',
         url: `${this.url}/(\\d+)`,
         description: '删除'
+      },
+      {
+        method: 'DELETE',
+        url: `${this.url}/startOrEnd/(\\d+)`,
+        description: '启用或停用客户端'
       },
       {
         method: 'GET',

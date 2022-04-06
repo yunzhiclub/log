@@ -44,6 +44,12 @@ const routes: Routes = [
           title: '机器人设置'
         },
         loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule)
+      }, {
+        path: 'systemSetting',
+        data: {
+          title: '系统设置'
+        },
+        loadChildren: () => import('./system-setting/system-setting.module').then(m => m.SystemSettingModule)
       }
     ]
   }

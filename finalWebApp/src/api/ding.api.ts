@@ -88,7 +88,7 @@ export class DingApi implements MockApiInterface {
           }
           // 断言传入的数据不为空
           Assert.isString(body.name, 'name must be set');
-          Assert.isNumber(body.client, 'clientId must be set');
+          Assert.isNumber(body.client.id, 'clientId must be set');
           Assert.isString(body.webHook, 'webHook must be set');
           Assert.isString(body.secret, 'secret must be set');
           // 构造返回数据
@@ -133,6 +133,20 @@ export class DingApi implements MockApiInterface {
             body.name,
             body.secret
           );
+        }
+      }, {
+        method: 'GET',
+        url: this.url+'/getAll',
+        description: '获取所有ding',
+        result: () => {
+          let dings = [] as Ding[];
+          for(let i = 0; i< randomNumber(); i++){
+            dings.push({
+              id: randomNumber(i),
+              name: randomString('name')
+            } as Ding)
+          }
+          return dings;
         }
       },
     ]

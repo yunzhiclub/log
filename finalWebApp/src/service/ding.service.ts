@@ -56,6 +56,13 @@ export class DingService {
   }
 
   /**
+   * 获取所有ding
+   */
+  public getAll(): Observable<Array<Ding>> {
+    return this.httpClient.get<Array<Ding>>(`${this.baseUrl}/getAll`);
+  }
+
+  /**
    * 编辑
    * @param dingId 机器人id
    * @param ding 机器人

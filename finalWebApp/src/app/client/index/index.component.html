@@ -28,7 +28,8 @@
     <th>今日info数</th>
     <th>今日warning数</th>
     <th>今日error数</th>
-    <th>状态</th>
+    <th>在线状态</th>
+    <th>启用状态</th>
     <th class="text-center">操作</th>
   </tr>
   </thead>
@@ -52,16 +53,23 @@
     <td>{{client.todayLog?.warnCount}}</td>
     <td>{{client.todayLog?.errorCount}}</td>
     <td [innerHTML]="client.state | statePipe"></td>
+    <td [innerHTML]="client.start | start"></td>
     <td class="text-right">
       <a class="btn btn-outline-primary btn-sm" routerLink="edit/{{client.id}}">
         <i class="fas fa-pen"></i>编辑
       </a>
+      <span (click)="onDelete(client)" class="btn btn-outline-danger btn-sm">
+        <i class="fas fa-trash-alt"></i>删除
+      </span>
       <span (click)="onOpenModal(client.id)" class="btn btn-outline-success btn-sm">
         <i class="fas fa-broom"></i>清理
       </span>
-      <span (click)="onDelete(client)" class="btn btn-sm btn-outline-danger">
-        <i class="far fa-trash-alt"></i>删除
-      </span>
+      <button *ngIf="!client.start" (click)="startOrEnd(client)" class="btn btn-sm btn-outline-warning">
+        <i class="fas fa-key"></i>启用
+      </button>
+      <button *ngIf="client.start" (click)="startOrEnd(client)" class="btn btn-sm btn-outline-danger">
+        <i class="far fa-trash-alt"></i>停用
+      </button>
     </td>
   </tr>
   </tbody>

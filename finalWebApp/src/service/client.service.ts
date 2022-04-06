@@ -86,6 +86,14 @@ export class ClientService {
   }
 
   /**
+   * 启用或停用客户端
+   * @param id 客户端id
+   */
+  public startOrEnd(id: number): Observable<null> {
+    return this.httpClient.delete<null>(`${this.baseurl}/startOrEnd/${id.toString()}`);
+  }
+
+  /**
    * 清理客户端在时间戳之前产生的日志
    * @param clientId 客户端id
    * @param timeStamp 时间戳

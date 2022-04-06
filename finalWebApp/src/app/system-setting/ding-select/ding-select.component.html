@@ -1,0 +1,6 @@
+<select class="form-control" [formControl]="dingId" >
+  <option [ngValue]="null">请选择</option>
+  <option *ngFor="let ding of dings"  [ngValue]="ding.id">
+    {{ding.name}}
+  </option>
+</select>
