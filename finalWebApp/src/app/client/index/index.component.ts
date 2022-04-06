@@ -94,7 +94,7 @@ export class IndexComponent implements OnInit {
 
   /**
    * 启用或停用客户端
-   * @param  机器人
+   * @param  client 客户端
    */
   startOrEnd(client: Client) {
     Assert.isNotNullOrUndefined(client.id, 'id未定义');

@@ -23,7 +23,6 @@ export class SettingService {
    * 新增
    */
   save(ding: Ding): Observable<Ding> {
-    console.log(ding.client.id);
     return this.httpClient.post<Ding>(`${this.url}`,ding)
       .pipe(map(data => new Ding(data)));
   }
