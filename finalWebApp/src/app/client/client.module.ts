@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StatePipeModule} from "./state/state,pipe.module";
 import {DateModule} from '../share/component/date/date.module';
 import {TokenShowModule} from "./token-show/token-show.module";
+import {PipeModule} from '../setting/pipe/pipe.module';
 
 
 
@@ -26,7 +27,8 @@ import {TokenShowModule} from "./token-show/token-show.module";
     StatePipeModule,
     TokenShowModule,
     YzModalModule,
-    DateModule
+    DateModule,
+    PipeModule
   ]
 })
 export class ClientModule { }

@@ -29,6 +29,11 @@ export class MenuService {
       icon: 'fa fa-cog'
     },
     {
+      name: '系统设置',
+      url: 'systemSetting',
+      icon: 'fa fa-cog'
+    },
+    {
       name: '用户管理',
       url: 'user',
       icon: 'fa fa-user-cog',

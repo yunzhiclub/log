@@ -4,6 +4,7 @@ import {randomNumber, randomString} from '@yunzhi/utils';
 import {Page} from '@yunzhi/ng-common';
 import {HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Ding} from '../entity/ding';
 
 export class UserApi implements MockApiInterface {
   protected url = 'user';
@@ -12,6 +13,9 @@ export class UserApi implements MockApiInterface {
     id: randomNumber(12345),
     name: randomString('name'),
     username: randomString('username'),
+    ding: {
+      id: 1
+    } as Ding
   } as User;
 
   /**
@@ -80,6 +84,7 @@ export class UserApi implements MockApiInterface {
           username: randomString('user'),
           password: randomString('密码'),
           email: '1234567891@163.com',
+          dingId: 1
         } as User;
       }
     },

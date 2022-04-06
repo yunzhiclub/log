@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {StatePipeModule} from "../state/state,pipe.module";
 import {TokenShowModule} from "../token-show/token-show.module";
 import {DateModule} from '../../share/component/date/date.module';
+import {PipeModule} from '../../setting/pipe/pipe.module';
 
 describe('IndexComponent', () => {
   let component: IndexComponent;
@@ -27,7 +28,8 @@ describe('IndexComponent', () => {
         StatePipeModule,
         TokenShowModule,
         YzModalModule,
-        DateModule
+        DateModule,
+        PipeModule
       ]
     })
       .compileComponents();

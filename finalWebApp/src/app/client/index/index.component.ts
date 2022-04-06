@@ -8,6 +8,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {getDefaultWhenValueIsInValid} from '@yunzhi/utils';
 import {config} from '../../../conf/app.config';
 import {ClientService} from '../../../service/client.service';
+import {Ding} from '../../../entity/ding';
 
 /**
  * 客户端管理首页
@@ -89,6 +90,22 @@ export class IndexComponent implements OnInit {
         this.pageData = page;
       });
     });
+  }
+
+  /**
+   * 启用或停用客户端
+   * @param  机器人
+   */
+  startOrEnd(client: Client) {
+    Assert.isNotNullOrUndefined(client.id, 'id未定义');
+    this.commonService.confirm((confirm = false) => {
+      if (confirm) {
+        this.clientService.startOrEnd(client.id)
+          .subscribe(() => {
+            this.commonService.success(() => client.start = !client.start);
+          });
+      }
+    }, '');
   }
 
   /**

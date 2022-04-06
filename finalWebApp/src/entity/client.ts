@@ -36,7 +36,12 @@ export class Client {
    */
   state: boolean;
 
-  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: number; lastStartTime?: number; todayLog?: DayLog; state?: boolean;}) {
+  /**
+   * 启用，停用
+   */
+  start: boolean
+
+  constructor(param?: {id?: number; name: string; token?: string; url?:string; lastSendTime?: number; lastStartTime?: number; todayLog?: DayLog; state?: boolean; start?: boolean}) {
 
     if (!param) {
       return;
@@ -50,5 +55,6 @@ export class Client {
     this.lastStartTime = param.lastStartTime ? param.lastStartTime : null;
     this.todayLog = param.todayLog ? param.todayLog : null;
     this.state = param.state ? param.state : false;
+    this.start = param.start ? param.start : false;
   }
 }
