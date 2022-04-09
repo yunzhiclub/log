@@ -2,6 +2,7 @@ package club.yunzhi.log.service;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
+import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.Log;
 import club.yunzhi.log.enums.LogLevelEnum;
 import club.yunzhi.log.repository.ClientRepository;
@@ -9,6 +10,7 @@ import club.yunzhi.log.repository.DayLogRepository;
 import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.repository.LogRepository;
 import club.yunzhi.log.repository.specs.ClientSpecs;
+import club.yunzhi.log.repository.specs.DingSpecs;
 import com.mengyunzhi.core.service.CommonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +45,9 @@ public class ClientServiceImpl implements ClientService {
 
   @Autowired
   DingService dingService;
+
+  @Autowired
+  private TransactionalService transactionalService;
 
   @Autowired
   public ClientServiceImpl(ClientRepository clientRepository) {
@@ -139,6 +144,19 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
+  public void startOrEnd (Long id) {
+    Client client = this.findById(id);
+    logger.debug("改变客户端的启用状态");
+    if (!client.getState()) {
+      logger.debug("改变客23132");
+      client.setState(!client.getState());
+    } else {
+      client.setState(false);
+    }
+    clientRepository.save(client);
+  }
+
+  @Override
   @Async
   public void update(List<Log> logs) {
     if (logs.size() > 0) {
@@ -173,6 +191,13 @@ public class ClientServiceImpl implements ClientService {
       }
       clientRepository.save(client1);
     }
+  }
+
+  @Override
+  public List<Client> getAllStartClient() {
+    logger.debug("获取所有状态为启用的客户端");
+    List<Client> clients = (List<Client>) clientRepository.findAll(ClientSpecs.isStart(true));
+    return clients;
   }
 
   /**

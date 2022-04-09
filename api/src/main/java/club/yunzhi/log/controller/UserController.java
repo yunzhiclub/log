@@ -1,5 +1,6 @@
 package club.yunzhi.log.controller;
 
+import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.UserRepository;
 import club.yunzhi.log.service.UserService;
@@ -119,15 +120,15 @@ public class UserController {
   }
 
 
-  public class LoginJsonView {
+  public class LoginJsonView implements User.DingJsonView, Ding.ClientJsonView {
   }
 
-  public class SaveJsonView {
+  public class SaveJsonView implements User.DingJsonView, Ding.ClientJsonView {
   }
 
-  public class UpdateJsonView {
+  public class UpdateJsonView implements User.DingJsonView, Ding.ClientJsonView {
   }
 
-  public class GetAllJsonView {
+  public class GetAllJsonView  implements User.DingJsonView, Ding.ClientJsonView{
   }
 }

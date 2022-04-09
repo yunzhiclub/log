@@ -94,7 +94,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
       user = userRepository.findByUsername(authentication.getName())
           .orElseThrow(() -> new EntityNotFoundException("用户实体不存在"));
     }
-
     return user;
   }
 
@@ -148,6 +147,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     oldUser.setUsername(newUser.getUsername());
     oldUser.setName(newUser.getName());
     oldUser.setEmail(newUser.getEmail());
+    if (newUser.getDing() != null) {
+      oldUser.setDing(newUser.getDing());
+    }
     return this.userRepository.save(oldUser);
   }
 

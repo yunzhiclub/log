@@ -1,6 +1,7 @@
 package club.yunzhi.log.repository.specs;
 
 import club.yunzhi.log.entity.Client;
+import club.yunzhi.log.entity.Ding;
 import org.springframework.data.jpa.domain.Specification;
 
 /**
@@ -14,5 +15,12 @@ public class ClientSpecs {
     } else {
       return Specification.where(null);
     }
+  }
+
+  public static Specification<Client> isStart(Boolean startStatus) {
+    if (startStatus == null) {
+      return Specification.where(null);
+    }
+    return (Specification<Client>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("start").as(Boolean.class),  startStatus);
   }
 }

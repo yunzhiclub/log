@@ -11,6 +11,7 @@ import club.yunzhi.log.utils.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -78,6 +79,15 @@ public class ClientController {
   @JsonView(get.class)
   public Client getById(@PathVariable Long id) {
     return clientService.findById(id);
+  }
+
+  /**
+   * 停用或启用客户端
+   */
+  @DeleteMapping("startOrEnd/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void startOrEnd(@PathVariable Long id) {
+    this.clientService.startOrEnd(id);
   }
 
   /**

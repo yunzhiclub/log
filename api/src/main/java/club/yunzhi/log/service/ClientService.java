@@ -18,6 +18,8 @@ public interface ClientService {
 
   Client getOneUnsavedClient();
 
+  List<Client> getAllStartClient();
+
   Page<Client> page(String name, Pageable pageable);
 
   /**
@@ -52,6 +54,12 @@ public interface ClientService {
    * @param id
    */
   void deleteById(Long id);
+
+  /**
+   * 停用或启用客户端
+   * @param id
+   */
+  void startOrEnd(Long id);
 
   boolean existByToken(String token);
 
