@@ -89,6 +89,11 @@ public interface UserService {
    */
   void deleteById(Long id);
 
+  /**
+   * 停用用户的钉钉
+   * 该钉钉用于推送所有启用的客户端信息
+   */
+   void stopDing(Long id);
 
   /**
    * 判断用户是否登录

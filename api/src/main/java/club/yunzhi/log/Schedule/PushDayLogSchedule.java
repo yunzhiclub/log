@@ -43,8 +43,8 @@ public class PushDayLogSchedule {
     this.dayLogRepository = dayLogRepository;
   }
 
-  @Scheduled(cron = "0 */2 * * * *")
-  public void pushDayLogSchedule() {
+  @Scheduled(cron = "${time.cron}")
+  public void pushDayLogSchedule() throws ParseException {
     System.out.println("执行推送任务");
     // 获取所有用户
     List<User> users = (List<User>) userRepository.findAll();
@@ -53,39 +53,72 @@ public class PushDayLogSchedule {
      // 获取钉钉
       Ding ding = user.getDing();
       if (ding != null) {
-        logger.debug("设置推送信息");
-        String message = this.setMessage();
-        if (message != null) {
-          // 进行推送
-          dingService.dingRequest(ding, message);
-        }
+        logger.debug("设置在线信息");
+        String message = this.setOnlineMessage();
+        logger.debug("设置日志信息");
+        message = message.concat(this.setLogMessage());
+
+        // 进行推送
+        dingService.dingRequest(ding, message);
       }
     }
   }
 
   /**
-   * 设置推送信息
+   * 设置在线信息
    * 有启用的客户端离线则推送离线
    * 否则推送 "都为在线状态"
    */
-  public String setMessage() {
-    String message = "每日推送：" + "\n";
+  public String setOnlineMessage() {
+    String message = "日常推送：";
     boolean allOnline = true;
     List<Client> clients = clientService.getAllStartClient();
     if (clients.isEmpty()) {
-      return null;
+      return message.concat("\n无启用的客户端\n");
     }
 
     for (Client client : clients) {
       if (!client.getState()) {
-        message = message.concat("客户端： " + client.getName() + "已离线" + "❗" + "\n");
+        if (allOnline) {
+          message = message.concat("❗\n" + "离线客户端\t\t\t\t\t\t\t\t" + "最后交互" + "\n");
+        }
+        Timestamp  lastSendTime = client.getLastSendTime();
+        message = message.concat( client.getName() + "\t\t" + lastSendTime + "\n");
         allOnline = false;
       }
     }
     if (allOnline) {
-      message = message.concat("所有启用客户端都为在线状态 " + "\uD83D\uDCF6");
+      message = message.concat( "\uD83D\uDCF6" + "\n" + "所有启用客户端都为在线状态 "  + "\n");
     }
     return message;
+  }
+
+
+  /**
+   * 设置所有启用客户端昨日日志信息
+   */
+  public String setLogMessage() throws ParseException {
+    String message = "\n昨日日志数：\n" + "" +  "客户端   INFO " + " WARN " + " ERROR \n";
+
+    List<Client> clients = clientService.getAllStartClient();
+    if (clients.isEmpty()) {
+      return message.concat("无启用的客户端");
+    }
+
+    for (Client client : clients) {
+      DayLog dayLog = dayLogRepository.getLogOfYesterdayWithClientId(client.getId());
+      if (dayLog != null) {
+        String name = dayLog.getClient().getName();
+        Long infoCount= dayLog.getInfoCount();
+        Long errorCount = dayLog.getErrorCount();
+        Long warnCount = dayLog.getWarnCount();
+        message = message.concat( name + "\t\t\t" +
+                infoCount + "\t\t"  +
+                errorCount + "\t\t" +
+                warnCount + "\n");
+      }
+    }
+    return  message;
   }
 }
 

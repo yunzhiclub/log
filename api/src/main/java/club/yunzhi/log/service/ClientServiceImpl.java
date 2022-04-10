@@ -147,12 +147,9 @@ public class ClientServiceImpl implements ClientService {
   public void startOrEnd (Long id) {
     Client client = this.findById(id);
     logger.debug("改变客户端的启用状态");
-    if (!client.getState()) {
-      logger.debug("改变客23132");
-      client.setState(!client.getState());
-    } else {
-      client.setState(false);
-    }
+    // 在null 或者 停用时设置为ture, 否则为false
+    client.setStart(client.getStart() == null || !client.getStart());
+
     clientRepository.save(client);
   }
 
