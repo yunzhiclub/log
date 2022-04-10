@@ -98,7 +98,7 @@ export class IndexComponent implements OnInit {
    */
   startOrEnd(client: Client) {
     Assert.isNotNullOrUndefined(client.id, 'id未定义');
-    this.commonService.confirm((confirm = false) => {
+    this.commonService.confirm((confirm) => {
       if (confirm) {
         this.clientService.startOrEnd(client.id)
           .subscribe(() => {

@@ -148,6 +148,11 @@ export class UserApi implements MockApiInterface {
         url: `${this.url}/(\\d+)`
       },
       {
+        method: 'DELETE',
+        description: '停用该user的钉钉',
+        url: `${this.url}/stopDing/(\\d+)`
+      },
+      {
         method: 'POST',
         url: `${this.url}`,
         description: 'save: 新增用户',

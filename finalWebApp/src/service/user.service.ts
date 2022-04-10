@@ -137,6 +137,15 @@ export class UserService {
   }
 
   /**
+   * 停用该user系统设置的钉钉功能
+   * 该钉钉用于推送所有启用的客户端信息
+   * @param userId id
+   */
+  stopDing(userId: number): Observable<null> {
+    return this.httpClient.delete<null>(`${this.baseUrl}/stopDing/${userId}`);
+  }
+
+  /**
    * 请求当前登录用户
    */
   initCurrentLoginUser(callback?: () => void): void {

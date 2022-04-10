@@ -92,6 +92,6 @@ public class SettingController {
   public class get implements Ding.base, Ding.ClientJsonView, Client.base {
   }
 
-  private class getAll implements Ding.base, Ding.ClientJsonView, Client.base{
+  private class getAll implements Ding.base, Ding.ClientJsonView, Client.base {
   }
 }
