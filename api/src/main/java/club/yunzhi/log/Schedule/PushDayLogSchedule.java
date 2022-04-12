@@ -1,22 +1,24 @@
 package club.yunzhi.log.Schedule;
 
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.DayLog;
 import club.yunzhi.log.entity.Ding;
+import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.DayLogRepository;
-import club.yunzhi.log.repository.DingRepository;
+import club.yunzhi.log.repository.UserRepository;
+import club.yunzhi.log.service.ClientService;
 import club.yunzhi.log.service.DingServiceImpl;
+import club.yunzhi.log.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,14 +31,13 @@ public class PushDayLogSchedule {
   private final DayLogRepository dayLogRepository;
   private final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
 
-  Long INFOCount;
-  Long ErrorCount;
-  Long WARNCount;
-  Timestamp LastSendTime;
-  String message;
-  String ClientName;
-  String ClientState;
   DingServiceImpl dingService = new DingServiceImpl();
+
+  @Autowired
+  UserRepository userRepository;
+
+  @Autowired
+  ClientService clientService;
 
   public PushDayLogSchedule(DayLogRepository dayLogRepository) {
     this.dayLogRepository = dayLogRepository;
@@ -45,46 +46,79 @@ public class PushDayLogSchedule {
   @Scheduled(cron = "${time.cron}")
   public void pushDayLogSchedule() throws ParseException {
     System.out.println("执行推送任务");
-    logger.debug("首先获取所有的钉钉");
-    List<Ding> dings = dingService.getAllStartDing();
+    // 获取所有用户
+    List<User> users = (List<User>) userRepository.findAll();
 
-    for (Ding ding : dings) {
-      DayLog dayLog = dayLogRepository.getLogOfYesterdayWithClientId(ding.getClient().getId());
-      if (dayLog != null) {
-        this.ClientName = dayLog.getClient().getName();
-        if (dayLog.getClient().getState().equals(true)) {
-          this.ClientState = "在线";
-        } else {
-          this.ClientState = "离线";
-        }
-        this.LastSendTime = dayLog.getClient().getLastSendTime();
-        this.INFOCount = dayLog.getInfoCount();
-        this.ErrorCount = dayLog.getErrorCount();
-        this.WARNCount = dayLog.getWarnCount();
-        if (this.ClientState == "在线") {
-          this.message = "客户端: " + this.ClientName + "  " + this.ClientState  +  "\uD83D\uDCF6" + "\n"
-                  + "昨日INFO数:   " + this.INFOCount + "\n"
-                  + "昨日WARN数:   " + this.WARNCount + "\n"
-                  + "昨日ERROR数:  " + this.ErrorCount + "\n";
-        } else  {
-          this.message = "客户端: " + this.ClientName + "  " + this.ClientState + "❗" + "\n"
-                  + "最后交互时间:  " + this.LastSendTime + "\n"
-                  + "昨日INFO数:   " + this.INFOCount + "\n"
-                  + "昨日WARN数:   " + this.WARNCount + "\n"
-                  + "昨日ERROR数:  " + this.ErrorCount + "\n";
-        }
-        StringBuffer resultBuffer = new StringBuffer();
-        String result = message;
-        resultBuffer.append(result);
-        String messageOfLog = resultBuffer.toString();
-        // 之前放在定时任务外面，导致只在初始化时获取时间，时间错误
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        dingService.dingRequest(ding, messageOfLog);
-        System.out.println("执行定时推送任务" + dateString + messageOfLog);
+    for (User user : users) {
+     // 获取钉钉
+      Ding ding = user.getDing();
+      if (ding != null) {
+        logger.debug("设置在线信息");
+        String message = this.setOnlineMessage();
+        logger.debug("设置日志信息");
+        message = message.concat(this.setLogMessage());
+
+        // 进行推送
+        dingService.dingRequest(ding, message);
       }
     }
+  }
+
+  /**
+   * 设置在线信息
+   * 有启用的客户端离线则推送离线
+   * 否则推送 "都为在线状态"
+   */
+  public String setOnlineMessage() {
+    String message = "日常推送：";
+    boolean allOnline = true;
+    List<Client> clients = clientService.getAllStartClient();
+    if (clients.isEmpty()) {
+      return message.concat("\n无启用的客户端\n");
+    }
+
+    for (Client client : clients) {
+      if (!client.getState()) {
+        if (allOnline) {
+          message = message.concat("❗\n" + "离线客户端\t\t\t\t\t\t\t\t" + "最后交互" + "\n");
+        }
+        Timestamp  lastSendTime = client.getLastSendTime();
+        message = message.concat( client.getName() + "\t\t" + lastSendTime + "\n");
+        allOnline = false;
+      }
+    }
+    if (allOnline) {
+      message = message.concat( "\uD83D\uDCF6" + "\n" + "所有启用客户端都为在线状态 "  + "\n");
+    }
+    return message;
+  }
+
+
+  /**
+   * 设置所有启用客户端昨日日志信息
+   */
+  public String setLogMessage() throws ParseException {
+    String message = "\n昨日日志数：\n" + "" +  "客户端   INFO " + " WARN " + " ERROR \n";
+
+    List<Client> clients = clientService.getAllStartClient();
+    if (clients.isEmpty()) {
+      return message.concat("无启用的客户端");
+    }
+
+    for (Client client : clients) {
+      DayLog dayLog = dayLogRepository.getLogOfYesterdayWithClientId(client.getId());
+      if (dayLog != null) {
+        String name = dayLog.getClient().getName();
+        Long infoCount= dayLog.getInfoCount();
+        Long errorCount = dayLog.getErrorCount();
+        Long warnCount = dayLog.getWarnCount();
+        message = message.concat( name + "\t\t\t" +
+                infoCount + "\t\t"  +
+                errorCount + "\t\t" +
+                warnCount + "\n");
+      }
+    }
+    return  message;
   }
 }
 

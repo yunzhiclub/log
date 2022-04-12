@@ -65,8 +65,17 @@ public class Client implements YunzhiEntity<Long>, Serializable {
     @JsonView(DeletedJsonView.class)
     private Boolean deleted = false;
 
+    /**
+     * 在线状态为true, 离线状态为false
+     */
     @JsonView(base.class)
     private Boolean state = false;
+
+    /**
+     * 启用状态为true, 停用状态为false
+     */
+    @JsonView(base.class)
+    private Boolean start = false;
 
     /**
      * 已提醒客户端离线变量，为true则不提醒
@@ -168,6 +177,14 @@ public class Client implements YunzhiEntity<Long>, Serializable {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    public Boolean getStart() {
+        return start;
+    }
+
+    public void setStart(Boolean start) {
+        this.start = start;
     }
 
     public  void setRemind(Boolean remind) {

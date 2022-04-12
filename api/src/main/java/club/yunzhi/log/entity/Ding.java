@@ -1,6 +1,8 @@
 package club.yunzhi.log.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.annotations.ApiModelProperty;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.NotFound;
@@ -9,6 +11,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -31,6 +34,7 @@ public class Ding {
   @JsonView(base.class)
   private String secret = "";
 
+  @JsonView(base.class)
   private String name;
 
   /**
@@ -57,7 +61,7 @@ public class Ding {
   @JsonView(base.class)
   private Boolean start = true;
 
-  @JsonView(DayLog.DeletedJsonView.class)
+  @JsonView(DeletedJsonView.class)
   protected Boolean deleted = false;
 
   public Long getId() {

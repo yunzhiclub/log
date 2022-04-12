@@ -2,6 +2,7 @@ package club.yunzhi.log.controller;
 
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Ding;
+import club.yunzhi.log.repository.DingRepository;
 import club.yunzhi.log.service.DingService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
@@ -14,12 +15,17 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("setting")
 public class SettingController {
   private final static Logger logger = LoggerFactory.getLogger(SettingController.class);
   @Autowired
   DingService dingService;
+
+  @Autowired
+  DingRepository dingRepository;
 
   @GetMapping("page")
   @JsonView(GetAllJsonView.class)
@@ -35,6 +41,12 @@ public class SettingController {
     return dings;
   }
 
+  @GetMapping("getAll")
+  @JsonView(getAll.class)
+  public List<Ding> getAll() {
+    return (List<Ding>) this.dingRepository.findAll();
+  }
+
   /**
    * 根据ID获取客户端
    *
@@ -46,6 +58,7 @@ public class SettingController {
   public Ding getById(@PathVariable Long id) {
     return dingService.findById(id);
   }
+
 
 
   @PostMapping()
@@ -77,5 +90,8 @@ public class SettingController {
   }
 
   public class get implements Ding.base, Ding.ClientJsonView, Client.base {
+  }
+
+  private class getAll implements Ding.base, Ding.ClientJsonView, Client.base {
   }
 }

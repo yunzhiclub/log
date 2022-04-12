@@ -11,6 +11,9 @@
       <button [disabled]="formGroup.invalid"
               class="btn btn-primary" type="submit"><i class="far fa-save"></i> 保存
       </button>
+      <button  *ngIf="user.ding" type="button" (click)="stopDing(user)" class="btn btn-danger">
+        <i class="far fa-trash-alt"></i>停用
+      </button>
     </div>
   </div>
 </form>
