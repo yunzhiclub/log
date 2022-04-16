@@ -116,6 +116,7 @@ public class PushDayLogSchedule {
                 infoCount + "\t\t" +
                 warnCount + "\t\t" +
                 errorCount + "\n");
+
       }
     }
     return  message;
