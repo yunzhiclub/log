@@ -113,9 +113,9 @@ public class PushDayLogSchedule {
         Long errorCount = dayLog.getErrorCount();
         Long warnCount = dayLog.getWarnCount();
         message = message.concat( name + "\t\t\t" +
-                infoCount + "\t\t"  +
-                errorCount + "\t\t" +
-                warnCount + "\n");
+                infoCount + "\t\t" +
+                warnCount + "\t\t" +
+                errorCount + "\n");
       }
     }
     return  message;
