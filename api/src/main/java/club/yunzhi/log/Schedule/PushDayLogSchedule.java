@@ -16,11 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author jincheng
@@ -29,10 +35,9 @@ import java.util.List;
 @Component
 public class PushDayLogSchedule {
   private final DayLogRepository dayLogRepository;
-  private final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
+  private static final Logger logger = LoggerFactory.getLogger(PushDayLogSchedule.class);
 
   DingServiceImpl dingService = new DingServiceImpl();
-
   @Autowired
   UserRepository userRepository;
 
@@ -58,6 +63,15 @@ public class PushDayLogSchedule {
         logger.debug("设置日志信息");
         message = message.concat(this.setLogMessage());
 
+        // 设置ip信息
+        String currentHostIpaddress;
+        try {
+          currentHostIpaddress = PushDayLogSchedule.getCurrentHostIpaddress();
+        } catch (RuntimeException exception) {
+          currentHostIpaddress = "";
+        }
+        message = message.concat("\n\n当前服务器ip: " + currentHostIpaddress + "\n");
+
         // 进行推送
         dingService.dingRequest(ding, message);
       }
@@ -71,6 +85,7 @@ public class PushDayLogSchedule {
    */
   public String setOnlineMessage() {
     String message = "日常推送：";
+
     boolean allOnline = true;
     List<Client> clients = clientService.getAllStartClient();
     if (clients.isEmpty()) {
@@ -90,9 +105,10 @@ public class PushDayLogSchedule {
     if (allOnline) {
       message = message.concat( "\uD83D\uDCF6" + "\n" + "所有启用客户端都为在线状态 "  + "\n");
     }
+
+
     return message;
   }
-
 
   /**
    * 设置所有启用客户端昨日日志信息
@@ -121,5 +137,54 @@ public class PushDayLogSchedule {
     }
     return  message;
   }
+
+
+  /**
+   * 获取当前主机公网IP
+   */
+  public static String getCurrentHostIpaddress() {
+    // 这里使用jsonip.com第三方接口获取本地IP
+    String jsonip = "https://jsonip.com/";
+    // 接口返回结果
+    StringBuilder result = new StringBuilder();
+    BufferedReader in = null;
+    try {
+      // 使用HttpURLConnection网络请求第三方接口
+      URL url = new URL(jsonip);
+      HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+      urlConnection.setRequestMethod("GET");
+      urlConnection.connect();
+      in = new BufferedReader(new InputStreamReader(
+              urlConnection.getInputStream()));
+      String line;
+      while ((line = in.readLine()) != null) {
+        result.append(line);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error("网络错误");
+      throw new RuntimeException("网络错误");
+    }
+    // 使用finally块来关闭输入流
+    finally {
+      try {
+        if (in != null) {
+          in.close();
+        }
+      } catch (Exception e2) {
+        e2.printStackTrace();
+      }
+    }
+    // 正则表达式，提取xxx.xxx.xxx.xxx，将IP地址从接口返回结果中提取出来
+    String rexp = "(\\d{1,3}\\.){3}\\d{1,3}";
+    Pattern pat = Pattern.compile(rexp);
+    Matcher mat = pat.matcher(result.toString());
+    String res = "";
+    if (mat.find()) {
+      res = mat.group();
+    }
+    return res;
+  }
+
 }
 
