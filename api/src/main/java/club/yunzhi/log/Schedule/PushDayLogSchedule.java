@@ -163,7 +163,7 @@ public class PushDayLogSchedule {
     } catch (Exception e) {
       e.printStackTrace();
       logger.error("网络错误");
-      throw new RuntimeException("网络错误");
+      return "获取IP时发生网络错误";
     }
     // 使用finally块来关闭输入流
     finally {
