@@ -144,7 +144,7 @@ public class LogServiceImpl implements LogService {
         Client client = log.getClient();
         List<Ding> dings = this.dingService.getAllStartDing();
         for (Ding ding : dings) {
-          if (ding.getClient().getId().equals(log.getClient().getId())) {
+          if (null != ding.getClient() && ding.getClient().getId().equals(log.getClient().getId())) {
             Long currentTime = System.currentTimeMillis();
             int number = this.getNumOfErrorLogInTenMinutes(ding.getClient());
             logger.debug("发送error频率间隔为10分钟");
