@@ -2,12 +2,15 @@
   "name": "final-web-app",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "ng": "npx ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
+  },
+  "engines": {
+    "node": "12.14.0"
   },
   "private": true,
   "dependencies": {
