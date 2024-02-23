@@ -56,7 +56,7 @@ public class UserController {
   }
 
   @GetMapping("me")
-  @JsonView(GetByIdJsonView.class)
+  @JsonView(GetCurrentLoginUserJsonView.class)
   public User getCurrentLoginUser() {
     return this.userService.getCurrentLoginUser();
   }
@@ -142,7 +142,9 @@ public class UserController {
   public class GetAllJsonView  implements User.DingJsonView, Ding.base {
   }
 
-  public class GetByIdJsonView  implements User.DingJsonView, Ding.base {
+  private class GetCurrentLoginUserJsonView implements User.DingJsonView, Ding.ClientJsonView {
   }
 
+  public class GetByIdJsonView  implements User.DingJsonView, Ding.base {
+  }
 }
