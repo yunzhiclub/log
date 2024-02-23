@@ -1,6 +1,7 @@
 package club.yunzhi.log.service;
 
 
+import club.yunzhi.log.Schedule.PushDayLogSchedule;
 import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.repository.ClientRepository;
@@ -27,11 +28,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service()
 public class DingServiceImpl implements DingService {
@@ -235,10 +242,18 @@ public class DingServiceImpl implements DingService {
         Date currentTime1 = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(currentTime1);
+
+        String currentHostIpaddress;
+        try {
+          currentHostIpaddress = PushDayLogSchedule.getCurrentHostIpaddress();
+        } catch (RuntimeException exception) {
+          return;
+        }
+
         this.dingRequest(ding, "执行推送任务" + "\n" + dateString + "\n"
-                + ding.getName() + "机器人提示: 客户端" + client.getName() + " "+ "已经离线");
+                + ding.getName() + "机器人提示: 客户端" + client.getName() + " "+ "已经离线" + "\n"
+                + "当前服务器ip: " + currentHostIpaddress);
       }
     }
   }
-
 }

@@ -1,5 +1,6 @@
 package club.yunzhi.log.controller;
 
+import club.yunzhi.log.entity.Client;
 import club.yunzhi.log.entity.Ding;
 import club.yunzhi.log.entity.User;
 import club.yunzhi.log.repository.UserRepository;
@@ -92,6 +93,7 @@ public class UserController {
   }
 
   @GetMapping("{id}")
+  @JsonView(GetByIdJsonView.class)
   public User getById(@PathVariable Long id) {
     return this.userService.findById(id);
   }
@@ -101,6 +103,12 @@ public class UserController {
   @JsonView(SaveJsonView.class)
   public String save(@RequestBody User user) {
     return userService.save(user);
+  }
+
+  @DeleteMapping("stopDing/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void stopDing(@PathVariable Long id) {
+    this.userService.stopDing(id);
   }
 
   @PutMapping("{id}")
@@ -121,18 +129,22 @@ public class UserController {
   }
 
 
-  public class LoginJsonView implements User.DingJsonView, Ding.ClientJsonView {
+  public class LoginJsonView implements User.DingJsonView, Ding.base {
   }
 
-  public class SaveJsonView implements User.DingJsonView, Ding.ClientJsonView {
+  public class SaveJsonView implements User.DingJsonView, Ding.base {
   }
 
-  public class UpdateJsonView implements User.DingJsonView, Ding.ClientJsonView {
+  public class UpdateJsonView implements User.DingJsonView, Ding.base {
   }
 
-  public class GetAllJsonView  implements User.DingJsonView, Ding.ClientJsonView{
+
+  public class GetAllJsonView  implements User.DingJsonView, Ding.base {
   }
 
   private class GetCurrentLoginUserJsonView implements User.DingJsonView, Ding.ClientJsonView {
+  }
+
+  public class GetByIdJsonView  implements User.DingJsonView, Ding.base {
   }
 }

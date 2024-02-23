@@ -206,4 +206,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
   }
+
+  @Override
+  public void stopDing(Long id) {
+    User user = this.findById(id);
+    user.setDing(null);
+    userRepository.save(user);
+  }
 }

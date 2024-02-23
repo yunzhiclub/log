@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SettingValidators} from '../../setting/setting-validators';
 import {UserService} from '../../../service/user.service';
 import {User} from '../../../entity/user';
-import {Client} from '../../../entity/client';
 import {Ding} from '../../../entity/ding';
 import {CommonService} from '../../../service/common.service';
 
@@ -29,15 +27,17 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup.addControl(this.keys.dingId, new FormControl(null, Validators.required));
-
-    // 获取userService中的当前登录用户的webHook
+    // 获取userService中的当前登录用户
     this.userService.currentLoginUser$
       .subscribe(user => {
         if (user) {
-          this.user = user;
-          if (user.ding) {
-            this.formGroup.get(this.keys.dingId).setValue(user.ding.id)
-          }
+          this.userService.getById(user.id)
+            .subscribe(user => {
+              this.user = user;
+              if (user.ding) {
+                this.formGroup.get(this.keys.dingId).setValue(user.ding.id)
+              }
+            })
         }
       })
   }
@@ -60,5 +60,25 @@ export class IndexComponent implements OnInit {
         this.commonService.error(() => {
         }, error)
       });
+  }
+
+  /**
+   * 停用该user系统设置的钉钉功能
+   * 该钉钉用于推送所有启用的客户端信息
+   * @param user 用户
+   */
+  stopDing(user: User):void {
+    this.commonService.confirm((confirm) => {
+      if (confirm) {
+        this.userService.stopDing(this.user.id)
+          .subscribe(() => {
+            this.commonService.success(() => this.commonService.back());
+          }, (error) => {
+            this.commonService.error(() => {
+            }, error)
+          });
+      }
+    }, '');
+
   }
 }

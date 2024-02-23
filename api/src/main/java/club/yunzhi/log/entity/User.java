@@ -112,6 +112,7 @@ public class User implements Serializable {
     public interface DingJsonView {
     }
 
+
     public void setPassword(String password){
         if (User.passwordEncoder == null) {
             throw new RuntimeException("未设置User实体的passwordEncoder，请调用set方法设置");
